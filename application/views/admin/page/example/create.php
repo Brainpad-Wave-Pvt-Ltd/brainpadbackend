@@ -123,19 +123,19 @@
 								<div id="question">
 									<div class="form-row">
 										<div class="form-group col-3 mb-0 d-none q-audio">
-											<label for="qm2img">Question Image/Audio</label>
+											<label for="qm2img">Q.Image/Audio</label>
 										</div>
 
 										<div class="form-group col-3 mb-0">
-											<label for="qm2text">Question Text</label>
+											<label for="qm2text">Q.Text</label>
 										</div>
 
 										<div class="form-group col-3 mb-0 q-touch d-none">
-											<label for="touch-audio">Touch event Audio</label>
+											<label for="touch-audio">Q.Touch Audio</label>
 										</div>
 
 										<div class="form-group col-3 mb-0 q-true d-none">
-											<label for="true-audio">True event Audio</label>
+											<label for="true-audio">Q.True Audio</label>
 										</div>
 									</div>
 									<input type="hidden" name="hidden_value[1]" value="1">
@@ -172,16 +172,16 @@
 									<hr>
 									<div class="form-row">
 										<div class="form-group col-3 mb-0 a-audio d-none">
-											<label for="qm2img">Answer Image</label>
+											<label for="qm2img">A.Image/Audio</label>
 										</div>
 										<div class="form-group col-3 mb-0">
-											<label for="qm2text">Answer Text</label>
+											<label for="qm2text">A.Text</label>
 										</div>
 										<div class="form-group col-3 mb-0 a-touch d-none">
-											<label for="true-audio">Answer Touch event Audio</label>
+											<label for="true-audio">A.Touch Audio</label>
 										</div>
 										<div class="form-group col-3 mb-0 a-true d-none">
-											<label for="true-audio">Answer True event Audio</label>
+											<label for="true-audio">A.True Audio</label>
 										</div>
 									</div>
 									<div id="answer-item-1">

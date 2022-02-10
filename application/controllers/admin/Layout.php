@@ -44,9 +44,17 @@ class Layout extends CI_Controller
 	}
 
 	public function store(){
-        $question_type = implode(',',$this->input->post('question_type'));
-        $answer_type = implode(',',$this->input->post('answer_type'));
-        $extras = implode(',',$this->input->post('extras'));
+		$question_type = $answer_type = $extras = '';
+		if(!empty($this->input->post('question_type'))){
+			$question_type = implode(',',$this->input->post('question_type'));
+		}
+        if(!empty($this->input->post('answer_type'))){
+			$answer_type = implode(',',$this->input->post('answer_type'));
+		}
+        if(!empty($this->input->post('extras'))){
+			$extras = implode(',',$this->input->post('extras'));
+		}
+        
        
 		$this->db->insert('layout',[
 			'cat_id'     => $this->input->post('cat_id'),

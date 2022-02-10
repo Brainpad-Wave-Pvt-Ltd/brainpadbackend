@@ -193,7 +193,7 @@ class User extends BD_Controller
 		}
 	}
 
-	public function add_school_post(){
+	public function add_school_post() { 
 		$this->form_validation->set_rules('school_name','School Name','required|trim',['required'=>'Please fill school name field']);
 		$this->form_validation->set_rules('school_phoneno','Phone No','required|trim',['required'=>'Please fill phone no field']);
 
@@ -227,9 +227,10 @@ class User extends BD_Controller
 		
 	}
 
-	function get_subscription_plan_post(){
+	function get_subscription_plan_post(){ 
 		$this->form_validation->set_rules('school_id','School Id','required|trim',['required'=>'Please select school']);
 		$this->form_validation->set_rules('user_type','User Type','required|trim',['required'=>'Please select User Type']);
+		$this->form_validation->set_rules('language_id','Language Id','required|trim',['required'=>'Please select Language']);
 
 		if($this->form_validation->run()==false)
 		{
@@ -240,9 +241,14 @@ class User extends BD_Controller
 			$this->set_response($invalidCredentials,422);
 		} else {
 			$date = new DateTime("now");
-			$curr_date = $date->format('Y-m-d ');
-			$get_plan = $this->db->where('school_id',$this->input->post('school_id'))->where('user_category',$this->input->post('user_category'))->where('end_date','>=',$curr_date)->get('subscription_plans')->result_array();
-
+			$curr_date = $date->format('Y-m-d '); 
+			$get_plan = $this->db->where('school_id',$this->input->post('school_id'))
+						->where('user_category',$this->input->post('user_type'))
+						->where('language_id',$this->input->post('language_id'))
+						->where('end_date >=', $curr_date)
+						->get('subscription_plans')
+						->result_array();
+			
 			$response['data'] = $get_plan;
 			$this->set_response($response, REST_Controller::HTTP_OK);
 		}

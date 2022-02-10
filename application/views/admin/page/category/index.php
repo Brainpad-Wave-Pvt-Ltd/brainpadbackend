@@ -35,7 +35,7 @@
 									</td>
 									<td>
 										<button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/category/edit/'.$r['c_id']);?>"><i class="fa fa-edit"></i></button>
-										<button class="btn btn-sm btn-outline-danger" data--toggle="delete" data--url="<?=base_url('backend/category/remove/'.$r['c_id']);?>"><i class="fa fa-trash"></i></button>
+										<!-- <button class="btn btn-sm btn-outline-danger" data--toggle="delete" data--url="<?=base_url('backend/category/remove/'.$r['c_id']);?>"><i class="fa fa-trash"></i></button> -->
 									</td>
 								</tr>
 							<?php } ?>
