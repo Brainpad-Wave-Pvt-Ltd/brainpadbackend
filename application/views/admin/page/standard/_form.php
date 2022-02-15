@@ -1,6 +1,6 @@
 <?= form_open_multipart($action); ?>
 	<div class="card-body">
-		<div class="form-group">
+		<!-- <div class="form-group">
 			<label>Language <span class="text-danger">*</span></label>
 			<input type="text" class="form-control" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
 		</div>
@@ -8,7 +8,7 @@
 			<label>Board</label>
 			<input type="text" class="form-control"  readonly  value="<?= $this->session->userdata('board_name'); ?>">
 			<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>">
-		</div>
+		</div> -->
 		<div class="form-group">
 			<label>Standard</label>
 			<input type="text" class="form-control " name="name" required value="<?=(!empty($editData))?$editData['std_name']:''?>">

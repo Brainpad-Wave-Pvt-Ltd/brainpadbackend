@@ -11,13 +11,13 @@
 				<div class="card-body">
 					<?=form_open_multipart($action,array('class' => 'subtopics-form', 'id' => 'subtopics-form'));?>
 					<div class="row">
-						<div class="col-12 col-sm-4">
+						<div class="col-12 col-sm-4" style="display:none;">
 							<label>Language <span class="text-danger">*</span></label>
 							<div class="form-group">
 								<input type="text" class="form-control" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
 							</div>
 						</div>
-						<div class="col-12 col-sm-4">
+						<div class="col-12 col-sm-4" style="display:none;">
 							<label>Board</label>
 							<div class="form-group">
 								<input type="text" class="form-control"  readonly  value="<?= $this->session->userdata('board_name'); ?>">

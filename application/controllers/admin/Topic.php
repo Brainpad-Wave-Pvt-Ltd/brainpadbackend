@@ -100,21 +100,13 @@ class Topic extends CI_Controller
 
 		(!empty($rec)  && file_exists($rec->topic_img !='')) ? unlink($rec->topic_img) : '';
 
+		$upd_res = $this->db->where('tp_id',$id)->update('subtopics',['tp_id'=>0]);
 		$del_res = $this->db->where('tp_id',$id)->delete('topics');
 
 		if($del_res)
 		{
-			$upd_res = $this->db->where('tp_id',$id)->update('subtopics',['tp_id'=>'']);
-			if($upd_res)
-			{
-				$this->session->set_flashdata('success','Topic removed successfully');
-				redirect(base_url('backend/topic'),'refresh');
-			}
-			else
-			{
-				$this->session->set_flashdata('error','Something went wrong');
-				redirect(base_url('backend/topic'),'refresh');
-			}
+			$this->session->set_flashdata('success','Topic removed successfully');
+			redirect(base_url('backend/topic'),'refresh');
 		}
 		else
 		{

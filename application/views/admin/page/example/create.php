@@ -2,46 +2,52 @@
 	<div class="row method">
 		<div class="col-12 col-md-12 col-lg-12 pl-0 pr-0">
 			<div class="card">
+				<div class="card-header">
+					<h4>Add Example</h4>
+					<div class="card-header-action">
+						<a href="<?=base_url('backend/example');?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+					</div>
+				</div>
 				<?= form_open_multipart( $action, array('id' => 'exampleForm')); ?>
 
 					<div class="card-body">
 						<div class="form-row sticky-top bg-white" >
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col-12 col-sm-3" style="display:none;">
 								<label>Language <span class="text-danger">*</span></label>
 								<input type="text" class="form-control" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
 							</div>
 
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col-12 col-sm-3" style="display:none;">
 								<label>Board</label>
 								<input type="text" class="form-control"  readonly  value="<?= $this->session->userdata('board_name'); ?>">
 								<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>" id="board_id">
 							</div>
 
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col-12 col-sm-2">
 								<label>Standard</label>
 								<select class="form-control select2" required name="std_id" id="std_list" onchange="getSubject(this.value)"></select>
 								<input type="hidden" id="estd_id" value="<?= $std_id ?>">
 							</div>
 
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col-12 col-sm-2">
 								<label>Subject</label>
 								<select class="form-control select2" required name="sub_id" id="sub_list" onchange="changeSubject(this.value)"></select>
 								<input type="hidden" id="esub_id" value="<?= $subject_id ?>">
 							</div>
 
-							<div class="form-group col-12 col-sm-4">
+							<div class="form-group col-12 col-sm-2">
 								<label for="chapter_list">Chapter</label>
 								<select class="form-control select2" required name="chapter" id="chapter_list" onchange="getTopics(this.value)"></select>
 								<input type="hidden" id="edChid" value="<?= $ch_id ?>">
 							</div>
 
-							<div class="form-group col-12 col-sm-4">
+							<div class="form-group col-12 col-sm-3">
 								<label for="topic_list">Topic</label>
 								<select class="form-control select2" required name="topics" id="topic_list" onchange="getSubTopics(this.value)"></select>
 								<input type="hidden" id="edTpid" value="<?= $tp_id ?>">
 							</div>
 
-							<div class="form-group col-12 col-sm-4">
+							<div class="form-group col-12 col-sm-3">
 								<label for="topic_list">Sub Topic</label>
 								<select class="form-control select2 select2-tags" required name="sub_topic" id="subtopic_list" onchange="getExampleData(this.value)" ><select>
 								<input type="hidden" name="edTpid" id="edStpid" value="<?= $stp_id ?>">

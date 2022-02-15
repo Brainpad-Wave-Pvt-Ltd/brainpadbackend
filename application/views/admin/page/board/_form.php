@@ -1,9 +1,9 @@
 <form action="<?= $action ?>" class="board-form" enctype="multipart/form-data" method="post" >
 	<div class="card-body">
-		<div class="form-group">
+		<!-- <div class="form-group">
 			<label>Language <span class="text-danger">*</span></label>
 			<input type="text" class="form-control" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
-		</div>
+		</div> -->
 		<div class="form-group">
 			<label>Board <span class="text-danger">*</span></label>
 			<input type="text" class="form-control" name="bd_name"  required value="<?= $editData['bd_name'] ?? ''?>">

@@ -4,17 +4,20 @@
 			<div class="card">
 				<div class="card-header">
 					<h4>Edit Example</h4>
+					<div class="card-header-action">
+						<a href="<?=base_url('backend/example');?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+					</div>
 				</div>
 				<?= form_open_multipart($action); ?>
 				<div class="card-body">
 
-					<div class="form-row sticky-top bg-white">
+					<div class="form-row sticky-top bg-white" style="display:none;">
 						<div class="form-group col-12 col-sm-3">
 							<label>Language <span class="text-danger">*</span></label>
 							<input type="text" class="form-control" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
 						</div>
 
-						<div class="form-group col-12 col-sm-3">
+						<div class="form-group col-12 col-sm-3" style="display:none;">
 							<label>Board</label>
 							<input type="text" class="form-control"  readonly  value="<?= $this->session->userdata('board_name'); ?>">
 							<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>" id="board_id">
@@ -95,10 +98,12 @@
 						</div>
 						<div class="form-group col-4">
 							<label>Audio</label>
+							<input type="hidden" name='ex_audio' id="ex_audio">
 							<?php if(!empty($example->ex_audio)){ ?>
-								<audio controls>
+								<audio controls style="width: 53%;height: 30%;" class="main_audio">
 									<source src="<?= base_url() . $example->ex_audio ?>">
 								</audio>
+								<a href="javascript:void(0)" onclick="removeAudio('main_audio',<?php echo $example->ex_id;?>,'ex_audio');" class="main_audio"><i class="fa fa-close"></i></a>
 							<?php } ?>
 							<input type="file" class="form-control" name="sound" id="sound" >
 						</div>
@@ -106,33 +111,34 @@
 
 					<div id="sorting_field">
 					<?php
+						$i=0;
 						if (!empty($exampleDataArray)) {
 							foreach ($exampleDataArray as $key => $exData) { $i = $key+1 ?>
 								<div class="que-ans">
 									<div class="jumbotron">
 										<div id="question">
 											<div class="form-row">
-												<div class="form-group col-3 mb-0">
-													<label for="qm2img">Question Image</label>
+												<div class="form-group col-3 mb-0 q-audio">
+													<label for="qm2img">Q.Image/Audio</label>
 												</div>
 
 												<div class="form-group col-3 mb-0">
-													<label for="qm2text">Question Text</label>
+													<label for="qm2text">Q.Text</label>
 												</div>
 
-												<div class="form-group col-3 mb-0">
-													<label for="touch-audio">Touch event Audio</label>
+												<div class="form-group col-3 mb-0 q-touch">
+													<label for="touch-audio">Q.Touch Audio</label>
 												</div>
 
-												<div class="form-group col-3 mb-0">
-													<label for="true-audio">True event Audio</label>
+												<div class="form-group col-3 mb-0 q-true">
+													<label for="true-audio">Q.True Audio</label>
 												</div>
 											</div>
 											<input type="hidden" name="ed_id[<?= $i ?>]" value="<?= $exData['ed_id'] ?>" class="ed_ids">
 											<input type="hidden" name="hidden_value[<?= $i ?>]" value="<?= $i ?>">
 											<div id="question-item-<?= $i ?>" class="d-none">
 												<div class="form-row">
-													<div class="form-group col-3">
+													<div class="form-group col-3 d-none q-audio">
 														<input type="file" class="form-control" name="qm2files[<?= $i ?>][]" id="qm2img" >
 													</div>
 
@@ -140,11 +146,11 @@
 														<input type="text" class="form-control" name="qm2text[<?= $i ?>][]" id="qm2text" placeholder="Enter Question">
 													</div>
 
-													<div class="form-group col-3">
+													<div class="form-group col-3 q-touch d-none">
 														<input type="file" class="form-control" name="touch_audio[<?= $i ?>][]" id="touch-audio" >
 													</div>
 
-													<div class="form-group col-3">
+													<div class="form-group col-3 q-true d-none">
 														<input type="file" class="form-control" name="audio[<?= $i ?>][]" id="true-audio" >
 													</div>
 													<input type="hidden" name="total_que_item[<?= $i ?>][]" value="1">
@@ -154,22 +160,25 @@
 											<div id="dynamic-rows-<?= $i ?>">
 												<?php
 												 $get_question_data = $this->crud_model->get_question_data($exData['ed_id']);
-												 if (!empty($get_question_data)) {
-													foreach ($get_question_data as $key1 => $qiData) {
+												 if (!empty($get_question_data)) { $j = 0;
+													foreach ($get_question_data as $key1 => $qiData) { $j++;
 												 ?>
 													<div class="form-row">
 														<input type="hidden" name="eqd_id[<?= $i ?>][]" class="eqd_ids" value="<?= $qiData['eqd_id'] ?>">
 
 														<div class="form-group col-3">
+															<input type="hidden" name="eqd_img[<?= $i ?>][]" id="eqd_img_<?= $i.$j ?>">
 															<?php if(!empty($qiData['eqd_img'])){
 															$array = explode(".", $qiData['eqd_img']);
 															if(strtolower(end($array)) == "mp3"){ ?>
-																<audio controls>
+																<audio controls style="width: 94%;height: 30%;" class="q_imag_<?php echo $i.$j;?>">
 																	<source src="<?= base_url() . $qiData['eqd_img'] ?>">
 																</audio>
+																<a href="javascript:void(0)" onclick="removeAudio('q_imag_<?php echo $i.$j;?>',<?= $qiData['eqd_id']?>,'eqd_img_<?= $i.$j ?>');" class="q_imag_<?php echo $i.$j;?>"><i class="fa fa-close"></i></a>
 															<?php } else {
 																?>
 																<img src="<?php echo base_url().$qiData['eqd_img']; ?>" height="35px" width="35px" alt="">
+																<a href="javascript:void(0)" onclick="removeAudio('q_imag_<?php echo $i.$j;?>',<?= $qiData['eqd_id']?>,'eqd_img_<?= $i.$j ?>');" class="q_imag_<?php echo $i.$j;?>"><i class="fa fa-close"></i></a>
 															<?php } } ?>
 															<input type="file" class="form-control" name="qm2files[<?= $i ?>][]" id="qm2img" >
 														</div>
@@ -179,19 +188,23 @@
 														</div>
 
 														<div class="form-group col-3">
+															<input type="hidden" name="eqd_touch[<?= $i ?>][]" id="eqd_touch_audio_<?= $i.$j ?>">
 															<?php if(!empty($qiData['eqd_touch_audio'])){ ?>
-																<audio controls>
+																<audio controls style="width: 94%;height: 30%;" class="q_touch_<?php echo $i.$j;?>">
 																	<source src="<?= base_url() . $qiData['eqd_touch_audio'] ?>">
 																</audio>
+																<a href="javascript:void(0)" onclick="removeAudio('q_touch_<?php echo $i.$j;?>',<?= $qiData['eqd_id']?>,'eqd_touch_audio_<?= $i.$j ?>');" class="q_touch_<?php echo $i.$j;?>"><i class="fa fa-close"></i></a>
 															<?php } ?>
 															<input type="file" class="form-control" name="touch_audio[<?= $i ?>][]" id="touch-audio" >
 														</div>
 
 														<div class="form-group col-3">
+														<input type="hidden" name="eqd_audio[<?= $i ?>][]" id="eqd_audio_<?= $i.$j ?>">
 															<?php if(!empty($qiData['eqd_audio'])){ ?>
-																<audio controls>
+																<audio controls style="width: 94%;height: 30%;" class="q_true_<?php echo $i.$j;?>">
 																	<source src="<?= base_url() . $qiData['eqd_audio'] ?>">
 																</audio>
+																<a href="javascript:void(0)" onclick="removeAudio('q_true_<?php echo $i.$j;?>',<?= $qiData['eqd_id']?>,'eqd_audio_<?= $i.$j ?>');" class="q_true_<?php echo $i.$j;?>"><i class="fa fa-close"></i></a>
 															<?php } ?>
 															<input type="file" class="form-control" name="audio[<?= $i ?>][]" id="true-audio" >
 														</div>
@@ -201,8 +214,8 @@
 											</div>
 											<div class="form-row">
 												<div class="form-group col-12">
-													<button type="button" class="btn btn-primary btn-sm  que-btn" onclick="addNewRow('question-item-<?= $i ?>','dynamic-rows-<?= $i ?>')">Add Q.</button>
-													<button type="button" class="btn btn-danger btn-sm  que-btn" onclick="removeRow('dynamic-rows-<?= $i ?>','form-row','eqd_ids','eqd')">Remove Q.</button>
+													<button type="button" class="btn btn-primary btn-sm  que-btn q-add d-none" onclick="addNewRow('question-item-<?= $i ?>','dynamic-rows-<?= $i ?>')">Add Q.</button>
+													<button type="button" class="btn btn-danger btn-sm  que-btn q-remove d-none" onclick="removeRow('dynamic-rows-<?= $i ?>','form-row','eqd_ids','eqd')">Remove Q.</button>
 												</div>
 											</div>
 										</div>
@@ -212,16 +225,16 @@
 											<!-- labels -->
 											<div class="form-row">
 												<div class="form-group col-3 mb-0">
-													<label for="qm2img">Answer Image</label>
+													<label for="qm2img">A.Image/Audio</label>
 												</div>
 												<div class="form-group col-3 mb-0">
-													<label for="qm2text">Answer Text</label>
+													<label for="qm2text">A.Text</label>
 												</div>
 												<div class="form-group col-3 mb-0">
-													<label for="true-audio">Answer Touch event Audio</label>
+													<label for="true-audio">A.Touch Audio</label>
 												</div>
 												<div class="form-group col-3 mb-0">
-													<label for="true-audio">Answer True event Audio</label>
+													<label for="true-audio">A.True Audio</label>
 												</div>
 											</div>
 
@@ -253,16 +266,29 @@
 											<div id="dynamic-ans-rows-<?= $i ?>">
 												<?php
 												$get_answer_data = $this->crud_model->get_answer_data($exData['ed_id']);
-												if (!empty($get_answer_data)) {
-													foreach ($get_answer_data as $key1 => $aiData) {
+												if (!empty($get_answer_data)) { $k=0;
+													foreach ($get_answer_data as $key1 => $aiData) { $k++;
 														?>
 														<div class="form-row">
 															<input type="hidden" name="ead_id[<?= $i ?>][]" class="ead_ids" value="<?= $aiData['ead_id'] ?>">
 
 															<div class="form-group col-3">
-																<?php if(!empty($aiData['ead_img'])){ ?>
-																	<img src="<?php echo base_url().$aiData['ead_img']; ?>" height="35px" width="35px" alt="">
-																<?php } ?>
+																<input type="hidden" name="ead_img[<?= $i ?>][]" id="ead_img_<?= $i.$k ?>">
+																<?php if(!empty($aiData['ead_img'])){
+																	$array = explode(".", $aiData['ead_img']);
+																	if(strtolower(end($array)) == "mp3"){
+																	?>
+																	<audio controls style="width: 94%;height: 30%;" class="a_imag_<?php echo $i.$k;?>">
+																	<source src="<?= base_url() . $aiData['ead_img'] ?>">
+																	</audio>
+																	<a href="javascript:void(0)" onclick="removeAudio('a_imag_<?php echo $i.$k;?>',<?= $aiData['eqd_id']?>,'ead_img_<?= $i.$k ?>');" class="a_imag_<?php echo $i.$k;?>"><i class="fa fa-close"></i></a>
+																	<?php
+																	}
+																else{	
+																?>
+																	<img src="<?php echo base_url().$aiData['ead_img']; ?>" height="35px" width="35px" alt="" class="a_imag_<?php echo $i.$k;?>">
+																	<a href="javascript:void(0)" onclick="removeAudio('a_imag_<?php echo $i.$k;?>',<?= $aiData['ead_id']?>,'ead_img_<?= $i.$k ?>');"  class="a_imag_<?php echo $i.$k;?>"><i class="fa fa-close"></i></a>
+																<?php } } ?>
 																<input type="file" class="form-control" name="ead_img[<?= $i ?>][]" accept="image/*">
 															</div>
 
@@ -271,20 +297,24 @@
 															</div>
 
 															<div class="form-group col-3">
+																<input type="hidden" name="ead_touch_audio[<?= $i ?>][]" id="ead_touch_audio_<?= $i.$k ?>">
 																<?php if(!empty($aiData['ead_touch_audio'])){ ?>
-																	<audio controls>
+																	<audio controls style="width: 94%;height: 30%;" class="a_touch_<?php echo $i.$k;?>">
 																		<source src="<?= base_url() . $aiData['ead_touch_audio'] ?>">
 																	</audio>
+																	<a href="javascript:void(0)" onclick="removeAudio('a_touch_<?php echo $i.$k;?>',<?= $aiData['ead_id']?>,'ead_touch_audio_<?= $i.$k ?>');" class="a_touch_<?php echo $i.$k;?>"><i class="fa fa-close"></i></a>
 																<?php } ?>
 																<input type="file" class="form-control" name="ead_touch_audio[<?= $i ?>][]" >
 															</div>
 
 
 															<div class="form-group col-3">
+																<input type="hidden" name="ead_audio[<?= $i ?>][]" id="ead_audio_<?= $i.$k ?>">
 																<?php if(!empty($aiData['ead_audio'])){ ?>
-																	<audio controls>
+																	<audio controls style="width: 94%;height: 30%;" class="a_true_<?php echo $i.$k;?>">
 																		<source src="<?= base_url() . $aiData['ead_audio'] ?>">
 																	</audio>
+																	<a href="javascript:void(0)" onclick="removeAudio('a_true_<?php echo $i.$k;?>',<?= $aiData['ead_id']?>,'ead_audio_<?= $i.$k ?>');" class="a_true_<?php echo $i.$k;?>"><i class="fa fa-close"></i></a>
 																<?php } ?>
 																<input type="file" class="form-control" name="ead_audio[<?= $i ?>][]" >
 															</div>

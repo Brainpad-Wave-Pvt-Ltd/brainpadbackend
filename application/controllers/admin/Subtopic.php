@@ -161,4 +161,50 @@ class Subtopic extends CI_Controller
 			echo 'Error';
 		}
 	}
+
+	public function index_api(){
+		$board_id 	  = $this->input->post('board_id');
+		$std_id 	  = $this->input->post('std_id');
+		$subject_id   = $this->input->post('sub_id');
+		$chapter_id   = $this->input->post('chapter_id');
+		$topic_id 	  = $this->input->post('topic_id');
+
+		if(!empty($topic_id)){
+			$query = $this->db->where('subtopics.tp_id',$topic_id)
+				->join('topics','topics.tp_id=subtopics.tp_id','left')
+				->join('chapter','chapter.ch_id=topics.ch_id','left')
+				->join('standard','chapter.std_id=standard.std_id','left')
+				->join('subject','chapter.subject_id=subject.sub_id','left');
+			$query = $query->get('subtopics');
+		} else {
+			$query = $this->db->where('subtopics.tp_id',0)
+				->join('topics','topics.tp_id=subtopics.tp_id','left')
+				->join('chapter','chapter.ch_id=topics.ch_id','left')
+				->join('standard','chapter.std_id=standard.std_id','left')
+				->join('subject','chapter.subject_id=subject.sub_id','left');
+			$query = $query->get('subtopics');
+		}
+		
+		$data = [];
+		$all_data = [];
+		foreach($query->result() as $r) { 
+			$data['stp_id']    = $r->stp_id;
+			$data['std_name']  = $r->std_name;
+			$data['subject_id']= $r->sub_name;
+			$data['chapter']  =	$r->chapter_text;
+			$data['topic']    =	$r->topic_text;
+			$data['subtopic'] =	$r->subtopic_text;
+			$data['image']    =	$r->subtopic_img;
+			$data['status']   = $r->subtopic_status;
+			$all_data[] = $data;
+		}
+		
+
+		$result = array(
+			"data" => $all_data
+		);
+		$data= $this->load->view('admin/page/subtopic/table',$result, TRUE);
+
+		echo $data;
+	}
 }

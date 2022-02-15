@@ -29,8 +29,9 @@ class Example extends CI_Controller
 		$std_id 	  = $this->input->post('std_id');
 		$subject_id   = $this->input->post('sub_id');
 		$chapter_id   = $this->input->post('chapter_id');
+		$topic_id 	  = $this->input->post('topic_id');
 
-		$query = $this->db->where('example.board_id',$board_id)->where('example.std_id',$std_id)->where('example.subject_id',$subject_id)
+		$query = $this->db->where('example.board_id',$board_id)->where('example.std_id',$std_id)->where('example.subject_id',$subject_id)->where('example.tp_id',$topic_id)
 				->join('chapter','chapter.ch_id=example.ch_id','left')
 				->join('topics','topics.tp_id=example.tp_id','left')
 				->join('subtopics','subtopics.stp_id=example.stp_id','left')
@@ -287,6 +288,10 @@ class Example extends CI_Controller
 		if ($_FILES['sound']['error'] == 0) {
 			$audio = $this->crud_model->sound_upload('sound', 'example');
 			$updatedData['ex_audio'] = $audio;
+		} 
+
+		if(!empty($this->input->post('ex_audio'))){
+			$updatedData['ex_audio'] = '';
 		}
 		$this->db->trans_start();
 		$this->db->where('ex_id', $id)->update('example', $updatedData);
@@ -298,7 +303,7 @@ class Example extends CI_Controller
 		$example_data_ids =  $this->input->post('ed_id');
 		$question_item_ids = $this->input->post('eqd_id');
 		$answer_item_ids = $this->input->post('ead_id');
-
+		
 		foreach ($hidden_value as $i) {
 
 			if(isset($example_data_ids[$i]) && $example_data_ids[$i] != 0) {
@@ -307,8 +312,9 @@ class Example extends CI_Controller
 				$this->db->insert('example_data',['ex_id' => $id]);
 				$example_data_insert_id = $this->db->insert_id();
 			}
-
+			
 			for( $j=0; $j < count($total_que_item[$i]); $j++){
+				$k = $j-1;
 				$question_text = $this->input->post('qm2text');
 
 				if(!empty($example_data_ids[$i]) && $j == 0){
@@ -323,6 +329,24 @@ class Example extends CI_Controller
 				if (isset($_FILES['qm2files']) && isset($_FILES['qm2files']['name'][$i][$j]) && ($_FILES['qm2files']['name'][$i][$j] != '')) {
 					$ins_item['eqd_img']  = $this->crud_model->multi_file_upload($_FILES['qm2files'],'example',$i,$j);
 				}
+				 
+				// Remove question audio/image
+				if(!empty($this->input->post('eqd_img')[$i][$k])){
+					$udate_question['eqd_img'] = '';
+					$this->db->where('eqd_id', $this->input->post('eqd_img')[$i][$k])->update('example_question_data', $udate_question);
+				}
+
+				// Remove question touch
+				if(!empty($this->input->post('eqd_touch')[$i][$k])){
+					$udate_question['eqd_touch_audio'] = '';
+					$this->db->where('eqd_id', $this->input->post('eqd_touch')[$i][$k])->update('example_question_data', $udate_question);
+				}
+
+				// Remove question true
+				if(!empty($this->input->post('eqd_audio')[$i][$k])){
+					$udate_question['eqd_audio'] = '';
+					$this->db->where('eqd_id', $this->input->post('eqd_audio')[$i][$k])->update('example_question_data', $udate_question);
+				}
 
 				// True Audio
 				if (isset($_FILES['audio']) && isset($_FILES['audio']['name'][$i][$j]) && ($_FILES['audio']['name'][$i][$j] != '')) {
@@ -334,16 +358,19 @@ class Example extends CI_Controller
 					$ins_item['eqd_touch_audio'] = $this->crud_model->multi_file_upload($_FILES['touch_audio'], 'example',$i,$j);
 				}
 
-				if($question_item_ids[$i][$j] != 0){
-					$this->db->where('eqd_id',$question_item_ids[$i][$j])->update('example_question_data', $ins_item);
-				}else{
+				if(!empty($question_item_ids[$i][$j])){
+					if($question_item_ids[$i][$j] != 0){
+						$this->db->where('eqd_id',$question_item_ids[$i][$j])->update('example_question_data', $ins_item);
+					}
+				}
+				else{
 					$this->db->insert('example_question_data', $ins_item);
 				}
 			}
 
 			// For Answer
 			for( $a=0; $a < count($total_ans_item[$i]); $a++){
-
+				$l = $a-1;
 				$answer_text = $this->input->post('ead_text');
 
 				if(!empty($example_data_ids[$i]) && $a == 0){
@@ -374,9 +401,28 @@ class Example extends CI_Controller
 				}else{
 					$this->db->insert('example_answer_data', $ins_ans_item);
 				}
+
+				// Remove answer audio/image
+				if(!empty($this->input->post('ead_img')[$i][$l])){
+					$udate_question['ead_img'] = '';
+					$this->db->where('ead_id', $this->input->post('ead_img')[$i][$l])->update('example_answer_data', $udate_question);
+				}
+
+				// Remove answer touch
+				if(!empty($this->input->post('ead_touch_audio')[$i][$l])){
+					$udate_question['ead_touch_audio'] = '';
+					$this->db->where('ead_id', $this->input->post('ead_touch_audio')[$i][$l])->update('example_answer_data', $udate_question);
+				}
+
+				// Remove answer true
+				if(!empty($this->input->post('ead_audio')[$i][$l])){
+					$udate_question['ead_audio'] = '';
+					$this->db->where('ead_id', $this->input->post('ead_audio')[$i][$l])->update('example_answer_data', $udate_question);
+				}
 			}
 
 		}
+		
 		$this->db->trans_complete();
 		$this->session->set_flashdata('success', 'Data Added successfully');
 		$id = 'board_id='. $updatedData['board_id']. '&std_id='. $updatedData['std_id']. '&subject_id='. $updatedData['subject_id']. '&ch_id='. $updatedData['ch_id']. '&tp_id='. $updatedData['tp_id']. '&stp_id='. $updatedData['stp_id'];

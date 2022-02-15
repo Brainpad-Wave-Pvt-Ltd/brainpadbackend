@@ -352,6 +352,17 @@ function changeSubject(sub_id){
 	getChapter(board_id,std_id,sub_id)
 }
 
+function getTopics(chapter_id){
+	$.ajax({
+		url : base_url+'admin/extra/getTopics',
+		method: 'POST',
+		data:{ chid:chapter_id },
+		success:function(msg){
+			$("#topic_list").html(msg);
+		},
+	});
+}
+
 function getChapter(board_id,std_id,sub_id,echid = 0)
 {
 	$.ajax({
@@ -882,6 +893,12 @@ function getExampleData($id)
 	$('#panel-body-1').addClass('show');
 }
 
+function removeAudio(className,id,field){
+	$("."+className).remove();
+	
+	$("#"+field).val(id);
+}
+
 $(".langSubmit").on('submit', function(e) {
 	e.preventDefault();
 
@@ -983,10 +1000,32 @@ $("#example_filter").click(function(){
 	let std_id = $('#std_list').val();
 	let sub_id = $('#sub_list').val();
 	let chapter_id = $('#chapter_list').val();
+	let topic_id = $("#topic_list").val();
 	$.ajax({
 		url: base_url + 'admin/example/index_api',
 		method: 'POST',
-		data:{ board_id:board_id, std_id:std_id, sub_id:sub_id, chapter_id:chapter_id },
+		data:{ board_id:board_id, std_id:std_id, sub_id:sub_id, chapter_id:chapter_id, topic_id:topic_id },
+		success:function(msg){
+			$("#table").html(msg);
+		},
+	});
+	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {
+		$('#item-list').DataTable().destroy();
+	}
+
+});
+
+$("#subtopics_filter").click(function(){
+
+	let board_id = $('#board_id').val();
+	let std_id = $('#std_list').val();
+	let sub_id = $('#sub_list').val();
+	let chapter_id = $('#chapter_list').val();
+	let topic_id = $("#topic_list").val();
+	$.ajax({
+		url: base_url + 'admin/subtopic/index_api',
+		method: 'POST',
+		data:{ board_id:board_id, std_id:std_id, sub_id:sub_id, chapter_id:chapter_id, topic_id:topic_id },
 		success:function(msg){
 			$("#table").html(msg);
 		},
