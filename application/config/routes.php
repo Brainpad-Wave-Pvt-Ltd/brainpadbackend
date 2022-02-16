@@ -115,6 +115,9 @@ $route['backend/layout/remove/(:num)']   = 'admin/layout/remove/$1';
 $route['backend/layout/removeSelected']  = 'admin/layout/removeSelected';
 $route['backend/layout/status/(:num)/(:num)'] = 'admin/layout/status/$1/$2';
 
+// Syllabus
+$route['backend/syllabus']                 = 'admin/syllabus';
+
 
 // Subscription Plans
 $route['backend/subscription_plans']                 = 'admin/subscription_plans';

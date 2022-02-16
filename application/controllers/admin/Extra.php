@@ -170,7 +170,7 @@ class Extra extends CI_Controller
 	{
 		$topicID = $this->input->post('topic_id');
 		$subtopicID = $this->input->post('sub_topic_id');
-
+		
 		$stp_list = $this->db->get_where('subtopics',['subtopic_status'=>1,'tp_id'=>$topicID])->result();
 		$subtopic = '';
 		if(!empty($stp_list))

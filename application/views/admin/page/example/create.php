@@ -48,9 +48,9 @@
 							</div>
 
 							<div class="form-group col-12 col-sm-3">
-								<label for="topic_list">Sub Topic</label>
-								<select class="form-control select2 select2-tags" required name="sub_topic" id="subtopic_list" onchange="getExampleData(this.value)" ><select>
-								<input type="hidden" name="edTpid" id="edStpid" value="<?= $stp_id ?>">
+								<label for="subtopic_list">Sub Topic</label>
+								<select class="form-control select2" required name="sub_topic" id="subtopic_list" onchange="getExampleData(this.value)" ><select>
+								<input type="hidden" id="edStpid" value="<?= $stp_id ?>">
 
 							</div>
 						</div>
