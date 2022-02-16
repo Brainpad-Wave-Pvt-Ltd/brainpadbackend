@@ -18,7 +18,8 @@ class Syllabus extends CI_Controller
 		$data['title']     = 'Syallabus :: BrainPad Wave';
 		$data['page']      = 'admin/page/syllabus/index';
 		$data['rec']       = $this->db
-							->join('standard','standard.board_id=board.bd_id','left')
+                            ->distinct('example.ex_id')
+                            ->join('standard','standard.board_id=board.bd_id','left')
                             ->join('chapter','chapter.std_id=standard.std_id','left')
                             ->join('topics','topics.ch_id=chapter.ch_id','left')
                             ->join('subtopics','subtopics.tp_id=topics.tp_id','left')
@@ -26,7 +27,8 @@ class Syllabus extends CI_Controller
                             ->join('category','category.c_id=example.cat_id','left')
                             ->join('layout','layout.cat_id=category.c_id','left')
                             ->where('board.bd_name',$this->session->userdata('board_name'))
-                            ->order_by("standard.std_id","asc")
+                            ->order_by("example.ex_id","asc")
+                            ->group_by('example.ex_id')
                             ->get('board')
                             ->result_array();
         
