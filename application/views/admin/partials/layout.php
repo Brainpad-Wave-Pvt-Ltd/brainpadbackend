@@ -58,6 +58,9 @@
 <script src="<?= base_url('assets/js/jquery-ui.min.js'); ?>"></script>
 <script src="<?= base_url('assets/js/scripts.js'); ?>"></script>
 <script src="<?= base_url('assets/js/custom.js'); ?>"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 
+<script src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script> 
 
 </body>
 </html>
