@@ -188,6 +188,12 @@ class Subtopic extends CI_Controller
 		$data = [];
 		$all_data = [];
 		foreach($query->result() as $r) { 
+			$query_example = $this->db->where('stp_id',$r->stp_id)->get('example')->result_array();
+			if(!empty($query_example)){
+				$data['no_example'] = count($query_example);
+			} else {
+				$data['no_example'] = 0;
+			}
 			$data['stp_id']    = $r->stp_id;
 			$data['std_name']  = $r->std_name;
 			$data['subject_id']= $r->sub_name;
@@ -196,8 +202,9 @@ class Subtopic extends CI_Controller
 			$data['subtopic'] =	$r->subtopic_text;
 			$data['image']    =	$r->subtopic_img;
 			$data['status']   = $r->subtopic_status;
+			$data['ids']      =	'board_id='. $board_id. '&std_id='. $std_id. '&subject_id='. $subject_id. '&ch_id='. $r->ch_id. '&tp_id='. $r->tp_id. '&stp_id='. $r->stp_id;
 			$all_data[] = $data;
-		}
+		} 
 		
 
 		$result = array(
@@ -206,5 +213,45 @@ class Subtopic extends CI_Controller
 		$data= $this->load->view('admin/page/subtopic/table',$result, TRUE);
 
 		echo $data;
+	}
+
+	public function copy($id){
+		$get_examples = $this->db->select('ex_id')->where('stp_id',$id)->get('example')->result_array();
+
+		$sub_insert_id = $this->crud_model->duplicateRecord('subtopics','stp_id',$id);
+		
+		if(!empty($get_examples)){
+			foreach($get_examples as $example){
+				$ex_id = $example['ex_id'];
+				$insert_id = $this->crud_model->duplicateRecord('example','ex_id',$ex_id);
+				
+				$data = array(
+					'stp_id'=>$sub_insert_id	
+				);
+				
+				$this->db->where('ex_id', $insert_id)->update('example',$data);
+
+				$e_data = $this->crud_model->get_table_data('example_data','ex_id',$ex_id);
+
+				foreach ($e_data as $ed){
+
+					// Duplicate Example Data
+					$ed_data_id = $this->crud_model->duplicateRecord('example_data','ed_id',$ed['ed_id'],'ex_id',$insert_id);
+
+					// Duplicate Question
+					$eq_data = $this->crud_model->get_table_data('example_question_data','ed_id',$ed['ed_id']);
+					foreach ($eq_data as $eqd) {
+						$this->crud_model->duplicateRecord('example_question_data', 'eqd_id', $eqd['eqd_id'],'ed_id',$ed_data_id);
+					}
+					// Duplicate Answer
+					$ea_data = $this->crud_model->get_table_data('example_answer_data','ed_id',$ed['ed_id']);
+					foreach ($ea_data as $eqd) {
+						$this->crud_model->duplicateRecord('example_answer_data', 'ead_id', $eqd['ead_id'],'ed_id',$ed_data_id);
+					}
+				}
+			} 
+		}
+		
+		echo 'success';
 	}
 }

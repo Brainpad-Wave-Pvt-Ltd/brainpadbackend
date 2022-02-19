@@ -2,63 +2,63 @@
 var base_url = $('#brainpad_base_url').val();
 console.log(base_url);
 
-(function( $ ) {
+// (function( $ ) {
 
-    $.support.touch = typeof Touch === 'object';
+//     $.support.touch = typeof Touch === 'object';
 
-    if (!$.support.touch) {
-        return;
-    }
+//     if (!$.support.touch) {
+//         return;
+//     }
 
-    var proto =  $.ui.mouse.prototype,
-    _mouseInit = proto._mouseInit;
+//     var proto =  $.ui.mouse.prototype,
+//     _mouseInit = proto._mouseInit;
 
-    $.extend( proto, {
-        _mouseInit: function() {
-            this.element
-            .bind( "touchstart." + this.widgetName, $.proxy( this, "_touchStart" ) );
-            _mouseInit.apply( this, arguments );
-        },
+//     $.extend( proto, {
+//         _mouseInit: function() {
+//             this.element
+//             .bind( "touchstart." + this.widgetName, $.proxy( this, "_touchStart" ) );
+//             _mouseInit.apply( this, arguments );
+//         },
 
-        _touchStart: function( event ) {
-            if ( event.originalEvent.targetTouches.length != 1 ) {
-                return false;
-            }
+//         _touchStart: function( event ) {
+//             if ( event.originalEvent.targetTouches.length != 1 ) {
+//                 return false;
+//             }
 
-            this.element
-            .bind( "touchmove." + this.widgetName, $.proxy( this, "_touchMove" ) )
-            .bind( "touchend." + this.widgetName, $.proxy( this, "_touchEnd" ) );
+//             this.element
+//             .bind( "touchmove." + this.widgetName, $.proxy( this, "_touchMove" ) )
+//             .bind( "touchend." + this.widgetName, $.proxy( this, "_touchEnd" ) );
 
-            this._modifyEvent( event );
+//             this._modifyEvent( event );
 
-            $( document ).trigger($.Event("mouseup")); //reset mouseHandled flag in ui.mouse
-            this._mouseDown( event );
+//             $( document ).trigger($.Event("mouseup")); //reset mouseHandled flag in ui.mouse
+//             this._mouseDown( event );
 
-            return false;           
-        },
+//             return false;           
+//         },
 
-        _touchMove: function( event ) {
-            this._modifyEvent( event );
-            this._mouseMove( event );   
-        },
+//         _touchMove: function( event ) {
+//             this._modifyEvent( event );
+//             this._mouseMove( event );   
+//         },
 
-        _touchEnd: function( event ) {
-            this.element
-            .unbind( "touchmove." + this.widgetName )
-            .unbind( "touchend." + this.widgetName );
-            this._mouseUp( event ); 
-        },
+//         _touchEnd: function( event ) {
+//             this.element
+//             .unbind( "touchmove." + this.widgetName )
+//             .unbind( "touchend." + this.widgetName );
+//             this._mouseUp( event ); 
+//         },
 
-        _modifyEvent: function( event ) {
-            event.which = 1;
-            var target = event.originalEvent.targetTouches[0];
-            event.pageX = target.clientX;
-            event.pageY = target.clientY;
-        }
+//         _modifyEvent: function( event ) {
+//             event.which = 1;
+//             var target = event.originalEvent.targetTouches[0];
+//             event.pageX = target.clientX;
+//             event.pageY = target.clientY;
+//         }
 
-    });
+//     });
 
-})( jQuery );
+// })( jQuery );
 
 $(document).ready(function(){
 
@@ -210,34 +210,34 @@ $(document).ready(function(){
 		console.log(cat_id);
 		let disable = '';
 		let que_hide = '';
-		if(cat_id == 2){
-			disable = 'style="display:none"';
-		}
-		if(cat_id == 5 ){
-			que_hide = 'style="display:none"';
-		}
-		if(cat_id == 7){
-			que_hide = 'style="display:none"';
-		}
-
+		// if(cat_id == 2){
+		// 	disable = 'style="display:none"';
+		// }
+		// if(cat_id == 5 ){
+		// 	que_hide = 'style="display:none"';
+		// }
+		// if(cat_id == 7){
+		// 	que_hide = 'style="display:none"';
+		// }
+		
 		var template =
 			'<div class="que-ans">'
 			+ '<div class="jumbotron">'
 
-			+ '<div id="question" '+ que_hide +'>'
+			+ '<div id="question">'
 
 			+ '<div class="form-row">'
-			+ '<div class="form-group col-3 mb-0">'
-			+ '<label for="qm2img">Question Image</label>'
+			+ '<div class="form-group col-3 mb-0 d-none q-audio">'
+			+ '<label for="qm2img">Q.Image/Audio</label>'
 			+ '</div>'
 			+ '<div class="form-group col-3 mb-0">'
-			+ '<label for="qm2text">Question Text</label>'
+			+ '<label for="qm2text">Q.Text</label>'
 			+ '</div>'
-			+ '<div class="form-group col-3 mb-0">'
-			+ '<label for="touch-audio">Touch event Audio</label>'
+			+ '<div class="form-group col-3 mb-0 q-touch d-none">'
+			+ '<label for="touch-audio">Q.Touch Audio</label>'
 			+ '</div>'
-			+ '<div class="form-group col-3 mb-0">'
-			+ '<label for="true-audio">True event Audio</label>'
+			+ '<div class="form-group col-3 mb-0 q-true d-none">'
+			+ '<label for="true-audio">Q.True Audio</label>'
 			+ '</div>'
 			+ '</div>'
 
@@ -246,16 +246,16 @@ $(document).ready(function(){
 
 			+ '<div id="question-item-'+i+'">'
 			+ '<div class="form-row">'
-			+ '<div class="form-group col-3">'
+			+ '<div class="form-group col-3 d-none q-audio">'
 			+ '<input type="file" class="form-control que-img" name="qm2files[' + i +'][]" id="qm2img' + i + '" data--disable="qm2text'+i+'">'
 			+ '</div>'
 			+ '<div class="form-group col-3 ">'
 			+ '<input type="text" class="form-control qm2text'+i+'" name="qm2text['+ i +'][]" id="qm2text'+i+'" placeholder="Enter Question">'
 			+ '</div>'
-			+ '<div class="form-group col-3">'
+			+ '<div class="form-group col-3 q-touch d-none">'
 			+ '<input type="file" class="form-control" name="touch_audio['+ i +'][]" id="touch-audio">'
 			+ '</div>'
-			+ '<div class="form-group col-3">'
+			+ '<div class="form-group col-3 q-true d-none">'
 			+ '<input type="file" class="form-control" name="audio['+ i +'][]" id="true-audio">'
 			+ '</div>'
 			+ '<input type="hidden" name="total_que_item['+ i +'][]" value="'+ i +'">'
@@ -266,8 +266,8 @@ $(document).ready(function(){
 
 			+ '<div class="form-row">'
 			+ '<div class="form-group col-12">'
-			+ '<button type="button" class="btn btn-primary btn-sm que-btn" '+ disable +' onclick="addNewRow(\'question-item-'+i+'\',\'dynamic-rows-'+i+'\')">Add Q.</button>'
-			+ '<button type="button" class="btn btn-danger btn-sm que-btn" '+ disable +' onclick="removeRow(\'dynamic-rows-'+i+'\',\'form-row\')">Remove Q.</button>'
+			+ '<button type="button" class="btn btn-primary btn-sm que-btn q-add d-none"  onclick="addNewRow(\'question-item-'+i+'\',\'dynamic-rows-'+i+'\')">Add Q.</button>'
+			+ '<button type="button" class="btn btn-danger btn-sm que-btn q-remove d-none"  onclick="removeRow(\'dynamic-rows-'+i+'\',\'form-row\')">Remove Q.</button>'
 			+ '</div>'
 			+ '</div>'
 
@@ -276,17 +276,17 @@ $(document).ready(function(){
 			+ '<hr '+ que_hide +'>'
 
 			+ '<div class="form-row">'
-			+ '<div class="form-group col-3 mb-0">'
-			+ '<label for="am2img">Answer Image</label>'
+			+ '<div class="form-group col-3 mb-0 a-audio d-none">'
+			+ '<label for="am2img">A.Image/Audio</label>'
 			+ '</div>'
 			+ '<div class="form-group col-3 mb-0">'
 			+ '<label for="am2text">Answer Text</label>'
 			+ '</div>'
-			+ '<div class="form-group col-3 mb-0">'
-			+ '<label for="touch-audio">Answer Touch event Audio</label>'
+			+ '<div class="form-group col-3 mb-0 a-touch d-none">'
+			+ '<label for="touch-audio">A.Touch Audio</label>'
 			+ '</div>'
-			+ '<div class="form-group col-3 mb-0">'
-			+ '<label for="touch-audio">Answer True event Audio</label>'
+			+ '<div class="form-group col-3 mb-0 a-true d-none">'
+			+ '<label for="touch-audio">A.True Audio</label>'
 			+ '</div>'
 			+ '</div>'
 
@@ -295,16 +295,16 @@ $(document).ready(function(){
 
 			+ '<div id="answer-item-'+i+'">'
 			+ '<div class="form-row">'
-			+ '<div class="form-group col-3">'
+			+ '<div class="form-group col-3 a-audio d-none">'
 			+ '<input type="file" class="form-control ans-img" name="ead_img[' + i +'][]"  data--disable="ead_text'+i+'">'
 			+ '</div>'
 			+ '<div class="form-group col-3 ">'
 			+ '<input type="text" class="form-control ead_text'+i+'" name="ead_text['+ i +'][]" accept="image/*" id="ead_text'+i+'" placeholder="Enter Text Answer">'
 			+ '</div>'
-			+ '<div class="form-group col-3">'
+			+ '<div class="form-group col-3 a-touch d-none">'
 			+ '<input type="file" class="form-control" name="ead_touch_audio['+ i +'][]">'
 			+ '</div>'
-			+ '<div class="form-group col-3">'
+			+ '<div class="form-group col-3 a-true d-none">'
 			+ '<input type="file" class="form-control" name="ead_audio['+ i +'][]">'
 			+ '</div>'
 			+ '<input type="hidden" name="total_ans_item['+ i +'][]" value="'+ i +'">'
@@ -315,8 +315,8 @@ $(document).ready(function(){
 
 			+ '<div class="form-row">'
 			+ '<div class="form-group col-12">'
-			+ '<button type="button" class="btn btn-primary btn-sm" onclick="addNewRow(\'answer-item-'+i+'\',\'dynamic-ans-rows-'+i+'\')">Add A.</button>'
-			+ '<button type="button" class="btn btn-danger btn-sm"  onclick="removeRow(\'dynamic-ans-rows-'+i+'\',\'form-row\')">Remove A.</button>'
+			+ '<button type="button" class="btn btn-primary btn-sm a-add d-none" onclick="addNewRow(\'answer-item-'+i+'\',\'dynamic-ans-rows-'+i+'\')">Add A.</button>'
+			+ '<button type="button" class="btn btn-danger btn-sm a-remove d-none"  onclick="removeRow(\'dynamic-ans-rows-'+i+'\',\'form-row\')">Remove A.</button>'
 			+ '</div>'
 			+ '</div>'
 
@@ -325,9 +325,78 @@ $(document).ready(function(){
 
 		var $target = $("#sorting_field");
 		$target.append(template);
-		if(cat_id == 7 ){
-			$("#add-remove-card-btn").css("display", "none");
-		}
+		// if(cat_id == 7 ){
+		// 	$("#add-remove-card-btn").css("display", "none");
+		// }
+
+		var lay_id = $("#layout_id").val();
+		$.ajax({
+			url : base_url+'admin/extra/getLayoutDesign',
+			method: 'POST',
+			data:{lay_id:lay_id},
+			success:function(msg){
+				var data = JSON.parse(msg);
+				
+				setTimeout(() => {
+					$(".q-audio").addClass('d-none')
+					$(".q-touch").addClass('d-none')
+					$(".q-true").addClass('d-none')
+					$(".q-add").addClass('d-none')
+					$(".q-remove").addClass('d-none')
+					var qtype = data[0].question_type.split(',');
+					$.each( qtype, function( key, value ) {
+						if(value == 'image audio text'){
+							$(".q-audio").removeClass('d-none')
+						} 
+	
+						if(value == 'touch'){  
+							$(".q-touch").removeClass('d-none')
+						} 
+	
+						if(value == 'true'){ 
+							$(".q-true").removeClass('d-none')
+						} 
+	
+						if(value == 'add question'){ 
+							$(".q-add").removeClass('d-none')
+						} 
+	
+						if(value == 'remove question'){ 
+							$(".q-remove").removeClass('d-none')
+						} 
+					});
+	
+					$(".a-audio").addClass('d-none');
+					$(".a-touch").addClass('d-none');
+					$(".a-true").addClass('d-none');
+					$(".a-add").addClass('d-none');
+					$(".a-remove").addClass('d-none');
+					var atype = data[0].answer_type.split(',');
+					$.each( atype, function( key1, value1 ) {
+						if(value1 == 'image audio text'){
+							$(".a-audio").removeClass('d-none')
+						} 
+	
+						if(value1 == 'touch'){  
+							$(".a-touch").removeClass('d-none')
+						} 
+	
+						if(value1 == 'true'){
+							$(".a-true").removeClass('d-none')
+						}
+	
+						if(value1 == 'add answer'){
+							$(".a-add").removeClass('d-none')
+						} 
+	
+						if(value1 == 'remove answer'){
+							$(".a-remove").removeClass('d-none')
+						} 
+					});
+				
+				}, 1000);
+			},
+		});
 	});
 
 	//  ==============================================================================================//
@@ -733,7 +802,7 @@ $(document).on('click', '[data--toggle="copy"]', function (e) {
 					url : url,
 					method: 'GET',
 					success:function(msg){
-						location.reload()
+						// location.reload()
 					},
 				});
 			}
@@ -1084,6 +1153,28 @@ $("#subtopics_filter").click(function(){
 		url: base_url + 'admin/subtopic/index_api',
 		method: 'POST',
 		data:{ board_id:board_id, std_id:std_id, sub_id:sub_id, chapter_id:chapter_id, topic_id:topic_id },
+		success:function(msg){
+			$("#table").html(msg);
+		},
+	});
+	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {
+		$('#item-list').DataTable().destroy();
+	}
+
+});
+
+$("#syllabus_filter").click(function(){
+
+	let board_id = $('#board_id').val();
+	let std_id = $('#std_list').val();
+	let sub_id = $('#sub_list').val();
+	let chapter_id = $('#chapter_list').val();
+	let topic_id = $("#topic_list").val();
+	let subtopic_id = $("#subtopic_list").val();
+	$.ajax({
+		url: base_url + 'admin/syllabus/index_api',
+		method: 'POST',
+		data:{ board_id:board_id, std_id:std_id, sub_id:sub_id, chapter_id:chapter_id, topic_id:topic_id,subtopic_id:subtopic_id },
 		success:function(msg){
 			$("#table").html(msg);
 		},

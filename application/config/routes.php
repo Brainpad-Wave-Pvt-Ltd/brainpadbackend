@@ -70,6 +70,7 @@ $route['backend/subtopic/update/(:num)']                 = 'admin/subtopic/updat
 $route['backend/subtopic/remove/(:num)']                 = 'admin/subtopic/remove/$1';
 $route['backend/subtopic/removeSelected']                 = 'admin/subtopic/removeSelected';
 $route['backend/subtopic/status/(:num)/(:num)']          = 'admin/subtopic/status/$1/$2';
+$route['backend/subtopic/copy/(:num)']                = 'admin/subtopic/copy/$1';
 
 // Method example
 $route['backend/example']                            = 'admin/example';

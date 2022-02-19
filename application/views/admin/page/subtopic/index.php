@@ -3,8 +3,9 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-					<h4>Sub Topics Table</h4>
+					<h4>Sub Topics Table (Warning : Deleting Subtopic will delete all examples of it.)</h4>
 					<div class="card-header-action">
+						<a href="<?=base_url('backend/example/create');?>" class="btn btn-primary"><i class="fa fa-plus"></i> Add Example</a>
 						<a href="<?=base_url('backend/subtopic/create');?>" class="btn btn-primary"><i class="fa fa-plus"></i> Add Record</a>
 						<button data--toggle="delete_selected" data--url="<?= base_url('backend/subtopic/removeSelected'); ?>" class="btn btn-danger btn-small mb-2" >Delete Selected Record(s)</button>
 					</div>
@@ -52,16 +53,15 @@
 						<table class="table table-striped table-hover" id="table-1" style="width: 100%;">
 							<thead>
 							<tr>
-								<th></th>
-								<th><input id="check_all" type="checkbox"></th>
 								<th>Standard</th>
 								<th>Subject</th>
 								<th>Chapter</th>
 								<th>Topic</th>
 								<th>Sub Topic</th>
 								<th>Image</th>
-								<th>Status</th>
+								<th>No.Example</th>
 								<th>Action</th>
+								<th>Status</th>
 							</tr>
 							</thead>
 							<tbody id="table" class="sortable" data--url="<?=base_url('backend/re-ordering/subtopics/stp_id');?>">
