@@ -36,6 +36,7 @@
 			<li class="<?= ($this->uri->segment('2') == 'category') ? 'active' : '' ?>"><a class="nav-link" href="<?= base_url('backend/category'); ?>"><i class="fas fa-list"></i> <span>Category</span></a></li>
 			<li class="<?= ($this->uri->segment('2') == 'layout') ? 'active' : '' ?>"><a class="nav-link" href="<?= base_url('backend/layout'); ?>"><i class="fas fa-list"></i> <span>Layout</span></a></li>
 			<li class="<?= ($this->uri->segment('2') == 'syllabus') ? 'active' : '' ?>"><a class="nav-link" href="<?= base_url('backend/syllabus'); ?>"><i class="fas fa-list"></i> <span>Syllabus</span></a></li>
+			<li class="<?= ($this->uri->segment('2') == 'school') ? 'active' : '' ?>"><a class="nav-link" href="<?= base_url('backend/school'); ?>"><i class="fas fa-list"></i> <span>School</span></a></li>
 			<li class="<?= ($this->uri->segment('2') == 'setting') ? 'active' : '' ?>"><a class="nav-link" href="<?= base_url('backend/setting'); ?>"><i class="fas fa-cogs"></i><span>Setting</span></a></li>
 			<li class="<?= ($this->uri->segment('2') == 'setting') ? 'active' : '' ?>"><a class="nav-link" href="<?= base_url('backend/setting'); ?>"><i class="far fa-user"></i></i><span>Profile</span></a></li>
 			<li class="<?= ($this->uri->segment('2') == 'user') ? 'active' : '' ?>"><a class="nav-link" href="<?= base_url('backend/user'); ?>"><i class="fas fa-users"></i><span>Users</span></a></li>

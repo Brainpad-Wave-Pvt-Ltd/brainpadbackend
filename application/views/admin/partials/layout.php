@@ -3,6 +3,15 @@
 <head>
 	<meta charset="UTF-8"/>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>    
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"
+>
+</script>
 	<title><?= $title ?? 'BrainPad Wave'; ?></title>
 	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url(); ?>assets/img/favicon.ico"/>
 

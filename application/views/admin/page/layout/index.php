@@ -17,8 +17,10 @@
 							<tr>
 								<th></th>
 								<th><input id="check_all" type="checkbox"></th>
+								<th>Layout Id</th>
 								<th>Layout Name</th>
 								<th>Description</th>
+								<th>Category Id</th>
 								<th>Category</th>
 								<th>Question Type</th>
 								<th>Answer Type</th>
@@ -32,8 +34,10 @@
 								<tr id="<?= $r['lay_id'] ?>">
 									<td><i class="fas fa-align-justify"></i></td>
 									<td><input type="checkbox" name="row-check" value="<?= $r['lay_id'] ?>"></td>
+									<td><?= $r['lay_id'];?></td>
 									<td><?=$r['lay_name'] ?></td>
 									<td><?=$r['lay_description'];?></td>
+									<td><?=$r['c_id']; ?></td>
 									<td><?=$r['c_name'];?></td>
 									<td><?=$r['question_type'];?></td>
 									<td><?=$r['answer_type'];?></td>

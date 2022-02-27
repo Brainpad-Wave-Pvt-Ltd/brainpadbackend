@@ -41,6 +41,7 @@ class Auth extends BD_Controller
 								->select('subscription_plans.user_category,subscription_plans.plan_name,subscription_plans.plan_price,subscription_plans.access_no_topics,subscription_plans.is_default_free_plan,subscription_plans.end_date')
 								->join('subscription_plans','subscription_plans.plan_id=subscription.plan_id','left')
 								->where('user_id',$token['id'])->get('subscription')->result_array();
+			
 			if(!empty($get_subscription)){
 				$profile['subscription_details'] = $get_subscription;
 			}

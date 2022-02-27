@@ -119,6 +119,15 @@ $route['backend/layout/status/(:num)/(:num)'] = 'admin/layout/status/$1/$2';
 // Syllabus
 $route['backend/syllabus']                 = 'admin/syllabus';
 
+// School
+$route['backend/school']                 = 'admin/school';
+$route['backend/school/create']          = 'admin/school/create';
+$route['backend/school/store']           = 'admin/school/store';
+$route['backend/school/edit/(:num)']     = 'admin/school/edit/$1';
+$route['backend/school/update/(:num)']   = 'admin/school/update/$1';
+$route['backend/school/remove/(:num)']   = 'admin/school/remove/$1';
+$route['backend/school/removeSelected']  = 'admin/school/removeSelected';
+
 
 // Subscription Plans
 $route['backend/subscription_plans']                 = 'admin/subscription_plans';
