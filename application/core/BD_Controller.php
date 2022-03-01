@@ -75,6 +75,7 @@ class BD_Controller extends REST_Controller
         
         $data = [
             'username'                  => $user_data->username,
+            'usercode'                  => $user_data->usercode,
             'profile_pic'               => ($user_data->profile_pic != '') ? base_url($user_data->profile_pic) : '',
             'phone_no'                  => $user_data->phone_no,
             'email'                     => $user_data->email_id,
