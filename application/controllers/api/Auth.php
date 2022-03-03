@@ -41,6 +41,11 @@ class Auth extends BD_Controller
 								$token['id'] = $this->db->insert_id();
 								$new_token = $this->generate_token($token);
 								$profile = $this->profile_data($token['id'], $new_token);
+
+								$get_standard_list = $this->db->where('board_id',$this->input->post('board_id'))->get('standard')->result();
+								if(!empty($get_standard_list)){
+									$profile['standard_list'] = $get_standard_list;
+								}
 								$response['data'] = $profile;
 	
 								$this->set_response($response, REST_Controller::HTTP_OK);
