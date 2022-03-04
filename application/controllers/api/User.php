@@ -256,5 +256,48 @@ class User extends BD_Controller
 
 
 
+	public function user_achievement_post()
+	{ 
+		
+		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
+		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
+		if($this->form_validation->run()==false)
+		{
+			$errs = $this->form_validation->error_array();
+			$errors = [];
+			foreach($errs as $err){$errors [] = $err;}
+			$invalidCredentials = ['msg'=>implode(',',$errors)];
+			$this->set_response($invalidCredentials,422);
+		} else {
+			$exist_subtopic = $this->db->where('subtopic_id',$this->input->post('subtopic_id'))
+			->where('user_id',$this->input->post('user_id'))
+			->get('user_achievement')
+			->result_array();
+			$data = array(
+				'subtopic_id'=>$this->input->post('subtopic_id'),
+				'user_id'=>$this->input->post('user_id'),
+				'time'=>$this->input->post('time') ? $this->input->post('time') : '',
+				'crown'=>$this->input->post('crown') ? $this->input->post('crown') : '',
+				'star'=>$this->input->post('star') ? $this->input->post('star') : '',
+			);
+			if(!empty($exist_subtopic)){
+				$data['updated_at'] = date('Y-m-d H:i:s');
+				$this->db->where('user_id', $this->input->post('user_id'))
+				->where('subtopic_id', $this->input->post('subtopic_id'))
+				->update('user_achievement', $data);
+				$response["msg"] = "User Achivement updated successfully";
+				
+			} else {
+				$data['created_at'] = date('Y-m-d H:i:s');
+				$this->db->insert('user_achievement',$data);
+				$response["msg"] = "User Achivement added successfully";
+			}
+			$this->set_response($response, REST_Controller::HTTP_OK);
+		}
+		
+	}
+
+
+
 	
 }

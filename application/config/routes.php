@@ -185,3 +185,4 @@ $route['api_register']                                 = 'api/user/register_user
 $route['api_school']                                   = 'api/user/add_school';
 $route['api_subscription']                             = 'api/user/add_subscription';
 $route['api_subscription_plan']                        = 'api/user/get_subscription_plan';
+$route['api_user_achievement']                         = 'api/user/user_achievement';

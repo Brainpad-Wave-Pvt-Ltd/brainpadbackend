@@ -57,7 +57,7 @@ class BD_Controller extends REST_Controller
         }
     }
     
-    public function profile_data($id,$token = ''): array
+    public function profile_data($id,$token = '')
 	{
         $user_data = $this->db->get_where('users',['user_id'=>$id])->row();
         $standard = '';
