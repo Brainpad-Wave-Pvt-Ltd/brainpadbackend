@@ -258,7 +258,6 @@ class User extends BD_Controller
 
 	public function user_achievement_post()
 	{ 
-		
 		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
 		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
 		if($this->form_validation->run()==false)
@@ -270,9 +269,10 @@ class User extends BD_Controller
 			$this->set_response($invalidCredentials,422);
 		} else {
 			$exist_subtopic = $this->db->where('subtopic_id',$this->input->post('subtopic_id'))
-			->where('user_id',$this->input->post('user_id'))
+			->where('user_id',$this->input->post('user_id'))->where('created_at',date('Y-m-d'))
 			->get('user_achievement')
 			->result_array();
+			
 			$data = array(
 				'subtopic_id'=>$this->input->post('subtopic_id'),
 				'user_id'=>$this->input->post('user_id'),
@@ -281,23 +281,119 @@ class User extends BD_Controller
 				'star'=>$this->input->post('star') ? $this->input->post('star') : '',
 			);
 			if(!empty($exist_subtopic)){
-				$data['updated_at'] = date('Y-m-d H:i:s');
+				$data['updated_at'] = date('Y-m-d');
 				$this->db->where('user_id', $this->input->post('user_id'))
 				->where('subtopic_id', $this->input->post('subtopic_id'))
+				->where('id',$exist_subtopic[0]['id'])
 				->update('user_achievement', $data);
 				$response["msg"] = "User Achivement updated successfully";
-				
 			} else {
-				$data['created_at'] = date('Y-m-d H:i:s');
+				$data['created_at'] = date('Y-m-d');
 				$this->db->insert('user_achievement',$data);
 				$response["msg"] = "User Achivement added successfully";
 			}
+			$exist = $this->db->where('subtopic_id',$this->input->post('subtopic_id'))
+					->where('user_id',$this->input->post('user_id'))->where('created_at',date('Y-m-d'))
+					->get('user_achievement')
+					->result_array();
+			$total_time = 0;$total_star = 0; $total_crown = 0;
+			if(!empty($exist)){
+				foreach($exist as $a){
+					$total_time += $a['time'];
+					$total_star += $a['star'];
+					$total_crown += $a['crown'];
+					$created_date = $a['created_at'];
+				}
+				$response['subtopic_id'] = $this->input->post('subtopic_id');
+				$response['user_id'] = $this->input->post('user_id');
+				$response['total_time'] = $total_time;
+				$response['total_star'] = $total_star;
+				$response['total_crown'] = $total_crown;
+				$response['created_date'] = $created_date;
+			}
 			$this->set_response($response, REST_Controller::HTTP_OK);
 		}
-		
 	}
 
+	public function subtopic_time_post(){
+		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
+		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
+		if($this->form_validation->run()==false)
+		{
+			$errs = $this->form_validation->error_array();
+			$errors = [];
+			foreach($errs as $err){ $errors [] = $err; }
+			$invalidCredentials = ['msg'=>implode(',',$errors)];
+			$this->set_response($invalidCredentials,422);
+		} else {
+			$exist_subtopic = $this->db->where('subtopic_id',$this->input->post('subtopic_id'))
+			->where('user_id',$this->input->post('user_id'))
+			->where("created_at >= DATE(NOW()) - INTERVAL 7 DAY")
+			->get('user_achievement')
+			->result_array();
+			$data = array();
+			if(!empty($exist_subtopic)){
+				$total_time = $total_crown = $total_star = 0;
+				foreach($exist_subtopic as $a){
+				   $data['data'][] = array(
+					  'time'=>$a['time'],
+					  'crown'=>$a['crown'],
+					  'star'=>$a['star'],
+					  'date'=>$a['created_at']
+				   );
+				   $total_time += $a['time'];
+				   $total_crown += $a['crown'];
+				   $total_star += $a['star'];
+				}
+				$data['total_time'] = $total_time;
+				$data['total_crown'] = $total_crown;
+				$data['total_star'] = $total_star;
+			}
+			$this->set_response($data, REST_Controller::HTTP_OK);
+		}
+	}
 
-
-	
+	public function last_week_time_post(){
+		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
+		if($this->form_validation->run()==false)
+		{
+			$errs = $this->form_validation->error_array();
+			$errors = [];
+			foreach($errs as $err){ $errors [] = $err; }
+			$invalidCredentials = ['msg'=>implode(',',$errors)];
+			$this->set_response($invalidCredentials,422);
+		} else {
+			$exist_subtopic = $this->db->where('user_id',$this->input->post('user_id'))
+			->where("created_at >= DATE(NOW()) - INTERVAL 7 DAY")
+			->get('user_achievement')
+			->result_array();
+			$data = array();
+			if(!empty($exist_subtopic)){
+				$total_time = $total_crown = $total_star = 0;
+				foreach($exist_subtopic as $a){
+				   $day = date("D", strtotime($a['created_at']));
+				   $seconds = $a['time']*60;
+				   $t = round($seconds);
+  				   $time = sprintf('%02d:%02d:%02d', ($t/3600),($t/60%60), $t%60);
+				   $data['data'][] = array(
+					  'time'=>$time,
+					  'day'=>$day,
+					  'crown'=>$a['crown'],
+					  'star'=>$a['star'],
+					  'date'=>$a['created_at']
+				   );
+				   $total_time += $a['time'];
+				   $hours = floor($total_time / 60);
+				   $minutes = ($total_time % 60);
+				   $time = sprintf('%02d:%02d', $hours, $minutes);
+				   $total_crown += $a['crown'];
+				   $total_star += $a['star'];
+				}
+				$data['total_time'] = $time;
+				$data['total_crown'] = $total_crown;
+				$data['total_star'] = $total_star;
+			}
+			$this->set_response($data, REST_Controller::HTTP_OK);
+		}
+	}
 }

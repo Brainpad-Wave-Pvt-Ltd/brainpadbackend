@@ -150,6 +150,9 @@ $route['backend/plan_type/remove/(:num)']            = 'admin/plan_type/remove/$
 $route['backend/plan_type/removeSelected']           = 'admin/plan_type/removeSelected';
 $route['backend/subscription_plans/get_plan_type']   = 'admin/subscription_plans/get_plan_type';
 
+// Reports 
+$route['backend/reports'] = 'admin/reports';
+
 
 
 
@@ -186,3 +189,5 @@ $route['api_school']                                   = 'api/user/add_school';
 $route['api_subscription']                             = 'api/user/add_subscription';
 $route['api_subscription_plan']                        = 'api/user/get_subscription_plan';
 $route['api_user_achievement']                         = 'api/user/user_achievement';
+$route['api_last_week_report']                         = 'api/user/last_week_time';
+$route['api_subtopic_time']                            = 'api/user/subtopic_time';
