@@ -15,7 +15,13 @@ class Home extends BD_Controller
 	}
 
 	public function language_get(){
-		$res = $this->db->get_where('languages')->result_array();
+		// $res = $this->db->get_where('languages')->result_array();
+		$res = $this->db->distinct('languages.name')
+				->join('example','example.lang=languages.name','left')
+				->where('example.ex_id != ""')
+				->select('languages.id,languages.symbol,languages.name')
+				->group_by('languages.name')
+			    ->get('languages')->result_array();
 		if(!empty($res))
 		{
 			$this->set_response($res,REST_Controller::HTTP_OK);

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class School extends CI_Controller
+class Reports extends CI_Controller
 {
 	private $language;
 	function __construct()
@@ -17,9 +17,10 @@ class School extends CI_Controller
 	{
 		$data['title']     = 'Report :: BrainPad Wave';
 		$data['page']      = 'admin/page/report/index';
+		$data['school']    = $this->db->where('is_deleted',0)->get('school')->result_array();
+		$data['subtopic']  = $this->db->get('subtopics')->result_array();
 		$data['rec']       = $this->db
-                            ->where('is_deleted',0)
-							->get('school')
+                            ->get('user_achievement')
                             ->result_array();
 
 		$this->load->view('admin/partials/layout',$data);

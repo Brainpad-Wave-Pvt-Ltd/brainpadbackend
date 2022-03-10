@@ -18,42 +18,84 @@ class Auth extends BD_Controller
 				$new_token = $this->generate_token($token);
 				$profile = $this->profile_data($token['id'], $new_token);
 				$response['data'] = $profile;
-
+				$get_active = $this->db->where('user_id',$user_data[0]->user_id)->where('is_active_plan',1)->get('subscription')->result();
+				if(!empty($get_active)){
+					$plan_details = $this->db->where('plan_id',$get_active[0]->plan_id)->get('subscription_plans')->result();
+					if(!empty($plan_details)){
+						$response['data']['subscription_plan'] = $plan_details;
+					}
+				}
 				$this->set_response($response, REST_Controller::HTTP_OK);
 			}
 		} else {
 			if(!empty($this->input->post('lang'))){
 				if(!empty($this->input->post('board_id'))){
 					if(!empty($this->input->post('user_type'))){
-						if(!empty($this->input->post('name'))){
-							$lang = $this->db->where('id',$this->input->post('lang'))->get('languages')->result();
-							
-							if(!empty($lang[0]->symbol)){
-								$name = ucfirst(substr($this->input->post('name'), 0, 4)).mt_rand(1111,9999);
-								$data = array(
-								'username'=>$this->input->post('name'),
-								'usercode'=>$name,
-								'user_type'=>$this->input->post('user_type'),
-								'board'=>$this->input->post('board_id'),
-								'lang'=>$lang[0]->symbol
-								);
-								$this->db->insert('users', $data);
-								$token['id'] = $this->db->insert_id();
-								$new_token = $this->generate_token($token);
-								$profile = $this->profile_data($token['id'], $new_token);
+						if(!empty($this->input->post('standard'))){
+							if(!empty($this->input->post('name'))){
+								$lang = $this->db->where('id',$this->input->post('lang'))->get('languages')->result();
+								
+								if(!empty($lang[0]->symbol)){
+									$name = ucfirst(substr($this->input->post('name'), 0, 4)).mt_rand(1111,9999);
+									if(!empty($this->input->post('school_id'))){
+										$school_id = $this->input->post('school_id');
+									} else {
+										$school_id = 1;
+									}
 
-								$get_standard_list = $this->db->where('board_id',$this->input->post('board_id'))->get('standard')->result();
-								if(!empty($get_standard_list)){
-									$profile['standard_list'] = $get_standard_list;
-								}
-								$response['data'] = $profile;
+									$data = array(
+										'username'=>$this->input->post('name'),
+										'usercode'=>$name,
+										'user_type'=>$this->input->post('user_type'),
+										'board'=>$this->input->post('board_id'),
+										'lang'=>$lang[0]->symbol,
+										'school_id'=>$school_id,
+										'standard'=>$this->input->post('standard'),
+										'is_profile_complete'=>1,
+									);
+									$this->db->insert('users', $data);
+									$token['id'] = $this->db->insert_id();
+									$new_token = $this->generate_token($token);
+									$profile = $this->profile_data($token['id'], $new_token);
 	
-								$this->set_response($response, REST_Controller::HTTP_OK);
-							} else {
-								$this->set_response(['msg'=>'Language not found'],422);	
+									// $get_standard_list = $this->db->where('board_id',$this->input->post('board_id'))->get('standard')->result();
+									// if(!empty($get_standard_list)){
+									// 	$profile['standard_list'] = $get_standard_list;
+									// }
+
+									if($profile['is_profile_complete'] == 1){
+										if($this->input->post('user_type') == 1){
+											$type = 'Teacher';
+										} else {
+											$type = 'Student';
+										}
+										$get_subscription_plan = $this->db->where('school_id',$school_id)->where('user_category',$type)->where('is_default_free_plan',1)->get('subscription_plans')->result();
+										if(!empty($get_subscription_plan)){
+											$plan_id = $get_subscription_plan[0]->plan_id;
+											$subscription_data = array(
+												'user_id'=>$token['id'],
+												'plan_id'=>$plan_id,
+												'is_active_plan'=>1,
+												'start_date'=>date('Y-m-d H:i:s'),
+												'created_at' => date('Y-m-d H:i:s'),
+            									'updated_at' => date('Y-m-d H:i:s'),		
+											);
+											$this->db->insert('subscription', $subscription_data);
+											$profile['subscription_plan'] = $get_subscription_plan;
+										}
+									}
+
+									$response['data'] = $profile;
+		
+									$this->set_response($response, REST_Controller::HTTP_OK);
+								} else {
+									$this->set_response(['msg'=>'Language not found'],422);	
+								}
+							}else {
+								$this->set_response(['msg'=>'User Name is empty'],422);	
 							}
-						}else {
-							$this->set_response(['msg'=>'User Name is empty'],422);	
+						} else {
+							$this->set_response(['msg'=>'Standard is empty'],422);
 						}
 					} else {
 						$this->set_response(['msg'=>'User Type is empty'],422);
