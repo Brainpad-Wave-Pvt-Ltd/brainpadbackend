@@ -16,7 +16,11 @@ class Example extends BD_Controller
 	public function method_mapping_post()
 	{
 		$subtopic_id = $this->input->post('subtopic_id');
-		$rec = $this->db->get_where('example', ['stp_id' => $subtopic_id,'ex_status' => 1])->result_array();
+		$rec = $this->db->where('stp_id',$subtopic_id)
+						->where('ex_status',1)
+						->order_by('sequence')
+						->get('example')
+						->result_array();
 		$data = [];
 		if (!empty($rec)) {
 			foreach ($rec as $r) {
