@@ -17,8 +17,8 @@ class Home extends BD_Controller
 	public function language_get(){
 		// $res = $this->db->get_where('languages')->result_array();
 		$res = $this->db->distinct('languages.name')
-				->join('example','example.lang=languages.name','left')
-				->where('example.ex_id != ""')
+				// ->join('example','example.lang=languages.name','left')
+				// ->where('example.ex_id != ""')
 				->select('languages.id,languages.symbol,languages.name')
 				->group_by('languages.name')
 			    ->get('languages')->result_array();
@@ -92,13 +92,13 @@ class Home extends BD_Controller
 			$board = $this->db->get_where('board',['lang'=>$lang->symbol,'status'=>1])->result_array();
 			if (!empty($board)) {
 				foreach ($board as $brd) {
-					if($this->db->where('board_id',$brd['bd_id'])->get('example')->row() != '' ) {
+					// if($this->db->where('board_id',$brd['bd_id'])->get('example')->row() != '' ) {
 						$brdList[] = [
 							'id' => intval($brd['bd_id']),
 							'board' => $brd['bd_name'],
 							'image' => base_url($brd['bd_img_path'])
 						];
-					}
+					// }
 				}
 			}
 
@@ -122,11 +122,11 @@ class Home extends BD_Controller
 
 			if (!empty($std)) {
 				foreach ($std as $s) {
-					if ($this->db->where('std_id', $s['std_id'])->get('example')->row() != '') {
+					// if ($this->db->where('std_id', $s['std_id'])->get('example')->row() != '') {
 						$stdList[] = [
 							'id' => intval($s['std_id']),
 							'standard' => $s['std_name']];
-					}
+					// }
 				}
 			}
 			if (!empty($stdList)) {
@@ -149,13 +149,13 @@ class Home extends BD_Controller
 			$sub_list   = $this->db->order_by('sequence',"asc")->get_where('subject',['sub_status'=>1, 'std_id'=>$standard_id])->result_array();
 			if(!empty($sub_list)){
 				foreach($sub_list as $sl) {
-					if($this->db->where('subject_id',$sl['sub_id'])->get('example')->row() != '' ) {
+					// if($this->db->where('subject_id',$sl['sub_id'])->get('example')->row() != '' ) {
 						$all_sub_list[] = [
 							'id' => $sl['sub_id'],
 							'subject' => $sl['sub_name'],
 							'image' => base_url($sl['sub_img_path'])
 						];
-					}
+					// }
 				}
 			}
 
@@ -178,13 +178,13 @@ class Home extends BD_Controller
 			$chapter = $this->db->order_by("sequence", "asc")->get_where('chapter', ['chapter_status' => 1, 'subject_id' => $subject_id])->result_array();
 			if (!empty($chapter)) {
 				foreach ($chapter as $ch) {
-					if($this->db->where('ch_id',$ch['ch_id'])->get('example')->row() != '' ) {
+					// if($this->db->where('ch_id',$ch['ch_id'])->get('example')->row() != '' ) {
 						$chList[] = [
 							'id' => intval($ch['ch_id']),
 							'chapter' => $ch['chapter_text'],
 							'image' => base_url($ch['chapter_img'])
 						];
-					}
+					// }
 				}
 			}
 			if (!empty($chList)) {
@@ -207,13 +207,13 @@ class Home extends BD_Controller
 			$topics = $this->db->order_by("sequence","asc")->get_where('topics',['topic_status'=>1,'ch_id'=>$chapter_id])->result_array();
 			$tpList = [];
 			foreach($topics as $tp) {
-				if($this->db->where('tp_id',$tp['tp_id'])->get('example')->row() != '' ) {
+				// if($this->db->where('tp_id',$tp['tp_id'])->get('example')->row() != '' ) {
 					$tpList[] = [
 						'id' => intval($tp['tp_id']),
 						'topic' => $tp['topic_text'],
 						'image' => base_url($tp['topic_img'])
 					];
-				}
+				// }
 			}
 
 			if(!empty($tpList))	{
@@ -236,13 +236,13 @@ class Home extends BD_Controller
 			$stpList = [];
 			foreach($subtopics as $stp)
 			{
-				if($this->db->where('stp_id',$stp['stp_id'])->get('example')->row() != '' ) {
+				// if($this->db->where('stp_id',$stp['stp_id'])->get('example')->row() != '' ) {
 					$stpList[] = [
 						'id' => intval($stp['stp_id']),
 						'topic' => $stp['subtopic_text'],
 						'image' => base_url($stp['subtopic_img'])
 					];
-				}
+				// }
 			}
 			if(!empty($stpList)) {
 				$this->set_response($stpList, 200);

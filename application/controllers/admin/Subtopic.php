@@ -174,16 +174,22 @@ class Subtopic extends CI_Controller
 				->join('topics','topics.tp_id=subtopics.tp_id','left')
 				->join('chapter','chapter.ch_id=topics.ch_id','left')
 				->join('standard','chapter.std_id=standard.std_id','left')
-				->join('subject','chapter.subject_id=subject.sub_id','left');
+				->join('subject','chapter.subject_id=subject.sub_id','left')
+				->select('standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,subtopics.subtopic_text,subtopics.subtopic_img,subtopics.subtopic_status,subtopics.stp_id,chapter.ch_id,topics.tp_id')
+				->order_by("subtopics.sequence","asc");
 			$query = $query->get('subtopics');
 		} else {
 			$query = $this->db->where('subtopics.tp_id',0)
 				->join('topics','topics.tp_id=subtopics.tp_id','left')
 				->join('chapter','chapter.ch_id=topics.ch_id','left')
 				->join('standard','chapter.std_id=standard.std_id','left')
-				->join('subject','chapter.subject_id=subject.sub_id','left');
+				->join('subject','chapter.subject_id=subject.sub_id','left')
+				->select('standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,subtopics.subtopic_text,subtopics.subtopic_img,subtopics.subtopic_status,subtopics.stp_id,chapter.ch_id,topics.tp_id')
+				->order_by("subtopics.sequence","asc");
 			$query = $query->get('subtopics');
 		}
+
+		// echo $this->db->last_query(); exit;
 		
 		$data = [];
 		$all_data = [];

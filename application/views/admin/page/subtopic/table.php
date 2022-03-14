@@ -1,5 +1,5 @@
 <?php foreach($data as $r) { ?>
-<tr id="<?= $r['stp_id'] ?>">
+<tr id="<?= $r['stp_id'] ?>" class="odd ui-sortable-handle">
     <td><?=$r['std_name'];?></td>
     <td><?=$r['subject_id'];?></td>
     <td><?=$r['chapter'];?></td>
