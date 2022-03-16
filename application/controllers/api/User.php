@@ -280,17 +280,19 @@ class User extends BD_Controller
 				'crown'=>$this->input->post('crown') ? $this->input->post('crown') : '',
 				'star'=>$this->input->post('star') ? $this->input->post('star') : '',
 			);
+			
+			
 			if(!empty($exist_subtopic)){
 				$data['updated_at'] = date('Y-m-d');
 				$this->db->where('user_id', $this->input->post('user_id'))
 				->where('subtopic_id', $this->input->post('subtopic_id'))
 				->where('id',$exist_subtopic[0]['id'])
 				->update('user_achievement', $data);
-				$response["msg"] = "User Achivement updated successfully";
+				// $response["msg"] = "User Achivement updated successfully";
 			} else {
 				$data['created_at'] = date('Y-m-d');
 				$this->db->insert('user_achievement',$data);
-				$response["msg"] = "User Achivement added successfully";
+				// $response["msg"] = "User Achivement added successfully";
 			}
 			$exist = $this->db->where('subtopic_id',$this->input->post('subtopic_id'))
 					->where('user_id',$this->input->post('user_id'))->where('created_at',date('Y-m-d'))
@@ -310,6 +312,19 @@ class User extends BD_Controller
 				$response['total_star'] = $total_star;
 				$response['total_crown'] = $total_crown;
 				$response['created_date'] = $created_date;
+			}
+
+			if(!empty($this->input->post('star'))){
+				$get_user_total_star = $this->db->where('user_id',$this->input->post('user_id'))->get('users')->result();
+				if(!empty($get_user_total_star)){
+				   $total_s = $get_user_total_star[0]->total_star + $this->input->post('star');
+				   $update_s = array(
+					   'total_star'=>$total_s,
+				   );
+				   $update_star = $this->db->where('user_id', $this->input->post('user_id'))
+				   ->update('users', $update_s);
+				   $response['user_total_star'] = $total_s;
+				}
 			}
 			$this->set_response($response, REST_Controller::HTTP_OK);
 		}
@@ -393,6 +408,55 @@ class User extends BD_Controller
 				$data['total_crown'] = $total_crown;
 				$data['total_star'] = $total_star;
 			}
+			$this->set_response($data, REST_Controller::HTTP_OK);
+		}
+	}
+
+	public function get_total_star_post(){
+		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
+		if($this->form_validation->run()==false)
+		{
+			$errs = $this->form_validation->error_array();
+			$errors = [];
+			foreach($errs as $err){ $errors [] = $err; }
+			$invalidCredentials = ['msg'=>implode(',',$errors)];
+			$this->set_response($invalidCredentials,422);
+		} else {
+			$get_user_total_star = $this->db->where('user_id',$this->input->post('user_id'))->get('users')->result();
+			if(!empty($get_user_total_star)){
+				$data = array(
+					'user_id'=>$get_user_total_star[0]->user_id,
+					'total_star'=>$get_user_total_star[0]->total_star,
+				);
+				$this->set_response($data, REST_Controller::HTTP_OK);
+			}
+		}
+	}
+
+	public function get_school_total_star_post(){
+		$this->form_validation->set_rules('school_id','School ID','required|trim',['required'=>'Please select School']);
+		if($this->form_validation->run()==false)
+		{
+			$errs = $this->form_validation->error_array();
+			$errors = [];
+			foreach($errs as $err){ $errors [] = $err; }
+			$invalidCredentials = ['msg'=>implode(',',$errors)];
+			$this->set_response($invalidCredentials,422);
+		} else {
+			$school_s = 0;
+			$get_star_school = $this->db->where('school.school_id',$this->input->post('school_id'))
+							   ->join('users','users.school_id=school.school_id','left')
+							   ->join('user_achievement','user_achievement.user_id=users.user_id','left')
+							   ->get('school')->result();
+			if(!empty($get_star_school)){
+				foreach($get_star_school as $school){ 
+					$school_s+= $school->star;
+				}
+			}
+			$data=array(
+				'school_id'=>$this->input->post('school_id'),
+				'total_star'=>$school_s
+			);
 			$this->set_response($data, REST_Controller::HTTP_OK);
 		}
 	}

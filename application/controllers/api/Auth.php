@@ -17,6 +17,18 @@ class Auth extends BD_Controller
 				$token['id'] = $user_data[0]->user_id;
 				$new_token = $this->generate_token($token);
 				$profile = $this->profile_data($token['id'], $new_token);
+
+				$school_id = $profile['school_id'];
+				$get_school_name = $this->db->where('school_id',$school_id)->get('school')->result();
+									
+				if(!empty($get_school_name)){
+					$school_code = $get_school_name[0]->school_code;
+					$school_name = $get_school_name[0]->school_name;
+				}
+
+				$profile['school_code'] = $school_code;
+				$profile['school_name'] = $school_name;
+
 				$response['data'] = $profile;
 				$get_active = $this->db->where('user_id',$user_data[0]->user_id)->where('is_active_plan',1)->get('subscription')->result();
 				if(!empty($get_active)){
@@ -42,6 +54,14 @@ class Auth extends BD_Controller
 									} else {
 										$school_id = 1;
 									}
+
+									$get_school_name = $this->db->where('school_id',$school_id)->get('school')->result();
+									
+									if(!empty($get_school_name)){
+										$school_code = $get_school_name[0]->school_code;
+										$school_name = $get_school_name[0]->school_name;
+									}
+
 
 									$data = array(
 										'username'=>$this->input->post('name'),
@@ -84,6 +104,9 @@ class Auth extends BD_Controller
 											$profile['subscription_plan'] = $get_subscription_plan;
 										}
 									}
+
+									$profile['school_code'] = $school_code;
+									$profile['school_name'] = $school_name;
 
 									$response['data'] = $profile;
 		

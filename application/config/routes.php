@@ -191,3 +191,5 @@ $route['api_subscription_plan']                        = 'api/user/get_subscript
 $route['api_user_achievement']                         = 'api/user/user_achievement';
 $route['api_last_week_report']                         = 'api/user/last_week_time';
 $route['api_subtopic_time']                            = 'api/user/subtopic_time';
+$route['api_user_total_star']                          = 'api/user/get_total_star';
+$route['api_school_total_star']                        = 'api/user/get_school_total_star';

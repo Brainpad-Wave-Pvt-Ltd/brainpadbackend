@@ -87,7 +87,8 @@ class BD_Controller extends REST_Controller
             'standard'                  => $standard,
             'accept_privacy_policy'     => intval($user_data->accept_privacy_policy),
             'accept_date_time'          => date('d-m-Y h:i:s A',strtotime($user_data->accept_date_time)),
-            'is_profile_complete'       => $user_data->is_profile_complete
+            'is_profile_complete'       => $user_data->is_profile_complete,
+            'school_id'                 => $user_data->school_id
         ];
 
         if($token != ''){
