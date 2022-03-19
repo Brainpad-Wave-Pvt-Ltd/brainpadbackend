@@ -193,3 +193,5 @@ $route['api_last_week_report']                         = 'api/user/last_week_tim
 $route['api_subtopic_time']                            = 'api/user/subtopic_time';
 $route['api_user_total_star']                          = 'api/user/get_total_star';
 $route['api_school_total_star']                        = 'api/user/get_school_total_star';
+$route['api_lock_unlock_example']                      = 'api/user/lock_unlock_example';
+$route['api_lock_flag']                                = 'api/user/get_lock_unlock_flag';

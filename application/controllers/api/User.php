@@ -460,4 +460,61 @@ class User extends BD_Controller
 			$this->set_response($data, REST_Controller::HTTP_OK);
 		}
 	}
+
+	public function lock_unlock_example_post(){
+		$this->form_validation->set_rules('example_id','Example ID','required|trim',['required'=>'Please select Example']);
+		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
+		$this->form_validation->set_rules('star','Star','required|trim',['required'=>'Please select Star']);
+		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
+		if($this->form_validation->run()==false)
+		{
+			$errs = $this->form_validation->error_array();
+			$errors = [];
+			foreach($errs as $err){ $errors [] = $err; }
+			$invalidCredentials = ['msg'=>implode(',',$errors)];
+			$this->set_response($invalidCredentials,422);
+		} else {
+			$get_data = $this->db->where('user_id',$this->input->post('user_id'))->where('example_id',$this->input->post('example_id'))->get('example_lock_unlock')->result();
+			if($this->input->post('star') > 2.5){
+				$flag = 1;
+			} else {
+				$flag = 0;
+			}
+			$data = array(
+				'user_id'=>$this->input->post('user_id'),
+				'example_id'=>$this->input->post('example_id'),
+				'star'=>$this->input->post('star'),
+				'lock_flag'=>$flag,
+				'subtopic_id'=>$this->input->post('subtopic_id')
+			);
+			if(!empty($get_data)){
+				$data['updated_at'] = date('Y-m-d H:i:s');
+				$update = $this->db->where('user_id', $this->input->post('user_id'))->where('example_id',$this->input->post('example_id'))->update('example_lock_unlock', $data);
+			} else {
+				$data['created_at'] = date('Y-m-d H:i:s');
+				$update = $this->db->insert('example_lock_unlock',$data);
+			}
+		}
+		$this->set_response($data, REST_Controller::HTTP_OK);
+	}
+
+	public function get_lock_unlock_flag_post(){
+		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
+		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
+		if($this->form_validation->run()==false)
+		{
+			$errs = $this->form_validation->error_array();
+			$errors = [];
+			foreach($errs as $err){ $errors [] = $err; }
+			$invalidCredentials = ['msg'=>implode(',',$errors)];
+			$this->set_response($invalidCredentials,422);
+		} else {
+			$get_data = $this->db->where('user_id',$this->input->post('user_id'))->where('subtopic_id',$this->input->post('subtopic_id'))->get('example_lock_unlock')->result();
+			$data = array();
+			if(!empty($get_data)){
+				$data = $get_data;
+			}
+		}
+		$this->set_response($data, REST_Controller::HTTP_OK);
+	}
 }
