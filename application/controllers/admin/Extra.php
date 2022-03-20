@@ -24,6 +24,28 @@ class Extra extends CI_Controller
 		echo 'Reordering successfully.';
 	}
 
+	public function getLanguag()
+	{
+		$lng = $this->input->post('lang_id'); 
+		$language_list = $this->db->get('languages')->result();
+		$board = '';
+		if(!empty($language_list))
+		{
+			$board.='<option value="">Choose Language </option>';
+			foreach($language_list as $lg)
+			{
+				$select = ($lng==$lg->symbol) ? "selected" : "";
+				$board.='<option value="'.$lg->symbol.'" '.$select.'>'.$lg->name.'</option>';
+			}
+		}
+		else
+		{
+			$board.= '<option value=""> ---  No Languages Found ! --- </option>';
+		}
+
+		echo $board;
+	}
+
 	public function getBoard()
 	{
 		$boardID = $this->input->post('board_id');

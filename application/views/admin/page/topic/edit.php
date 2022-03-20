@@ -9,18 +9,22 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<?=form_open_multipart($action,array('class' => 'topics-form', 'id' => 'topics-form'));?>
+					<?=form_open_multipart($action,array('class' => 'topics-form', 'id' => 'topics-form'));
+					
+					?>
 						<div class="row">
-							<div class="col-12 col-sm-4" style="display:none;">
+							<div class="col-12 col-sm-6">
 								<label>Language <span class="text-danger">*</span></label>
 								<div class="form-group">
-									<input type="text" class="form-control" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
+									<input type="hidden" class="form-control" name="lang_id" id="lang_id"   readonly value="<?php echo $editData->lang;?>">
+									<select class="form-control select2" required name="lang" id="lng_list" onchange="getBoard(this.value)"></select>
 								</div>
 							</div>
-							<div class="col-12 col-sm-4" style="display:none;">
+
+							<div class="col-12 col-sm-6">
 								<label>Board</label>
-								<input type="text" class="form-control"  readonly  value="<?= $this->session->userdata('board_name'); ?>">
-								<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>" id="board_id">
+								<input type="hidden" name="board_id" value="<?= $editData->board_id ?>" id="board_id">
+								<select class="form-control select2" required name="board_id" id="board_list" onchange="getStandard(this.value)"></select>
 							</div>
 							
 							<div class="col-12 col-sm-6">
@@ -75,3 +79,10 @@
 		</div>
 	</div>
 </section>
+<script>
+	$(document).ready(function(){
+		var lng = $("#lang_id").val(); 
+		getLanguage(lng);
+		getBoard(lng,$("#board_id").val());
+	});
+</script>
