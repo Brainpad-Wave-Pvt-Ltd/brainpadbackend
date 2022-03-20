@@ -75,6 +75,20 @@
                             </div>
                         </div>
 
+                        <div class="col-12 col-sm-4">
+                            <label>School App Link<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="school_applink" id="school_applink" placeholder="Enter School App Link" value="<?php echo $editData->applink;?>">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>School Payment Link<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="school_paymentlink" id="school_paymentlink" placeholder="Enter School Payment Link" value="<?php echo $editData->paymentlink;?>">
+                            </div>
+                        </div>
+
 					</div>
 
 					<div class="subtopic_field col-12 col-sm-12"></div>

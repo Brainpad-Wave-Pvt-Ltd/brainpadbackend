@@ -74,6 +74,20 @@
                                     <input type="text" class="form-control" name="school_zipcode" id="school_zipcode" required placeholder="Enter School Zipcode">
                                 </div>
                             </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>School App Link<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="school_applink" id="school_applink" placeholder="Enter School App Link">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>School Payment Link<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="school_paymentlink" id="school_paymentlink" placeholder="Enter School Payment Link">
+                                </div>
+                            </div>
                         </div>
 						<div class="subtopic_field"></div>
 						<div class="col-12 col-sm-6">

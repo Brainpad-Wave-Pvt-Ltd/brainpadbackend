@@ -15,7 +15,7 @@
 						<table class="table table-striped table-hover" id="table-1" style="width: 100%;">
 							<thead>
 							<tr>
-								<th></th>
+								<!-- <th></th> -->
 								<th><input id="check_all" type="checkbox"></th>
 								<th>Board</th>
 								<th>Standard</th>
@@ -30,7 +30,7 @@
 							<tbody class="sortable" data--url="<?=base_url('backend/re-ordering/topics/tp_id');?>">
 							<?php foreach($rec as $r) { ?>
 								<tr id="<?= $r['tp_id'] ?>">
-									<td><i class="fas fa-align-justify"></i></td>
+									<!-- <td><i class="fas fa-align-justify"></i></td> -->
 									<td><input type="checkbox" name="row-check" value="<?= $r['tp_id'] ?>"></td>
 									<td><?=$r['bd_name'] ?></td>
 									<td><?=$r['std_name'];?></td>
@@ -46,6 +46,7 @@
 									<td>
 										<button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/topic/edit/'.$r['tp_id']);?>"><i class="fa fa-edit"></i></button>
 										<button class="btn btn-sm btn-outline-danger" data--toggle="delete" data--url="<?=base_url('backend/topic/remove/'.$r['tp_id']);?>"><i class="fa fa-trash"></i></button>
+										<button class="btn btn-sm btn-outline-info" data--toggle="copy" data--url="<?=base_url('backend/topic/copy/'.$r['tp_id']);?>"><i class="fa fa-copy"></i></button>
 									</td>
 								</tr>
 							<?php } ?>

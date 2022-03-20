@@ -51,6 +51,8 @@ class School extends CI_Controller
             'school_state' => $this->input->post('school_state'),
             'school_country' => $this->input->post('school_country'),
             'school_zipcode' => $this->input->post('school_zipcode'),
+			'applink' => $this->input->post('school_applink'),
+			'paymentlink' => $this->input->post('school_paymentlink'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
 		]);
@@ -80,6 +82,8 @@ class School extends CI_Controller
             'school_state' => $this->input->post('school_state'),
             'school_country' => $this->input->post('school_country'),
             'school_zipcode' => $this->input->post('school_zipcode'),
+			'applink' => $this->input->post('school_applink'),
+			'paymentlink' => $this->input->post('school_paymentlink'),
             'updated_at' => date('Y-m-d H:i:s'),
         );
 

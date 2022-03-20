@@ -60,6 +60,7 @@ $route['backend/topic/update/(:num)']                 = 'admin/topic/update/$1';
 $route['backend/topic/remove/(:num)']                 = 'admin/topic/remove/$1';
 $route['backend/topic/removeSelected']                = 'admin/topic/removeSelected';
 $route['backend/topic/status/(:num)/(:num)']          = 'admin/topic/status/$1/$2';
+$route['backend/topic/copy/(:num)']                   = 'admin/topic/copy/$1';
 
 // subtopics
 $route['backend/subtopic']                               = 'admin/subtopic';

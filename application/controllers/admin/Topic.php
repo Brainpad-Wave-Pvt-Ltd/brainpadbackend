@@ -198,4 +198,57 @@ class Topic extends CI_Controller
 			echo 'Error';
 		}
 	}
+
+	public function copy($id){
+		$get_subtopics = $this->db->select('stp_id')->where('tp_id',$id)->get('subtopics')->result_array();
+
+		$topic_insert_id = $this->crud_model->duplicateRecord('topics','tp_id',$id);
+
+		if(!empty($get_subtopics)){
+			foreach($get_subtopics as $subtopics){
+				$subtopic_id = $subtopics['stp_id'];
+				$sub_insert_id = $this->crud_model->duplicateRecord('subtopics','stp_id',$subtopic_id);
+				$subdata = array(
+					'tp_id'=>$topic_insert_id
+				);
+				$this->db->where('stp_id', $subtopic_inserted_id)->update('subtopics',$subdata);
+
+				$get_examples = $this->db->select('ex_id')->where('stp_id',$subtopic_id)->get('example')->result_array();
+
+				if(!empty($get_examples)){
+					foreach($get_examples as $example){
+						$ex_id = $example['ex_id'];
+						$insert_id = $this->crud_model->duplicateRecord('example','ex_id',$ex_id);
+						
+						$data = array(
+							'stp_id'=>$sub_insert_id	
+						);
+						
+						$this->db->where('ex_id', $insert_id)->update('example',$data);
+
+						$e_data = $this->crud_model->get_table_data('example_data','ex_id',$ex_id);
+
+						foreach ($e_data as $ed){
+
+							// Duplicate Example Data
+							$ed_data_id = $this->crud_model->duplicateRecord('example_data','ed_id',$ed['ed_id'],'ex_id',$insert_id);
+
+							// Duplicate Question
+							$eq_data = $this->crud_model->get_table_data('example_question_data','ed_id',$ed['ed_id']);
+							foreach ($eq_data as $eqd) {
+								$this->crud_model->duplicateRecord('example_question_data', 'eqd_id', $eqd['eqd_id'],'ed_id',$ed_data_id);
+							}
+							// Duplicate Answer
+							$ea_data = $this->crud_model->get_table_data('example_answer_data','ed_id',$ed['ed_id']);
+							foreach ($ea_data as $eqd) {
+								$this->crud_model->duplicateRecord('example_answer_data', 'ead_id', $eqd['ead_id'],'ed_id',$ed_data_id);
+							}
+						}
+					} 
+				}
+			}
+		}
+
+		echo 'success';
+	}
 }
