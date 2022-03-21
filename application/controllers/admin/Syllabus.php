@@ -56,7 +56,7 @@ class Syllabus extends CI_Controller
 				->join('layout','layout.cat_id=category.c_id','left')
 				->where('board.bd_name',$this->session->userdata('board_name'))
 				->where('example.stp_id',$subtopic_id)
-				->order_by("example.ex_id","asc")
+				->order_by("example.sequence","asc")
 				->group_by('example.ex_id');
 		$query = $query->get('board');
 				
@@ -74,6 +74,8 @@ class Syllabus extends CI_Controller
 			$data['lay_name'] = $r->lay_name;
 			$data['ex_id'] = $r->ex_id;
 			$data['ex_heading'] = $r->ex_heading;
+			$data['sequence'] = $r->sequence;
+			$data['ex_status'] = $r->ex_status;
 			$all_data[] = $data;
 		} 
 		

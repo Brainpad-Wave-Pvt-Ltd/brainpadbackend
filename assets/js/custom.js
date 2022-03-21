@@ -439,6 +439,8 @@ $(document).ready(function(){
 
 	var sub_id = $("#esub_id").val();
 
+	// getLanguage(lang_id);
+	
 	getBoard(lang_id,board_id);
 
 	getChapter(board_id,std_id,sub_id, echid);
@@ -461,7 +463,18 @@ function close(){
 	window.close()
 }
 
-function getBoard(lang_id,board_id = 0){
+function getLanguage(lang_id = 0){
+	$.ajax({
+		url : base_url+'admin/extra/getLanguag',
+		method: 'POST',
+		data:{ lang_id:lang_id },
+		success:function(msg){
+			$("#lng_list").html(msg);
+		},
+	});
+}
+
+function getBoard(lang_id,board_id = 0){ 
 	$.ajax({
 		url : base_url+'admin/extra/getBoard',
 		method: 'POST',
@@ -679,8 +692,8 @@ function getSubTopics(topicid,stpid = 0)
 	});
 }
 
-function getStandard(board_id,std_id = 0)
-{
+function getStandard(board_id,std_id = 0) 
+{ 
 	if(board_id !== '') {
 		$.ajax({
 			url: base_url + 'admin/extra/getStandard',

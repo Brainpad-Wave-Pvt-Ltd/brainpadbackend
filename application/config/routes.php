@@ -129,6 +129,9 @@ $route['backend/school/update/(:num)']   = 'admin/school/update/$1';
 $route['backend/school/remove/(:num)']   = 'admin/school/remove/$1';
 $route['backend/school/removeSelected']  = 'admin/school/removeSelected';
 
+// Teacher
+$route['backend/teacher']                = 'admin/teacher';
+$route['backend/teacher/store']           = 'admin/teacher/store';
 
 // Subscription Plans
 $route['backend/subscription_plans']                 = 'admin/subscription_plans';

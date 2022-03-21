@@ -75,7 +75,7 @@ class Extra extends CI_Controller
 		$boardID = $this->input->post('board_id');
 		$stdID = $this->input->post('std_id');
 
-		$std_list = $this->db->get_where('standard',[ 'lang'=> $this->language, 'std_status'=>1 ,'board_id'=>$boardID])->result();
+		$std_list = $this->db->get_where('standard',[ 'std_status'=>1 ,'board_id'=>$boardID])->result();  
 		$standard = '';
 		if(!empty($std_list))
 		{
@@ -99,7 +99,7 @@ class Extra extends CI_Controller
 		$stdID = $this->input->post('std_id');
 		$subID = $this->input->post('sub_id');
 
-		$sub_list = $this->db->get_where('subject',[ 'lang'=> $this->language, 'sub_status'=>1 ,'std_id'=>$stdID])->result();
+		$sub_list = $this->db->get_where('subject',[ 'sub_status'=>1 ,'std_id'=>$stdID])->result();
 		$subject = '';
 		if(!empty($sub_list))
 		{

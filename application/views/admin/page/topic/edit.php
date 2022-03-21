@@ -16,7 +16,7 @@
 							<div class="col-12 col-sm-6">
 								<label>Language <span class="text-danger">*</span></label>
 								<div class="form-group">
-									<input type="hidden" class="form-control" name="lang_id" id="lang_id"   readonly value="<?php echo $editData->lang;?>">
+									<input type="hidden" class="form-control" name="lang_id" id="language_id"   readonly value="<?php echo $editData->lang;?>">
 									<select class="form-control select2" required name="lang" id="lng_list" onchange="getBoard(this.value)"></select>
 								</div>
 							</div>
@@ -81,8 +81,8 @@
 </section>
 <script>
 	$(document).ready(function(){
-		var lng = $("#lang_id").val(); 
-		getLanguage(lng);
-		getBoard(lng,$("#board_id").val());
+		var lng = $("#language_id").val(); 
+		getLanguage(lng); 
+		
 	});
 </script>

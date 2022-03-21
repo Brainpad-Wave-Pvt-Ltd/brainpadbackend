@@ -4,6 +4,9 @@
 			<div class="card">
 				<div class="card-header">
 					<h4>Syllabus Table</h4>
+					<div class="card-header-action">
+						<a href="<?=base_url('backend/example/create');?>" class="btn btn-primary"><i class="fa fa-plus"></i> Add New</a>
+					</div>
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -59,10 +62,12 @@
 								<th>Layout</th>
 								<th>Example ID</th>
 								<th>Example Description</th>
+								<th>Sequence</th>
+								<th>Status</th>
                                 <th>Action</th>
 							</tr>
 							</thead>
-							<tbody class="sortable" id="table">
+							<tbody class="sortable" data--url="<?=base_url('backend/re-ordering/example/ex_id');?>" id="table">
 							<!-- <?php foreach($rec as $r) { 
                                 if(!empty($r['ex_id'])){
                                     ?>
