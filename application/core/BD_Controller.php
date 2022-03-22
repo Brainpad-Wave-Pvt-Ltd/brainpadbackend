@@ -72,8 +72,14 @@ class BD_Controller extends REST_Controller
             $brd = $this->db->get_where('board',['bd_id'=> $user_data->board])->row();
             $board = $brd->bd_name;
         }
+        $scode = '';
+        if($user_data->school_id != 0){
+            $school_code =  $this->db->get_where('school',['school_id'=> $user_data->school_id])->row();
+            $scode = $school_code->school_code;
+        }
         
         $data = [
+            'user_id'                   => $user_data->user_id,
             'username'                  => $user_data->username,
             'usercode'                  => $user_data->usercode,
             'profile_pic'               => ($user_data->profile_pic != '') ? base_url($user_data->profile_pic) : '',
@@ -88,7 +94,8 @@ class BD_Controller extends REST_Controller
             'accept_privacy_policy'     => intval($user_data->accept_privacy_policy),
             'accept_date_time'          => date('d-m-Y h:i:s A',strtotime($user_data->accept_date_time)),
             'is_profile_complete'       => $user_data->is_profile_complete,
-            'school_id'                 => $user_data->school_id
+            'school_id'                 => $user_data->school_id,
+            'school_code'               => $scode,
         ];
 
         if($token != ''){

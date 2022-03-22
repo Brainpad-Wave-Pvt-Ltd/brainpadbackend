@@ -11,7 +11,17 @@
 				<div class="card-body">
 					<?=form_open_multipart($action,array('class' => 'layout-form', 'id' => 'layout-form'));?>
 						<div class="row">
-
+							<?php
+							if(!empty($accessdata)){
+								$access_points = explode(',',$accessdata[0]->access_topics);
+								if(!empty($access_points)){
+									foreach($access_points as $points){
+									    
+									}
+								}
+							}
+							?>
+							<input type="hidden" name="id" value="<?php if(!empty($accessdata)){ echo $accessdata[0]->id; }?>">
                             <div class="col-12 col-sm-12">
 								<label>Access Module<span class="text-danger">*</span></label>
 								<div class="form-group">&nbsp;
@@ -31,13 +41,12 @@
                                     <input type="checkbox" name="access_module[]" id="access_module" value="reports">  Reports &nbsp;&nbsp;&nbsp;
                                 </div>
 							</div>
-
-						<div class="subtopic_field"></div>
-						<div class="col-12 col-sm-6">
-							<div class="form-group">
-								<input type="submit" class="btn btn-primary" name="btn">
+							<div class="subtopic_field"></div>
+							<div class="col-12 col-sm-6">
+								<div class="form-group">
+									<input type="submit" class="btn btn-primary" name="btn">
+								</div>
 							</div>
-						</div>
 					<?=form_close();?>
 				</div>
 			</div>

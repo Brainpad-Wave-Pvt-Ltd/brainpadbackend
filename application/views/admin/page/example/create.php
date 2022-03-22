@@ -5,7 +5,7 @@
 				<div class="card-header">
 					<h4>Add Example</h4>
 					<div class="card-header-action">
-						<a href="<?=base_url('backend/example');?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+						<a href="<?=base_url('backend/syllabus');?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
 					</div>
 				</div>
 				<?= form_open_multipart( $action, array('id' => 'exampleForm')); ?>

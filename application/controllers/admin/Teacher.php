@@ -19,9 +19,9 @@ class Teacher extends CI_Controller
 	{
 		$data['title']      = 'Teacher Access :: BrainPad Wave';
 		$data['board']      =  $this->crud_model->get_table_data('board','lang',$this->language);
+		$data['accessdata'] = $this->db->get('teacher_access')->result();
 		$data['action']     = base_url('backend/teacher/store');
 		$data['page']       = 'admin/page/teacher/create';
-
 		$this->load->view('admin/partials/layout', $data);
 	}
 
