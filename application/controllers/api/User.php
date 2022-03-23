@@ -474,7 +474,7 @@ class User extends BD_Controller
 			$invalidCredentials = ['msg'=>implode(',',$errors)];
 			$this->set_response($invalidCredentials,422);
 		} else {
-			$get_data = $this->db->where('user_id',$this->input->post('user_id'))->where('example_id',$this->input->post('example_id'))->get('example_lock_unlock')->result();
+			$get_data = $this->db->where('user_id',$this->input->post('user_id'))->where('subtopic_id',$this->input->post('subtopic_id'))->get('example_lock_unlock')->result();
 			if($this->input->post('star') > 2.5){
 				$flag = 1;
 			} else {

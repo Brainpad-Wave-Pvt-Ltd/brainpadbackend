@@ -33,14 +33,25 @@ class Teacher extends CI_Controller
             }
         }
 
-        if(!empty($data)){
-           $data = implode(',',$data);
-           $this->db->insert('teacher_access',[
-                'access_topics' => $data,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-           ]);
-        }
+		if(empty($this->input->post('id'))){
+			if(!empty($data)){
+				$data = implode(',',$data);
+				$this->db->insert('teacher_access',[
+					 'access_topics' => $data,
+					 'created_at' => date('Y-m-d H:i:s'),
+					 'updated_at' => date('Y-m-d H:i:s'),
+				]);
+			 }
+		} else {
+			if(!empty($data)){
+				$data = implode(',',$data);
+				$this->db->where('id',$this->input->post('id'))->update('teacher_access',[
+					 'access_topics' => $data,
+					 'updated_at' => date('Y-m-d H:i:s'),
+				]);
+			 }
+		}
+        
 
 		$this->session->set_flashdata('success','Teacher Access successfully');
 		redirect(base_url('backend/teacher'),'refresh');

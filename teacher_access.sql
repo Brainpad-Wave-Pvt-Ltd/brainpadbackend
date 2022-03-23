@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2022 at 01:02 PM
+-- Generation Time: Mar 23, 2022 at 11:58 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -24,36 +24,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `example_lock_unlock`
+-- Table structure for table `teacher_access`
 --
 
-CREATE TABLE `example_lock_unlock` (
+CREATE TABLE `teacher_access` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `subtopic_id` int(11) NOT NULL,
-  `example_id` int(11) NOT NULL,
-  `star` int(11) NOT NULL,
-  `lock_flag` int(11) NOT NULL COMMENT '0-unlock,1-lock',
+  `access_topics` varchar(258) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `example_lock_unlock`
+-- Dumping data for table `teacher_access`
 --
 
-INSERT INTO `example_lock_unlock` (`id`, `user_id`, `subtopic_id`, `example_id`, `star`, `lock_flag`, `created_at`, `updated_at`) VALUES
-(1, 137, 74, 356, 2, 0, '2022-03-19 16:40:09', '0000-00-00 00:00:00'),
-(2, 137, 74, 355, 4, 1, '2022-03-19 17:11:20', '0000-00-00 00:00:00');
+INSERT INTO `teacher_access` (`id`, `access_topics`, `created_at`, `updated_at`) VALUES
+(1, 'subject,chapter,topics,subtopics,reports', '2022-03-23 11:41:46', '2022-03-23 11:44:48');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `example_lock_unlock`
+-- Indexes for table `teacher_access`
 --
-ALTER TABLE `example_lock_unlock`
+ALTER TABLE `teacher_access`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -61,10 +56,10 @@ ALTER TABLE `example_lock_unlock`
 --
 
 --
--- AUTO_INCREMENT for table `example_lock_unlock`
+-- AUTO_INCREMENT for table `teacher_access`
 --
-ALTER TABLE `example_lock_unlock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `teacher_access`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
