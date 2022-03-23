@@ -462,7 +462,7 @@ class User extends BD_Controller
 	}
 
 	public function lock_unlock_example_post(){
-		// $this->form_validation->set_rules('example_id','Example ID','required|trim',['required'=>'Please select Example']);
+		$this->form_validation->set_rules('crown','Crown','required|trim',['required'=>'Please select Crown']);
 		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
 		$this->form_validation->set_rules('star','Star','required|trim',['required'=>'Please select Star']);
 		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
@@ -482,7 +482,7 @@ class User extends BD_Controller
 			}
 			$data = array(
 				'user_id'=>$this->input->post('user_id'),
-				// 'example_id'=>$this->input->post('example_id'),
+				'crown'=>$this->input->post('crown'),
 				'star'=>$this->input->post('star'),
 				'lock_flag'=>$flag,
 				'subtopic_id'=>$this->input->post('subtopic_id')
