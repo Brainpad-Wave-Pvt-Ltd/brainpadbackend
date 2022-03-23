@@ -462,7 +462,7 @@ class User extends BD_Controller
 	}
 
 	public function lock_unlock_example_post(){
-		$this->form_validation->set_rules('example_id','Example ID','required|trim',['required'=>'Please select Example']);
+		// $this->form_validation->set_rules('example_id','Example ID','required|trim',['required'=>'Please select Example']);
 		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
 		$this->form_validation->set_rules('star','Star','required|trim',['required'=>'Please select Star']);
 		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
@@ -482,14 +482,14 @@ class User extends BD_Controller
 			}
 			$data = array(
 				'user_id'=>$this->input->post('user_id'),
-				'example_id'=>$this->input->post('example_id'),
+				// 'example_id'=>$this->input->post('example_id'),
 				'star'=>$this->input->post('star'),
 				'lock_flag'=>$flag,
 				'subtopic_id'=>$this->input->post('subtopic_id')
 			);
 			if(!empty($get_data)){
 				$data['updated_at'] = date('Y-m-d H:i:s');
-				$update = $this->db->where('user_id', $this->input->post('user_id'))->where('example_id',$this->input->post('example_id'))->update('example_lock_unlock', $data);
+				$update = $this->db->where('user_id', $this->input->post('user_id'))->where('subtopic_id',$this->input->post('subtopic_id'))->update('example_lock_unlock', $data);
 			} else {
 				$data['created_at'] = date('Y-m-d H:i:s');
 				$update = $this->db->insert('example_lock_unlock',$data);
