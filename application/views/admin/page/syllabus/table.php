@@ -1,5 +1,5 @@
-<?php foreach($data as $r) { ?>
-    <tr id="<?= $r['ex_id'] ?>" class="odd ui-sortable-handle">
+<?php foreach($data as $key => $r) { ?>
+    <tr id="<?= $r['ex_id'] ?>" class="odd ui-sortable-handle clickable" data-toggle="collapse" data-target="#accordion-<?= $key ?>">
     <td><?=$r['std_name'] ?></td>
     <td><?= $r['sub_name'];?></td>
     <td><?=$r['chapter_text'];?></td>
@@ -19,6 +19,11 @@
         <button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/example/edit/'.$r['ex_id']);?>"><i class="fa fa-edit"></i></button>
         <button class="btn btn-sm btn-outline-info" data--toggle="copy" data--url="<?=base_url('backend/example/copy/'.$r['ex_id']);?>"><i class="fa fa-copy"></i></button>
         <button class="btn btn-sm btn-outline-danger ml-5" data--toggle="delete-ajax" data--url="<?=base_url('backend/example/remove/'.$r['ex_id']);?>"><i class="fa fa-trash"></i></button>
+    </td>
+</tr>
+<tr>
+    <td colspan="12">
+        <div id="accordion-<?= $key ?>" class="collapse"><?php $this->load->view('admin/page/example/show',['e'=>$r]); ?></div>
     </td>
 </tr>
 <?php } ?>

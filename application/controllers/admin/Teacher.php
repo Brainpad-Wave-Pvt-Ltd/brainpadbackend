@@ -52,7 +52,6 @@ class Teacher extends CI_Controller
 			 }
 		}
         
-
 		$this->session->set_flashdata('success','Teacher Access successfully');
 		redirect(base_url('backend/teacher'),'refresh');
 

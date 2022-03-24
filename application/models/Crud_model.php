@@ -63,7 +63,7 @@ class Crud_model extends CI_Model
 		$this->db->where($db_id,$id)->update($table,$data);
 	}
 
-	public function file_up($file , $folder, $width = 100, $height = 100): string
+	public function file_up($file , $folder): string
 	{
 		$file_name = '';
 		if ($file['name'] != '') {
@@ -79,9 +79,9 @@ class Crud_model extends CI_Model
 					'image_library' => 'gd2',
 					'source_image'  => $image_data['full_path'],
 					'maintain_ratio'=> FALSE,
-					'quality'       => "30%",
-					'width'         => $width,
-					'height'        => $height,
+					// 'quality'       => "30%",
+					// 'width'         => $width,
+					// 'height'        => $height,
 				);
 
 				$this->image_lib->clear();

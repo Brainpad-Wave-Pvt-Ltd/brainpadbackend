@@ -236,12 +236,31 @@ class Home extends BD_Controller
 			$stpList = [];
 			foreach($subtopics as $stp)
 			{
+				if(!empty($stp)){
+					$get_data = $this->db->where('user_id',$this->input->post('user_id'))->where('subtopic_id',$stp['stp_id'])->get('example_lock_unlock')->result();
+					// echo "<pre>"; print_r($get_data);
+					$flag = 0;$star = 0;$crown = 0;
+					if($stp['sequence'] == 1){
+						$flag = 1;
+					}
+					if(!empty($get_data)){
+						if($get_data[0]->star > 2.5){
+							$flag = 1;
+						}
+						$star = $get_data[0]->star;
+						$crown = $get_data[0]->crown; 
+					}
+				}
 				// if($this->db->where('stp_id',$stp['stp_id'])->get('example')->row() != '' ) {
-					$stpList[] = [
-						'id' => intval($stp['stp_id']),
-						'topic' => $stp['subtopic_text'],
-						'image' => base_url($stp['subtopic_img'])
-					];
+				$stpList[] = [
+					'id' => intval($stp['stp_id']),
+					'topic' => $stp['subtopic_text'],
+					'image' => base_url($stp['subtopic_img']),
+					'flag'=>$flag,
+					'star'=>$star,
+					'crown'=>$crown,
+					'sequence'=>$stp['sequence']
+				];
 				// }
 			}
 			if(!empty($stpList)) {

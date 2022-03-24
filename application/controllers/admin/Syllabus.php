@@ -53,7 +53,8 @@ class Syllabus extends CI_Controller
 				->join('subtopics','subtopics.tp_id=topics.tp_id','left')
 				->join('example','example.stp_id=subtopics.stp_id','left')
 				->join('category','category.c_id=example.cat_id','left')
-				->join('layout','layout.cat_id=category.c_id','left')
+				->join('layout','layout.lay_id=example.layout_id','left')
+				->join('animation','animation.anim_id=example.animation_id','left')
 				->where('board.bd_name',$this->session->userdata('board_name'))
 				->where('example.stp_id',$subtopic_id)
 				->order_by("example.sequence","asc")
@@ -76,6 +77,15 @@ class Syllabus extends CI_Controller
 			$data['ex_heading'] = $r->ex_heading;
 			$data['sequence'] = $r->sequence;
 			$data['ex_status'] = $r->ex_status;
+			$data['bd_name'] = $this->session->userdata('board_name');
+			$data['anim_name'] = $r->anim_name;
+			$data['anim_description'] = $r->anim_description;
+			$data['lay_name'] = $r->lay_name;
+			$data['lay_description'] = $r->lay_description;
+			$data['ex_title'] = $r->ex_title;
+			$data['ex_heading'] = $r->ex_heading;
+			$data['ex_audio'] = $r->ex_audio;
+			
 			$all_data[] = $data;
 		} 
 		
