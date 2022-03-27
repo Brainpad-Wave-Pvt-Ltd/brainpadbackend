@@ -250,6 +250,22 @@ class Home extends BD_Controller
 						$star = $get_data[0]->star;
 						$crown = $get_data[0]->crown; 
 					}
+					$sequence = $stp['sequence'] - 1;
+					$check_sub = $this->db->get_where('subtopics',['sequence'=>$sequence,'tp_id'=>$topic_id])->result_array();
+					if(!empty($check_sub)){
+						$st_id = $check_sub[0]['stp_id'];
+						$get = $this->db->where('user_id',$this->input->post('user_id'))->where('subtopic_id',$st_id)->get('example_lock_unlock')->result();
+						if(!empty($get)){
+							if($get[0]->star > 2.5){
+								$flag = 1;
+							}
+						}
+					}
+					if(!empty($get_data)){
+					  if($get_data[0]->is_unlock == 1){
+						  $flag = 1;
+					  }
+					}
 				}
 				// if($this->db->where('stp_id',$stp['stp_id'])->get('example')->row() != '' ) {
 				$stpList[] = [

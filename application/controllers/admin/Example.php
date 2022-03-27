@@ -110,6 +110,13 @@ class Example extends CI_Controller
 				}
 			}
 
+			$get_data = $this->db->select_max('sequence')->where('tp_id',$tp_id)->where('stp_id',$sub_topic_id)->get('example')->result();
+			if(!empty($get_data)){
+				$sequence = $get_data[0]->sequence + 1 ;
+			} else {
+				$sequence = 1;
+			}
+
 			// Insert Example
 			$ins = $this->db->insert('example', [
 				'board_id'   	=> $this->input->post('board_id'),
@@ -125,7 +132,8 @@ class Example extends CI_Controller
 				'ex_title' => $this->input->post('title'),
 				'ex_audio' => $audio,
 				'layout_id' => $this->input->post('layout_id'),
-				'animation_id'=> $this->input->post('animation_id')
+				'animation_id'=> $this->input->post('animation_id'),
+				'sequence' => $sequence,
 			]);
 
 			$insert_example_id = $this->db->insert_id();

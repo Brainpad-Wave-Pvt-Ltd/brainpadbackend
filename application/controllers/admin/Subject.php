@@ -28,19 +28,27 @@ class Subject extends CI_Controller {
 
 	public function store()
 	{
+		$get_data = $this->db->select_max('sequence')->where('std_id',$this->input->post('std_id'))->where('board_id',$this->input->post('board_id'))->get('subject')->result();
+		if(!empty($get_data)){
+			$sequence = $get_data[0]->sequence + 1 ;
+		} else {
+			$sequence = 1;
+		}
+
 		$data = [
 			'ad_id'      => $this->session->userdata('brain_sess')['id'],
 			'sub_name'   => $this->input->post('name'),
 			'lang'       => $this->language,
 			'board_id'   => $this->input->post('board_id'),
-			'std_id'   => $this->input->post('std_id'),
+			'std_id'     => $this->input->post('std_id'),
 			'created_at' => date('Y-m-d H:i:s'),
+			'sequence'   => $sequence,
 		];
 
 		$data['sub_img_path'] = $this->crud_model->file_up($_FILES['file'],'subjects');
 
 		$res = $this->db->insert('subject',$data);
-		$this->crud_model->addSequence('subject','sub_id',$this->db->insert_id());
+		// $this->crud_model->addSequence('subject','sub_id',$this->db->insert_id());
 
 		if($res)
 		{

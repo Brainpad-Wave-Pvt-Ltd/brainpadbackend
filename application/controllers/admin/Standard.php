@@ -27,16 +27,24 @@ class Standard extends CI_Controller {
 
 	public function store()
 	{
+		$get_data = $this->db->select_max('sequence')->where('board_id',$this->input->post('board_id'))->get('standard')->result();
+		if(!empty($get_data)){
+			$sequence = $get_data[0]->sequence + 1 ;
+		} else {
+			$sequence = 1;
+		}
+		
 		$data = [
 			'ad_id'      => $this->session->userdata('brain_sess')['id'],
 			'std_name'   => $this->input->post('name'),
 			'created_at' => date('Y-m-d H:i:s'),
 			'lang'       => $this->crud_model->getLanguage(),
-			'board_id'   => $this->input->post('board_id')
+			'board_id'   => $this->input->post('board_id'),
+			'sequence'   => $sequence,
 		];
 
 		$res = $this->db->insert('standard',$data);
-		$this->crud_model->addSequence('standard','std_id',$this->db->insert_id());
+		// $this->crud_model->addSequence('standard','std_id',$this->db->insert_id());
 
 
 		if($res)

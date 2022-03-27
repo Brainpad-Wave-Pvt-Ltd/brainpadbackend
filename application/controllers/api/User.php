@@ -475,19 +475,26 @@ class User extends BD_Controller
 			$this->set_response($invalidCredentials,422);
 		} else {
 			$get_data = $this->db->where('user_id',$this->input->post('user_id'))->where('subtopic_id',$this->input->post('subtopic_id'))->get('example_lock_unlock')->result();
+			
 			if($this->input->post('star') > 2.5){
 				$flag = 1;
+				$is_unlock = 1;
 			} else {
 				$flag = 0;
+				$is_unlock = 0;
 			}
 			$data = array(
 				'user_id'=>$this->input->post('user_id'),
 				'crown'=>$this->input->post('crown'),
 				'star'=>$this->input->post('star'),
 				'lock_flag'=>$flag,
-				'subtopic_id'=>$this->input->post('subtopic_id')
+				'subtopic_id'=>$this->input->post('subtopic_id'),
+				'is_unlock'=>$is_unlock,
 			);
 			if(!empty($get_data)){
+				if($get_data[0]->is_unlock == 1){
+					$data['is_unlock'] = 1;
+				}
 				$data['updated_at'] = date('Y-m-d H:i:s');
 				$update = $this->db->where('user_id', $this->input->post('user_id'))->where('subtopic_id',$this->input->post('subtopic_id'))->update('example_lock_unlock', $data);
 			} else {

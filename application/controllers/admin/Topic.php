@@ -52,12 +52,20 @@ class Topic extends CI_Controller
 				$ex_tp_img = $this->crud_model->single_file_up($_FILES['tp_img'],'topics',$i);
 			}
 
+			$get_data = $this->db->select_max('sequence')->where('ch_id',$ch_id)->get('topics')->result();
+			if(!empty($get_data)){
+				$sequence = $get_data[0]->sequence + 1 ;
+			} else {
+				$sequence = 1;
+			}
+
 			$this->db->insert('topics',[
 				'ch_id'      => $ch_id,
 				'ad_id'      => $this->session->userdata('brain_sess')['id'],
 				'topic_text' => $topic[$i],
 				'topic_img'  => $ex_tp_img,
 				'lang'       => $this->language,
+				'sequence'   => $sequence,
 //				'board_id'   => $this->input->post('board_id'),
 //				'std_id'     => $this->input->post('std_id'),
 //				'subject_id' => $this->input->post('sub_id'),

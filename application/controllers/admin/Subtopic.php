@@ -48,12 +48,20 @@ class Subtopic extends CI_Controller
 				$file_img = $this->crud_model->single_file_up($_FILES['file'],'subtopics',$i);
 			}
 
+			$get_data = $this->db->select_max('sequence')->where('tp_id',$tp_id)->get('subtopics')->result();
+			if(!empty($get_data)){
+				$sequence = $get_data[0]->sequence + 1 ;
+			} else {
+				$sequence = 1;
+			}
+
 			$this->db->insert('subtopics',[
 				'tp_id'         => $tp_id,
 				'ad_id'         => $this->session->userdata('brain_sess')['id'],
 				'subtopic_text' => $subtopic_text[$i],
 				'subtopic_img'  => $file_img,
 				'lang'          => $this->language,
+				'sequence'      => $sequence,
 //				'board_id'   	=> $this->input->post('board_id'),
 //				'std_id'     	=> $this->input->post('std_id'),
 //				'subject_id' 	=> $this->input->post('sub_id')

@@ -32,6 +32,13 @@ class Chapter extends CI_Controller
 
 	public function store()
 	{
+		$get_data = $this->db->select_max('sequence')->where('std_id',$this->input->post('std_id'))->where('board_id',$this->input->post('board_id'))->where('subject_id',$this->input->post('sub_id'))->get('chapter')->result();
+		if(!empty($get_data)){
+			$sequence = $get_data[0]->sequence + 1 ;
+		} else {
+			$sequence = 1;
+		}
+
 		$data['chapter_text']    = $this->input->post('name');
 		$data['ad_id']           = $this->session->userdata('brain_sess')['id'];
 		$data['created_at']      = date('Y-m-d H:i:s');
@@ -43,7 +50,7 @@ class Chapter extends CI_Controller
 
 
 		$this->db->insert('chapter', $data);
-		$this->crud_model->addSequence('chapter','ch_id',$this->db->insert_id());
+		// $this->crud_model->addSequence('chapter','ch_id',$this->db->insert_id());
 
 		$this->session->set_flashdata('success','Chapter added successfully');
 		redirect(base_url('backend/chapter'),'refresh');
