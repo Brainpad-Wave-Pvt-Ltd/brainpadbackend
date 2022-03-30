@@ -93,8 +93,9 @@ class Syllabus extends CI_Controller
 		$result = array(
 			"data" => $all_data
 		);
-		$data= $this->load->view('admin/page/syllabus/table',$result, TRUE);
-
-		echo $data;
+		$data['tabledata'] = $this->load->view('admin/page/syllabus/table',$result, TRUE);
+		$data['no'] = $query->num_rows();
+		// echo "<pre>"; print_r($data); exit;
+		echo json_encode($data);
 	}
 }

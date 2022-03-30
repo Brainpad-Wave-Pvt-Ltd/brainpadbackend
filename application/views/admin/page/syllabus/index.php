@@ -43,6 +43,9 @@
 						<div class="form-group col-12 col-sm-1 mt-4">
 							<button class="btn btn-primary" id="syllabus_filter">Submit</button>
 						</div>
+						<div class="noexample" style="display:none;">
+							<h6>No of Example : <span class="noex"></span></h6>
+						</div>
 					</div>
 					<!-- <div class="table-responsive" id="table">
 
@@ -96,3 +99,8 @@
 		</div>
 	</div>
 </section>
+<style>
+.show {
+  background: #e5e5e5;
+}
+</style>

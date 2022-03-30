@@ -62,7 +62,7 @@ class Chapter extends CI_Controller
 		$data['action'] 	=  base_url('backend/chapter/update/'.$id);
 		$data['page'] 		= 'admin/page/chapter/index';
 		$data['board']      =  $this->crud_model->get_table_data('board','lang',$this->language);
-		$data['rec'] 		=  $this->db->join('board', 'board.bd_id=chapter.board_id', 'left')->join('subject', 'subject.sub_id=chapter.subject_id', 'left')
+		$data['rec'] 		=  $this->db->select('board.*,subject.*,standard.*,chapter.*,chapter.sequence as se')->join('board', 'board.bd_id=chapter.board_id', 'left')->join('subject', 'subject.sub_id=chapter.subject_id', 'left')
 			->join('standard', 'standard.std_id=chapter.std_id', 'left')->where('chapter.lang',$this->language)->order_by("chapter.sequence", "asc")
 			->get('chapter')->result_array();
 		$data['editData']   = $this->crud_model->get_single_row('chapter','ch_id',$id);

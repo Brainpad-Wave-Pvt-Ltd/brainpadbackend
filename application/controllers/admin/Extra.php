@@ -19,8 +19,7 @@ class Extra extends CI_Controller
 		for($count = 0;  $count < count($data); $count++)
 		{
 			$this->db->where($p_key,$data[$count])->update($type, ['sequence' => $count+1]);
-		}
-
+		} 
 		echo 'Reordering successfully.';
 	}
 
@@ -75,7 +74,7 @@ class Extra extends CI_Controller
 		$boardID = $this->input->post('board_id');
 		$stdID = $this->input->post('std_id');
 
-		$std_list = $this->db->get_where('standard',[ 'std_status'=>1 ,'board_id'=>$boardID])->result();  
+		$std_list = $this->db->where('std_status',1)->where('board_id',$boardID)->order_by("sequence","asc")->get('standard')->result();  
 		$standard = '';
 		if(!empty($std_list))
 		{
@@ -99,7 +98,7 @@ class Extra extends CI_Controller
 		$stdID = $this->input->post('std_id');
 		$subID = $this->input->post('sub_id');
 
-		$sub_list = $this->db->get_where('subject',[ 'sub_status'=>1 ,'std_id'=>$stdID])->result();
+		$sub_list = $this->db->where('sub_status',1)->where('std_id',$stdID)->order_by("sequence","asc")->get('subject')->result();
 		$subject = '';
 		if(!empty($sub_list))
 		{
@@ -120,7 +119,7 @@ class Extra extends CI_Controller
 	public function getTopics()
 	{
 		$chid = $this->input->post('chid');
-		$tp_list = $this->db->get_where('topics',['topic_status'=>1,'ch_id'=>$chid])->result();
+		$tp_list = $this->db->where('topic_status',1)->where('ch_id',$chid)->order_by("sequence","asc")->get('topics')->result();
 		$topic = '';
 		if(!empty($tp_list))
 		{
@@ -193,7 +192,7 @@ class Extra extends CI_Controller
 		$topicID = $this->input->post('topic_id');
 		$subtopicID = $this->input->post('sub_topic_id');
 		
-		$stp_list = $this->db->get_where('subtopics',['subtopic_status'=>1,'tp_id'=>$topicID])->result();
+		$stp_list = $this->db->where('subtopic_status',1)->where('tp_id',$topicID)->order_by("sequence","asc")->get('subtopics')->result();
 		$subtopic = '';
 		if(!empty($stp_list))
 		{
@@ -220,7 +219,7 @@ class Extra extends CI_Controller
 		$stdID   = $this->input->post('std_id');
 		$chid    = $this->input->post('echid');
 
-		$ch_list = $this->db->get_where('chapter',['chapter_status' => 1,'board_id'=> $boardID,'std_id'=> $stdID,'subject_id'=> $subID])->result();
+		$ch_list = $this->db->where('chapter_status',1)->where('board_id',$boardID)->where('std_id', $stdID)->where('subject_id',$subID)->order_by("sequence","asc")->get('chapter')->result();
 
 		$chapter = '';
 		if(!empty($ch_list))

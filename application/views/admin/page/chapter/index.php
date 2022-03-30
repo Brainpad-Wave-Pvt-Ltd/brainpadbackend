@@ -42,7 +42,8 @@
 											?>
 										</td>
 										<td>
-											<button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/chapter/edit/'.$r['ch_id']);?>"><i class="fa fa-edit"></i></button>
+											<a class="btn btn-sm btn-outline-primary" href="<?=base_url('backend/chapter/edit/'.$r['ch_id']);?>"><i class="fa fa-edit"></i></a>
+											<!-- <button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/chapter/edit/'.$r['ch_id']);?>"><i class="fa fa-edit"></i></button> -->
 											<button class="btn btn-sm btn-outline-danger" data--toggle="delete" data--url="<?=base_url('backend/chapter/remove/'.$r['ch_id']);?>"><i class="fa fa-trash"></i></button>
 										</td>
 									</tr>

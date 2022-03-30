@@ -1189,7 +1189,10 @@ $("#syllabus_filter").click(function(){
 		method: 'POST',
 		data:{ board_id:board_id, std_id:std_id, sub_id:sub_id, chapter_id:chapter_id, topic_id:topic_id,subtopic_id:subtopic_id },
 		success:function(msg){
-			$("#table").html(msg);
+			msg = JSON.parse(msg);
+			$("#table").html(msg.tabledata);
+			$(".noex").html(msg.no);
+			$(".noexample").css('display','block');
 		},
 	});
 	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {

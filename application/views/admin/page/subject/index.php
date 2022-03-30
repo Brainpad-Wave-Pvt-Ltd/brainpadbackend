@@ -39,7 +39,8 @@
 											?>
 										</td>
 										<td>
-											<button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/subject/edit/'.$r['sub_id']);?>"><i class="fa fa-edit"></i></button>
+											<a class="btn btn-sm btn-outline-primary" href="<?=base_url('backend/subject/edit/'.$r['sub_id']);?>"><i class="fa fa-edit"></i></a>
+											<!-- <button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/subject/edit/'.$r['sub_id']);?>"><i class="fa fa-edit"></i></button> -->
 											<button class="btn btn-sm btn-outline-danger" data--toggle="delete" data--url="<?=base_url('backend/subject/remove/'.$r['sub_id']);?>"><i class="fa fa-trash"></i></button>
 										</td>
 									</tr>
