@@ -23,6 +23,7 @@
 								<th>Chapter</th>
 								<th>Topic</th>
 								<th>Image</th>
+								<th>Sequence</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>
@@ -38,6 +39,7 @@
 									<td><?=$r['chapter_text'];?></td>
 									<td><?=$r['topic_text'];?></td>
 									<td><img src="<?=base_url($r['topic_img']);?>" width="45px"></td>
+									<td><?= $r['se'];?></td>
 									<td>
 										<?= (($r['topic_status'])==1) ? '<a href="'.base_url().'backend/topic/status/'.$r['tp_id'].'/'.$r['topic_status'].'" class="btn btn-success">Active</a>'
 											: '<a href="'.base_url().'backend/topic/status/'.$r['tp_id'].'/'.$r['topic_status'].'" class="btn btn-danger">DeActive</a>'

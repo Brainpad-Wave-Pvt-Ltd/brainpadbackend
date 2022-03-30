@@ -21,7 +21,7 @@ class Chapter extends CI_Controller
 		$data['title'] 		=  'Chapter :: BrainPad Wave';
 		$data['page'] 		=  'admin/page/chapter/index';
 		$data['action'] 	=  base_url('backend/chapter/store');
-		$data['rec'] 		=  $this->db->join('board', 'board.bd_id=chapter.board_id', 'left')->join('subject', 'subject.sub_id=chapter.subject_id', 'left')
+		$data['rec'] 		=  $this->db->select('board.*,subject.*,standard.*,chapter.*,chapter.sequence as se')->join('board', 'board.bd_id=chapter.board_id', 'left')->join('subject', 'subject.sub_id=chapter.subject_id', 'left')
 			->join('standard', 'standard.std_id=chapter.std_id', 'left')->where('chapter.lang',$this->language)->order_by("chapter.sequence", "asc")
 			->get('chapter')->result_array();
 		$data['board']      =  $this->crud_model->get_table_data('board','lang',$this->language);

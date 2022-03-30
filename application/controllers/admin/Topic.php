@@ -21,9 +21,8 @@ class Topic extends CI_Controller
 		$data['page'] = 'admin/page/topic/index';
 		$data['rec'] = $this->db->join('chapter','chapter.ch_id=topics.ch_id','left')->join('subject', 'subject.sub_id=chapter.subject_id', 'left')
 			->join('board','board.bd_id=chapter.board_id','left')->join('standard','standard.std_id=chapter.std_id','left')
-			->select('board.bd_name,standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,topics.topic_img,topics.tp_id,topics.sequence,topics.topic_status')
+			->select('board.bd_name,standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,topics.topic_img,topics.tp_id,topics.sequence as se,topics.topic_status')
 			->where('topics.lang',$this->language)->order_by("topics.sequence","asc")->get('topics')->result_array();
-		
 			// echo $this->db->last_query(); 
 
 		// echo "<pre>"; print_r($data); exit;

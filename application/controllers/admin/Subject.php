@@ -19,7 +19,7 @@ class Subject extends CI_Controller {
 		$data['title']  = 'Subject :: BrainPad Wave';
 		$data['action'] = base_url('backend/subject/store');
 		$data['page']   = 'admin/page/subject/index';
-		$data['rec']    =  $this->db->join('board','board.bd_id=subject.board_id','left')->join('standard','standard.std_id=subject.std_id','left')
+		$data['rec']    =  $this->db->select('board.*,standard.*,subject.*,subject.sequence as se')->join('board','board.bd_id=subject.board_id','left')->join('standard','standard.std_id=subject.std_id','left')
 			->where('subject.lang',$this->language)->order_by("subject.sequence","asc")->get('subject')->result_array();
 		$data['board']  =  $this->crud_model->get_table_data('board','lang',$this->language);
 		$data['method'] = 'create';

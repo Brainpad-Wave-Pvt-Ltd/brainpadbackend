@@ -183,7 +183,7 @@ class Subtopic extends CI_Controller
 				->join('chapter','chapter.ch_id=topics.ch_id','left')
 				->join('standard','chapter.std_id=standard.std_id','left')
 				->join('subject','chapter.subject_id=subject.sub_id','left')
-				->select('standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,subtopics.subtopic_text,subtopics.subtopic_img,subtopics.subtopic_status,subtopics.stp_id,chapter.ch_id,topics.tp_id')
+				->select('standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,subtopics.subtopic_text,subtopics.subtopic_img,subtopics.subtopic_status,subtopics.stp_id,chapter.ch_id,topics.tp_id,subtopics.sequence')
 				->order_by("subtopics.sequence","asc");
 			$query = $query->get('subtopics');
 		} else {
@@ -192,7 +192,7 @@ class Subtopic extends CI_Controller
 				->join('chapter','chapter.ch_id=topics.ch_id','left')
 				->join('standard','chapter.std_id=standard.std_id','left')
 				->join('subject','chapter.subject_id=subject.sub_id','left')
-				->select('standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,subtopics.subtopic_text,subtopics.subtopic_img,subtopics.subtopic_status,subtopics.stp_id,chapter.ch_id,topics.tp_id')
+				->select('standard.std_name,subject.sub_name,chapter.chapter_text,topics.topic_text,subtopics.subtopic_text,subtopics.subtopic_img,subtopics.subtopic_status,subtopics.stp_id,chapter.ch_id,topics.tp_id,subtopics.sequence')
 				->order_by("subtopics.sequence","asc");
 			$query = $query->get('subtopics');
 		}
@@ -216,6 +216,7 @@ class Subtopic extends CI_Controller
 			$data['subtopic'] =	$r->subtopic_text;
 			$data['image']    =	$r->subtopic_img;
 			$data['status']   = $r->subtopic_status;
+			$data['sequence'] = $r->sequence;
 			$data['ids']      =	'board_id='. $board_id. '&std_id='. $std_id. '&subject_id='. $subject_id. '&ch_id='. $r->ch_id. '&tp_id='. $r->tp_id. '&stp_id='. $r->stp_id;
 			$all_data[] = $data;
 		} 

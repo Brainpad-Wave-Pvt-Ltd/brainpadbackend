@@ -15,6 +15,7 @@
 									<th><input id="check_all" type="checkbox"></th>
 									<th>Board</th>
 									<th>Standards</th>
+									<th>Sequence</th>
 									<th>Status</th>
 									<th>Action</th>
 								</tr>
@@ -27,6 +28,7 @@
 										<td><input type="checkbox" name="row-check" value="<?= $r['std_id'] ?>"></td>
 										<td><?= $r['bd_name'] ?></td>
 										<td><?= $r['std_name'];?></td>
+										<td><?= $r["sequence"];?></td>
 										<td>
 											<?= (($r['std_status'])==1) ? '<a href="'.base_url().'backend/standard/status/'.$r['std_id'].'/'.$r['std_status'].'" class="btn btn-success">Active</a>'
 												: '<a href="'.base_url().'backend/standard/status/'.$r['std_id'].'/'.$r['std_status'].'" class="btn btn-danger">DeActive</a>'

@@ -60,6 +60,7 @@
 								<th>Sub Topic</th>
 								<th>Image</th>
 								<th>No.Example</th>
+								<th>Sequence</th>
 								<th>Action</th>
 								<th>Status</th>
 							</tr>

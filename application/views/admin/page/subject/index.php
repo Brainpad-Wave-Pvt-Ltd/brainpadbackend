@@ -17,6 +17,7 @@
 									<th>Standard</th>
 									<th>Subject</th>
 									<th>Image</th>
+									<th>Sequence</th>
 									<th>Status</th>
 									<th>Action</th>
 								</tr>
@@ -31,6 +32,7 @@
 										<td><?= $r['std_name'] ?></td>
 										<td><?= $r['sub_name'];?></td>
 										<td><img src="<?=base_url($r['sub_img_path']);?>" width="40"></td>
+										<td><?= $r['se'];?></td>
 										<td>
 											<?= (($r['sub_status'])==1) ? '<a href="'.base_url().'backend/subject/status/'.$r['sub_id'].'/'.$r['sub_status'].'" class="btn btn-success">Active</a>'
 												: '<a href="'.base_url().'backend/subject/status/'.$r['sub_id'].'/'.$r['sub_status'].'" class="btn btn-danger">DeActive</a>'
