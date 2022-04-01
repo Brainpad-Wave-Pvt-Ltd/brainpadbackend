@@ -486,7 +486,7 @@ function getBoard(lang_id,board_id = 0){
 }
 
 function changeSubject(sub_id){
-	let board_id = $("#board_id").val();
+	let board_id = $("#board_list").val();
 	let std_id = $("#std_list").val();
 
 	getChapter(board_id,std_id,sub_id)
