@@ -7,6 +7,19 @@
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
+						<div style="display:flex;">
+							<div class="form-group col-12 col-sm-3">
+								<label for="std_list">Standard</label>
+								<select class="form-control select2" required name="std_id" id="std_list1" onchange="getSubject(this.value)"></select>
+							</div>
+							<div class="form-group col-12 col-sm-3">
+								<label for="std_list">Subject</label>
+								<select class="form-control select2" required name="std_id" id="sub_list1" ></select>
+							</div>
+							<div class="form-group col-12 col-sm-1 mt-4">
+								<button class="btn btn-primary" id="chapter_filter">Submit</button>
+							</div>
+						</div>
 						<button data--toggle="delete_selected" data--url="<?= base_url('backend/chapter/removeSelected'); ?>" class="btn btn-danger btn-small mb-2" >Delete Selected Record(s)</button>
 
 						<table class="table table-striped" id="table-1">
@@ -24,10 +37,10 @@
 								<th>Action</th>
 							</tr>
 							</thead>
-							<tbody class="sortable" data--url="<?=base_url('backend/re-ordering/chapter/ch_id');?>">
+							<tbody class="sortable" data--url="<?=base_url('backend/re-ordering/chapter/ch_id');?>" id="table">
 							<?php if (isset($rec)) {
 								foreach($rec as $r) { ?>
-									<tr id="<?= $r['ch_id'] ?>">
+									<!-- <tr id="<?= $r['ch_id'] ?>">
 										<td><i class="fas fa-align-justify"></i></td>
 										<td><input type="checkbox" name="row-check" value="<?= $r['ch_id'] ?>"></td>
 										<td><?=$r['bd_name'];?></td>
@@ -43,10 +56,9 @@
 										</td>
 										<td>
 											<a class="btn btn-sm btn-outline-primary" href="<?=base_url('backend/chapter/edit/'.$r['ch_id']);?>"><i class="fa fa-edit"></i></a>
-											<!-- <button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/chapter/edit/'.$r['ch_id']);?>"><i class="fa fa-edit"></i></button> -->
 											<button class="btn btn-sm btn-outline-danger" data--toggle="delete" data--url="<?=base_url('backend/chapter/remove/'.$r['ch_id']);?>"><i class="fa fa-trash"></i></button>
 										</td>
-									</tr>
+									</tr> -->
 								<?php }
 							} ?>
 							</tbody>

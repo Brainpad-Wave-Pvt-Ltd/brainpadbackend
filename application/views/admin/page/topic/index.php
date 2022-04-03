@@ -10,6 +10,33 @@
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
+						<div style="display:flex;">
+						<div class="form-group col-12 col-sm-2" style="display:none;">
+							<label for="lang_id">Language</label>
+							<input type="text" class="form-control" id="lang_id" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
+						</div>
+						<div class="form-group col-12 col-sm-2" style="display:none;">
+							<label for="board_id">Board</label>
+							<input type="text" class="form-control"  readonly  value="<?= $this->session->userdata('board_name'); ?>">
+							
+						</div>
+						<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>" id="board_id">
+							<div class="form-group col-12 col-sm-3">
+								<label for="std_list">Standard</label>
+								<select class="form-control select2" required name="std_id" id="std_list" onchange="getSubject(this.value)"></select>
+							</div>
+							<div class="form-group col-12 col-sm-3">
+								<label for="std_list">Subject</label>
+								<select class="form-control select2" required name="std_id" id="sub_list" onchange="changeSubject(this.value)"></select>
+							</div>
+							<div class="form-group col-12 col-sm-2">
+							<label for="chapter_list">Chapter</label>
+								<select class="form-control select2" required name="chapter_id" id="chapter_list"></select>
+							</div>
+							<div class="form-group col-12 col-sm-1 mt-4">
+								<button class="btn btn-primary" id="topic_filter">Submit</button>
+							</div>
+						</div>
 						<button data--toggle="delete_selected" data--url="<?= base_url('backend/topic/removeSelected'); ?>" class="btn btn-danger btn-small mb-2" >Delete Selected Record(s)</button>
 
 						<table class="table table-striped table-hover" id="table-1" style="width: 100%;">
@@ -28,31 +55,7 @@
 								<th>Action</th>
 							</tr>
 							</thead>
-							<tbody class="sortable" data--url="<?=base_url('backend/re-ordering/topics/tp_id');?>">
-							<?php foreach($rec as $r) { ?>
-								<tr id="<?= $r['tp_id'] ?>">
-									<!-- <td><i class="fas fa-align-justify"></i></td> -->
-									<td><input type="checkbox" name="row-check" value="<?= $r['tp_id'] ?>"></td>
-									<td><?=$r['bd_name'] ?></td>
-									<td><?=$r['std_name'];?></td>
-									<td><?=$r['sub_name'];?></td>
-									<td><?=$r['chapter_text'];?></td>
-									<td><?=$r['topic_text'];?></td>
-									<td><img src="<?=base_url($r['topic_img']);?>" width="45px"></td>
-									<td><?= $r['se'];?></td>
-									<td>
-										<?= (($r['topic_status'])==1) ? '<a href="'.base_url().'backend/topic/status/'.$r['tp_id'].'/'.$r['topic_status'].'" class="btn btn-success">Active</a>'
-											: '<a href="'.base_url().'backend/topic/status/'.$r['tp_id'].'/'.$r['topic_status'].'" class="btn btn-danger">DeActive</a>'
-										?>
-									</td>
-									<td>
-										<a class="btn btn-sm btn-outline-primary" href="<?=base_url('backend/topic/edit/'.$r['tp_id']);?>"><i class="fa fa-edit"></i></a>
-										<!-- <button class="btn btn-sm btn-outline-primary" data--toggle="edit" data--url="<?=base_url('backend/topic/edit/'.$r['tp_id']);?>"><i class="fa fa-edit"></i></button> -->
-										<button class="btn btn-sm btn-outline-danger" data--toggle="delete" data--url="<?=base_url('backend/topic/remove/'.$r['tp_id']);?>"><i class="fa fa-trash"></i></button>
-										<button class="btn btn-sm btn-outline-info" data--toggle="copy" data--url="<?=base_url('backend/topic/copy/'.$r['tp_id']);?>"><i class="fa fa-copy"></i></button>
-									</td>
-								</tr>
-							<?php } ?>
+							<tbody class="sortable" data--url="<?=base_url('backend/re-ordering/topics/tp_id');?>" id="table">
 							</tbody>
 						</table>
 					</div>

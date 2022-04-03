@@ -154,5 +154,42 @@ class Chapter extends CI_Controller
 		}
 	}
 
+	public function index_api(){
+		$std_id = $this->input->post('std_id');
+		$board_id = $this->input->post('board_id');
+		$sub_id = $this->input->post('sub_id');
+		$query =	 $this->db
+				->select('chapter.*,subject.*,board.*,standard.*,chapter.sequence as se')
+				->join('board','chapter.board_id=board.bd_id','left')	
+				->join('standard','chapter.std_id=standard.std_id','left')
+				->join('subject','subject.sub_id=chapter.subject_id','left')
+				->where('chapter.board_id',$board_id)
+				->where('chapter.std_id',$std_id)
+				->where('chapter.subject_id',$sub_id)
+				->order_by("chapter.sequence","asc");
+		$query = $query->get('chapter');
+		// echo $this->db->last_query(); exit;
+		$data = [];
+		$all_data = [];
+		foreach($query->result() as $r) { 
+			$data['ch_id'] = $r->ch_id;
+			$data['bd_name'] = $r->bd_name;
+			$data['std_name'] = $r->std_name;
+			$data['sub_name'] = $r->sub_name;
+			$data['chapter_text'] = $r->chapter_text;
+			$data['chapter_img'] = $r->chapter_img;
+			$data['se'] = $r->se;
+			$data['chapter_status'] = $r->chapter_status;
+			$all_data[] = $data;
+		} 
+		$result = array(
+			"data" => $all_data
+		);
+		$data = $this->load->view('admin/page/chapter/table',$result, TRUE);
+		
+		// echo "<pre>"; print_r($data); exit;
+		echo json_encode($data);
+	}
+
 
 }

@@ -487,8 +487,10 @@ function getBoard(lang_id,board_id = 0){
 
 function changeSubject(sub_id){
 	let board_id = $("#board_list").val();
+	if(board_id == undefined){
+	   board_id = $("#board_id").val();
+	}
 	let std_id = $("#std_list").val();
-
 	getChapter(board_id,std_id,sub_id)
 }
 
@@ -701,6 +703,7 @@ function getStandard(board_id,std_id = 0)
 			data: {board_id: board_id, std_id: std_id},
 			success: function (msg) {
 				$("#std_list").html(msg);
+				$("#std_list1").html(msg);
 			},
 		});
 	}
@@ -715,6 +718,7 @@ function getSubject(std_id,sub_id = 0)
 			data: {std_id: std_id, sub_id: sub_id},
 			success: function (msg) {
 				$("#sub_list").html(msg);
+				$("#sub_list1").html(msg);
 			},
 		});
 	}
@@ -919,8 +923,10 @@ $('.sortable').sortable({
 		let url = $(this).attr('data--url');
 		console.log(url);
 		var data = [];
-		$('.sortable tr').each(function(){
-			data.push($(this).attr('id'));
+		$('.sortable tr').each(function(){ 
+			if($(this).attr('id') != undefined){
+			   data.push($(this).attr('id'));
+			}
 		});
 
 		$.ajax({
@@ -942,7 +948,9 @@ $('.sortable-collapse').sortable({
 		let url = $(this).attr('data--url');
 		var data = [];
 		$('.sortable-collapse .accordion').each(function(){
-			data.push($(this).attr('id'));
+			if($(this).attr('id') != undefined){
+			   data.push($(this).attr('id'));
+			}
 		});
 
 		$.ajax({
@@ -1198,7 +1206,60 @@ $("#syllabus_filter").click(function(){
 	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {
 		$('#item-list').DataTable().destroy();
 	}
+});
 
+$("#subject_filter").click(function(){
+	let std_id = $('#std_list1').val();
+	let board_id = $('#board_id').val();
+	$.ajax({
+		url: base_url + 'admin/subject/index_api',
+		method: 'POST',
+		data:{ board_id:board_id,std_id:std_id },
+		success:function(msg){
+			msg = JSON.parse(msg);
+			$("#table").html(msg);
+		},
+	});
+	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {
+		$('#item-list').DataTable().destroy();
+	}
+});
+
+$("#chapter_filter").click(function(){
+	let std_id = $('#std_list1').val();
+	let sub_id = $("#sub_list1").val();
+	let board_id = $('#board_id').val();
+	$.ajax({
+		url: base_url + 'admin/chapter/index_api',
+		method: 'POST',
+		data:{ board_id:board_id,std_id:std_id,sub_id:sub_id },
+		success:function(msg){
+			msg = JSON.parse(msg);
+			$("#table").html(msg);
+		},
+	});
+	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {
+		$('#item-list').DataTable().destroy();
+	}
+});
+
+$("#topic_filter").click(function(){
+	let std_id = $('#std_list').val();
+	let sub_id = $("#sub_list").val();
+	let board_id = $('#board_id').val();
+	let ch_id = $("#chapter_list").val();
+	$.ajax({
+		url: base_url + 'admin/topic/index_api',
+		method: 'POST',
+		data:{ board_id:board_id,std_id:std_id,sub_id:sub_id,ch_id:ch_id},
+		success:function(msg){
+			msg = JSON.parse(msg);
+			$("#table").html(msg);
+		},
+	});
+	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {
+		$('#item-list').DataTable().destroy();
+	}
 });
 
 // $(".que-img").change(function(){

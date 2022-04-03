@@ -142,4 +142,37 @@ class Subject extends CI_Controller {
 		}
 	}
 
+	public function index_api(){
+		$std_id = $this->input->post('std_id');
+		$board_id = $this->input->post('board_id');
+		$query =	 $this->db
+				->select('subject.*,board.*,standard.*,subject.sequence as se')
+				->join('board','subject.board_id=board.bd_id','left')	
+				->join('standard','standard.std_id=subject.std_id','left')
+				->where('subject.board_id',$board_id)
+				->where('subject.std_id',$std_id)
+				->order_by("subject.sequence","asc");
+		$query = $query->get('subject');
+		// echo $this->db->last_query(); exit;
+		$data = [];
+		$all_data = [];
+		foreach($query->result() as $r) { 
+			$data['sub_id'] = $r->sub_id;
+			$data['bd_name'] = $r->bd_name;
+			$data['std_name'] = $r->std_name;
+			$data['sub_name'] = $r->sub_name;
+			$data['sub_img_path'] = $r->sub_img_path;
+			$data['se'] = $r->se;
+			$data['sub_status'] = $r->sub_status;
+			$all_data[] = $data;
+		} 
+		$result = array(
+			"data" => $all_data
+		);
+		$data = $this->load->view('admin/page/subject/table',$result, TRUE);
+		
+		// echo "<pre>"; print_r($data); exit;
+		echo json_encode($data);
+	}
+
 }

@@ -258,4 +258,42 @@ class Topic extends CI_Controller
 
 		echo 'success';
 	}
+
+	public function index_api(){
+		$std_id = $this->input->post('std_id');
+		$board_id = $this->input->post('board_id');
+		$sub_id = $this->input->post('sub_id');
+		$ch_id = $this->input->post('ch_id');
+		$query =	 $this->db
+				->select('topics.*,chapter.*,subject.*,board.*,standard.*,topics.sequence as se')
+				->join('chapter','chapter.ch_id=topics.ch_id','left')
+				->join('board','chapter.board_id=board.bd_id','left')	
+				->join('standard','chapter.std_id=standard.std_id','left')
+				->join('subject','subject.sub_id=chapter.subject_id','left')
+				->where('topics.ch_id',$ch_id)
+				->order_by("topics.sequence","asc");
+		$query = $query->get('topics');
+		// echo $this->db->last_query(); exit;
+		$data = [];
+		$all_data = [];
+		foreach($query->result() as $r) { 
+			$data['tp_id'] = $r->tp_id;
+			$data['bd_name'] = $r->bd_name;
+			$data['std_name'] = $r->std_name;
+			$data['sub_name'] = $r->sub_name;
+			$data['chapter_text'] = $r->chapter_text;
+			$data['topic_text'] = $r->topic_text;
+			$data['topic_img'] = $r->topic_img;
+			$data['se'] = $r->se;
+			$data['topic_status'] = $r->topic_status;
+			$all_data[] = $data;
+		} 
+		$result = array(
+			"data" => $all_data
+		);
+		$data = $this->load->view('admin/page/topic/table',$result, TRUE);
+		
+		// echo "<pre>"; print_r($data); exit;
+		echo json_encode($data);
+	}
 }

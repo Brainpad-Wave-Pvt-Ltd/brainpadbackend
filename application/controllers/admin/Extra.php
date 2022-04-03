@@ -19,7 +19,9 @@ class Extra extends CI_Controller
 		for($count = 0;  $count < count($data); $count++)
 		{
 			$this->db->where($p_key,$data[$count])->update($type, ['sequence' => $count+1]);
+			echo $this->db->last_query();
 		} 
+		
 		echo 'Reordering successfully.';
 	}
 
@@ -220,6 +222,8 @@ class Extra extends CI_Controller
 		$chid    = $this->input->post('echid');
 
 		$ch_list = $this->db->where('chapter_status',1)->where('board_id',$boardID)->where('std_id', $stdID)->where('subject_id',$subID)->order_by("sequence","asc")->get('chapter')->result();
+
+		// echo $this->db->last_query(); exit;
 
 		$chapter = '';
 		if(!empty($ch_list))
