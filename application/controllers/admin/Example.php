@@ -90,6 +90,8 @@ class Example extends CI_Controller
 			$category      = $this->input->post('category');
 			$audio         = $this->crud_model->sound_upload('sound', 'example');
 
+			$explaination  = $this->crud_model->sound_upload('explaination', 'example');
+
 			$tp_id = $this->input->post('topics');
 			$this->db->trans_start();
 
@@ -131,6 +133,7 @@ class Example extends CI_Controller
 				'ex_heading' => $this->input->post('heading'),
 				'ex_title' => $this->input->post('title'),
 				'ex_audio' => $audio,
+				'ex_explaination' => $explaination,
 				'layout_id' => $this->input->post('layout_id'),
 				'animation_id'=> $this->input->post('animation_id'),
 				'sequence' => $sequence,
@@ -303,6 +306,19 @@ class Example extends CI_Controller
 		}
 		$this->db->trans_start();
 		$this->db->where('ex_id', $id)->update('example', $updatedData);
+		
+		if(!empty($_FILES['explaination'])){
+			if ($_FILES['explaination']['error'] == 0) {
+				$audio = $this->crud_model->sound_upload('explaination', 'example');
+				$updatedData['ex_explaination'] = $audio;
+			} 
+	
+			if(!empty($this->input->post('explaination'))){
+				$updatedData['ex_explaination'] = '';
+			}
+			$this->db->trans_start();
+			$this->db->where('ex_id', $id)->update('example', $updatedData);
+		}
 
 		$hidden_value   = $this->input->post('hidden_value');
 		$answer_text    = $this->input->post('am2text');

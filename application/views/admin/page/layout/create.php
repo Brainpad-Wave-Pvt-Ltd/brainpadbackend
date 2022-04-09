@@ -74,6 +74,13 @@
                                 </div>
 							</div>
 
+							<div class="col-12 col-sm-12">
+								<label>Explanation<span class="text-danger"></span></label>
+								<div class="form-group">&nbsp;
+									<input type="checkbox" name="explanation" id="explanation" value="explanation">  
+                                </div>
+							</div>
+
 							
 						<div class="subtopic_field"></div>
 						<div class="col-12 col-sm-6">

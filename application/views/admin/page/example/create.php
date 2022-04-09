@@ -122,6 +122,10 @@
 								<label>Audio</label>
 								<input type="file" class="form-control" name="sound" id="sound">
 							</div>
+							<div class="form-group col-4 d-none exp" >
+								<label>Example Explanation</label>
+								<input type="file" class="form-control" name="explaination" id="explaination">
+							</div>
 						</div>
 
 						<div class="que-ans d-none" id="que-ans">

@@ -641,6 +641,11 @@ function getLayoutDesign(lay_id){
 					} 
 				});
 
+				$('.exp').addClass('d-none')
+				var explaination = data[0].explaination; 
+				if(explaination == 'explanation'){ 
+					$('.exp').removeClass('d-none')
+				}
 			}, 500);
 		},
 	});

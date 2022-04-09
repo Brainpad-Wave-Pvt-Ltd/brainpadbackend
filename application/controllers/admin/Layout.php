@@ -44,7 +44,7 @@ class Layout extends CI_Controller
 	}
 
 	public function store(){
-		$question_type = $answer_type = $extras = '';
+		$question_type = $answer_type = $extras = $explaination = '';
 		if(!empty($this->input->post('question_type'))){
 			$question_type = implode(',',$this->input->post('question_type'));
 		}
@@ -53,6 +53,10 @@ class Layout extends CI_Controller
 		}
         if(!empty($this->input->post('extras'))){
 			$extras = implode(',',$this->input->post('extras'));
+		}
+
+		if(!empty($this->input->post('explanation'))){
+			$explaination = $this->input->post('explanation');
 		}
         
        
@@ -63,6 +67,7 @@ class Layout extends CI_Controller
             'question_type' => $question_type,
             'answer_type'   => $answer_type,
             'extras' => $extras,
+			'explaination'=> $explaination,
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
@@ -88,6 +93,8 @@ class Layout extends CI_Controller
         $answer_type = $this->input->post('answer_type') ? implode(',',$this->input->post('answer_type')) : '';
         $extras = $this->input->post('extras') ? implode(',',$this->input->post('extras')) :'';
 
+		$explaination = $this->input->post('explanation') ? $this->input->post('explanation') :'';
+
         $data = array(
             'cat_id'     => $this->input->post('cat_id'),
             'lay_name'   => $this->input->post('lay_name'),
@@ -95,6 +102,7 @@ class Layout extends CI_Controller
             'question_type' => $question_type,
             'answer_type'   => $answer_type,
             'extras' => $extras,
+			'explaination'=> $explaination,
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),

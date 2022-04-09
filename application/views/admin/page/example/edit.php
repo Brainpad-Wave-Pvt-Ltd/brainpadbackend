@@ -107,6 +107,25 @@
 							<?php } ?>
 							<input type="file" class="form-control" name="sound" id="sound" >
 						</div>
+
+						<?php 
+						if(!empty($example->ex_explaination)){
+							?>
+							<div class="form-group col-4 exp" >
+								<label>Example Explanation</label>
+								<input type="hidden" name='ex_explaination' id="ex_explaination">
+								<?php if(!empty($example->ex_explaination)){ ?>
+									<audio controls style="width: 53%;height: 30%;" class="main_audio">
+										<source src="<?= base_url() . $example->ex_explaination ?>">
+									</audio>
+									<a href="javascript:void(0)" onclick="removeAudio('main_audio',<?php echo $example->ex_id;?>,'ex_explaination');" class="main_audio"><i class="fa fa-close"></i></a>
+								<?php } ?>
+								<input type="file" class="form-control" name="explaination" id="explaination">
+							</div>
+							<?php
+						}
+						?>
+						
 					</div>
 
 					<div id="sorting_field">
@@ -350,7 +369,6 @@
 									'&tp_id='. $example->tp_id. '&stp_id='. $example->stp_id) ?>" class="btn btn-danger">Cancel</a>
 						</div>
 					</div>
-
 				</div>
 				<?= form_close(); ?>
 			</div>

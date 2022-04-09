@@ -82,6 +82,13 @@
                                     <input type="checkbox" name="extras[]" id="remove_card" value="remove card" <?php if(in_array('remove card',$e_type)){echo "checked";} ?>> Remove Card &nbsp;&nbsp;&nbsp;
                                 </div>
 							</div>
+							
+							<div class="col-12 col-sm-12">
+								<label>Explanation<span class="text-danger"></span></label>
+								<div class="form-group">&nbsp;
+									<input type="checkbox" name="explanation" id="explanation" value="explanation" <?php if($editData->explaination == 'explanation'){echo "checked";} ?>>  
+                                </div>
+							</div>
 
 							
 						<div class="subtopic_field"></div>
