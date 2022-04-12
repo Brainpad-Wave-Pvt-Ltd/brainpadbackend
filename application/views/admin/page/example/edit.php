@@ -11,8 +11,8 @@
 				<?= form_open_multipart($action); ?>
 				<div class="card-body">
 
-					<div class="form-row sticky-top bg-white" style="display:none;">
-						<div class="form-group col-12 col-sm-3">
+					<div class="form-row sticky-top bg-white" >
+						<div class="form-group col-12 col-sm-3" style="display:none;">
 							<label>Language <span class="text-danger">*</span></label>
 							<input type="text" class="form-control" name="lang"  readonly value="<?= $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage()); ?>">
 						</div>
@@ -23,39 +23,39 @@
 							<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>" id="board_id">
 						</div>
 
-						<div class="form-group col-12 col-sm-3">
+						<div class="form-group col-4">
 							<label>Standard</label>
 							<select class="form-control select2" required name="std_id" id="std_list" onchange="getSubject(this.value)"></select>
 							<input type="hidden" id="estd_id" value="<?= (!empty($example) ? $example->std_id : '') ?>">
 						</div>
 
-						<div class="form-group col-12 col-sm-3">
+						<div class="form-group col-4">
 							<label>Subject</label>
 							<select class="form-control select2" required name="sub_id" id="sub_list" onchange="changeSubject(this.value)"></select>
 							<input type="hidden" id="esub_id" value="<?= (!empty($example) ? $example->sub_id : '') ?>">
 						</div>
 
-						<div class="form-group col-12 col-sm-4">
+						<div class="form-group col-4">
 							<label for="chapter_list">Chapter</label>
 							<select class="form-control select2" required name="chapter" id="chapter_list" onchange="getTopics(this.value)"></select>
 							<input type="hidden" id="edChid" value="<?= (!empty($example) ? $example->ch_id : '') ?>">
 						</div>
 
-						<div class="form-group col-12 col-sm-4">
+						<div class="form-group col-4">
 							<label for="topic_list">Topic</label>
 							<select class="form-control select2" required name="topics" id="topic_list" onchange="getSubTopics(this.value)"></select>
 							<input type="hidden" id="edTpid" value="<?= (!empty($example) ? $example->tp_id : '') ?>">
 						</div>
 
-						<div class="form-group col-12 col-sm-4">
+						<div class="form-group col-4">
 							<label for="topic_list">Sub Topic</label>
 							<select class="form-control select2 select2-tags" required name="sub_topic" id="subtopic_list"></select>
 							<input type="hidden" id="edStpid" value="<?= (!empty($example) ? $example->stp_id : '') ?>">
 
 						</div>
-					</div>
+					<!-- </div>
 
-					<div class="form-row">
+					<div class="form-row"> -->
 						<div class="form-group col-4">
 							<label>Category</label>
 							<select class="form-control select2" name="category" id="category" onchange="getLayout(this.value)"  >
@@ -84,9 +84,9 @@
 								} ?>
 							</select>
 						</div>
-					</div>
+					<!-- </div>
 
-					<div class="form-row">
+					<div class="form-row"> -->
 						<div class="form-group col-4">
 							<label for="heading">Example Name</label>
 							<input type="text" class="form-control" name="heading" id="heading" value="<?= (!empty($example) ? $example->ex_heading : '') ?>" >
