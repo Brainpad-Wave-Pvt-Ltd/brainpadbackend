@@ -84,6 +84,10 @@ class Extra extends CI_Controller
 			foreach($std_list as $std)
 			{
 				$select = ($stdID==$std->std_id) ? "selected" : "";
+				$st = $this->session->userdata('subtopics');
+				if(!empty($st)){
+					$select = ($st['std_id'] == $std->std_id) ? "selected" : "";
+				}
 				$standard.='<option value="'.$std->std_id.'"  '.$select.'>'.$std->std_name.'</option>';
 			}
 		}
@@ -108,6 +112,10 @@ class Extra extends CI_Controller
 			foreach($sub_list as $std)
 			{
 				$select = ($subID==$std->sub_id) ? "selected" : "";
+				$st = $this->session->userdata('subtopics');
+				if(!empty($st)){
+					$select = ($st['subject_id'] == $std->sub_id) ? "selected" : "";
+				}
 				$subject.='<option value="'.$std->sub_id.'"  '.$select.'>'.$std->sub_name.'</option>';
 			}
 		}
@@ -128,7 +136,12 @@ class Extra extends CI_Controller
 			$topic.='<option value="">------- Choose Topic ------</option>';
 			foreach($tp_list as $tp)
 			{
-				$topic.='<option value="'.$tp->tp_id.'">'.$tp->topic_text.'</option>';
+				$select = '';
+				$st = $this->session->userdata('subtopics');
+				if(!empty($st)){
+					$select = ($st['topic_id'] == $tp->tp_id) ? "selected" : "";
+				}
+				$topic.='<option value="'.$tp->tp_id.'" '.$select.'>'.$tp->topic_text.'</option>';
 			}
 		} else {
 			$topic.= '<option value=""> ---  No Topic Found ! --- </option>';
@@ -231,7 +244,12 @@ class Extra extends CI_Controller
 			$chapter.='<option value="">------- Choose Chapter ------</option>';
 			foreach($ch_list as $ch)
 			{
-				$chapter.='<option value="'.$ch->ch_id.'" '.(($chid!='')?(($chid==$ch->ch_id) ? "selected" : "") : "").'>'.$ch->chapter_text.'</option>';
+				$select = ($chid==$ch->ch_id) ? "selected" : "";
+				$st = $this->session->userdata('subtopics');
+				if(!empty($st)){
+					$select = ($st['chapter_id'] == $ch->ch_id) ? "selected" : "";
+				}
+				$chapter.='<option value="'.$ch->ch_id.'" '.$select.'>'.$ch->chapter_text.'</option>';
 			}
 		}
 		else

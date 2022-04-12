@@ -439,6 +439,8 @@ $(document).ready(function(){
 
 	var sub_id = $("#esub_id").val();
 
+	var chapter_id = $("#ch_id").val();
+
 	// getLanguage(lang_id);
 	
 	getBoard(lang_id,board_id);
@@ -456,6 +458,11 @@ $(document).ready(function(){
 	getStandard(board_id,std_id);
 
 	getSubject(std_id,sub_id)
+
+	if(chapter_id){
+		getTopics(chapter_id);
+	}
+	
 
 });
 

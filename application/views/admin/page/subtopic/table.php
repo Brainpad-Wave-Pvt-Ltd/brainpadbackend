@@ -1,5 +1,6 @@
 <?php foreach($data as $r) { ?>
 <tr id="<?= $r['stp_id'] ?>" class="odd ui-sortable-handle">
+    <td><input type="checkbox" name="row-check" value="<?= $r['stp_id'] ?>"></td>
     <td><?=$r['std_name'];?></td>
     <td><?=$r['subject_id'];?></td>
     <td><?=$r['chapter'];?></td>

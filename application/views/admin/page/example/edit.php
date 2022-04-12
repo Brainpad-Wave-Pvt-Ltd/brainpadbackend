@@ -123,6 +123,10 @@
 								<input type="file" class="form-control" name="explaination" id="explaination">
 							</div>
 							<?php
+						} else {
+						?>
+						<input type="file" class="form-control" name="explaination" id="explaination">
+						<?php
 						}
 						?>
 						

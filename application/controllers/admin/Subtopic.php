@@ -161,6 +161,24 @@ class Subtopic extends CI_Controller
 		if (isset($_POST['ids'])) {
 			$ids = explode(',', $_POST['ids']);
 
+			foreach($ids as $id){
+				$get_example = $this->db->where('stp_id',$id)->get('example')->result();
+				if(!empty($get_example)){
+					foreach($get_example as $example){
+						$get_ex = $this->db->where('ex_id',$example->ex_id)->get('example_data')->result();
+						if(!empty($get_ex)){
+							foreach($get_ex as $ex){
+								$this->db->where('ed_id', $ex->ed_id)->delete('example_question_data');
+								$this->db->where('ed_id', $ex->ed_id)->delete('example_answer_data');
+							}
+							$this->db->where('ex_id', $example->ex_id)->delete('example_data');
+						}
+					}
+					$this->db->where('stp_id', $id)->delete('example');
+					$this->db->where('subtopic_id', $id)->delete('example_lock_unlock');
+				}
+			}
+
 			$this->db->where_in('stp_id', $ids)->delete('subtopics');
 			$this->session->set_flashdata('success', 'Data Deleted successfully');
 			echo 'Deleted successfully.';
@@ -176,6 +194,8 @@ class Subtopic extends CI_Controller
 		$subject_id   = $this->input->post('sub_id');
 		$chapter_id   = $this->input->post('chapter_id');
 		$topic_id 	  = $this->input->post('topic_id');
+
+		$this->session->unset_userdata('subtopics');
 
 		if(!empty($topic_id)){
 			$query = $this->db->where('subtopics.tp_id',$topic_id)
@@ -224,10 +244,21 @@ class Subtopic extends CI_Controller
 
 		$result = array(
 			"data" => $all_data
-		);
+		); 
+
 		$data= $this->load->view('admin/page/subtopic/table',$result, TRUE);
 
 		echo $data;
+
+		$subtopics = array( 
+			'board_id'=>$board_id, 	  
+			'std_id'=>$std_id, 	  
+			'subject_id'=>$subject_id,   
+			'chapter_id'=>$chapter_id,   
+			'topic_id'=>$topic_id 	  
+		 );  
+		 
+		 $this->session->set_userdata('subtopics', $subtopics);
 	}
 
 	public function copy($id){

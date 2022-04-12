@@ -7,7 +7,7 @@
 					<div class="card-header-action">
 						<a href="<?=base_url('backend/example/create');?>" class="btn btn-primary"><i class="fa fa-plus"></i> Add Example</a>
 						<a href="<?=base_url('backend/subtopic/create');?>" class="btn btn-primary"><i class="fa fa-plus"></i> Add Record</a>
-						<button data--toggle="delete_selected" data--url="<?= base_url('backend/subtopic/removeSelected'); ?>" class="btn btn-danger btn-small mb-2" >Delete Selected Record(s)</button>
+						<!-- <button data--toggle="delete_selected" data--url="<?= base_url('backend/subtopic/removeSelected'); ?>" class="btn btn-danger btn-small mb-2" >Delete Selected Record(s)</button> -->
 					</div>
 				</div>
 				<div class="card-body">
@@ -22,6 +22,9 @@
 							
 						</div>
 						<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>" id="board_id">
+						<input type="hidden" value="<?php if(!empty($this->session->userdata('subtopics'))){ echo $this->session->userdata('subtopics')['std_id']; } ?>" id="estd_id">
+						<input type="hidden" id="esub_id" value="<?php if(!empty($this->session->userdata('subtopics'))){ echo $this->session->userdata('subtopics')['subject_id']; } ?>">
+						<input type="hidden" id="ch_id" value="<?php if(!empty($this->session->userdata('subtopics'))){ echo $this->session->userdata('subtopics')['chapter_id']; } ?>">
 						<div class="form-group col-12 col-sm-3">
 							<label for="std_list">Standard</label>
 							<select class="form-control select2" required name="std_id" id="std_list" onchange="getSubject(this.value)"></select>
@@ -48,11 +51,12 @@
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
-						<!-- <button data--toggle="delete_selected" data--url="<?= base_url('backend/subtopic/removeSelected'); ?>" class="btn btn-danger btn-small mb-2" >Delete Selected Record(s)</button> -->
+						<button data--toggle="delete_selected" data--url="<?= base_url('backend/subtopic/removeSelected'); ?>" class="btn btn-danger btn-small mb-2" >Delete Selected Record(s)</button>
 
 						<table class="table table-striped table-hover" id="table-1" style="width: 100%;">
 							<thead>
 							<tr>
+							    <th><input id="check_all" type="checkbox"></th>
 								<th>Standard</th>
 								<th>Subject</th>
 								<th>Chapter</th>
