@@ -25,6 +25,19 @@
 							</div>
 						</div>
 						<div class="col-12 col-sm-4">
+							<label>Language <span class="text-danger">*</span></label>
+							<select class="form-control select2" name="language" id="language_id" onchange="getBoard(this.value)">
+								<?php foreach($this->crud_model->get_table_data('languages') as $lang) : ?>
+									<option value="<?= $lang['symbol']; ?>" <?php if($lang['symbol'] == $editData->lang) { echo "selected";}?>><?= $lang['name'] ;?></option>
+								<?php endforeach;?>
+							</select>
+						</div>
+
+						<div class="col-12 col-sm-4">
+							<label>Board</label>
+							<select class="form-control select2" name="board" id="board_list" onchange="getStandard(this.value)"></select>
+						</div>
+						<div class="col-12 col-sm-4">
 							<label>Standard</label>
 							<div class="form-group">
 								<select class="form-control select2" required name="std_id" id="std_list" onchange="getSubject(this.value)"></select>

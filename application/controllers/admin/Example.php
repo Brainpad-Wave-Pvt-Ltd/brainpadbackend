@@ -339,11 +339,13 @@ class Example extends CI_Controller
 			
 			for( $j=0; $j < count($total_que_item[$i]); $j++){
 				$k = $j-1;
+				
 				$question_text = $this->input->post('qm2text');
 
 				if(!empty($example_data_ids[$i]) && $j == 0){
 					continue;
 				}
+
 				$ins_item = [
 					'ed_id' => $example_data_insert_id,
 					'eqd_text' => $question_text[$i][$j],
@@ -382,15 +384,19 @@ class Example extends CI_Controller
 					$ins_item['eqd_touch_audio'] = $this->crud_model->multi_file_upload($_FILES['touch_audio'], 'example',$i,$j);
 				}
 
+				
 				if(!empty($question_item_ids[$i][$j])){
-					if($question_item_ids[$i][$j] != 0){
+
+					if($question_item_ids[$i][$j] != 0){ 
+
 						$this->db->where('eqd_id',$question_item_ids[$i][$j])->update('example_question_data', $ins_item);
+						// echo $this->db->last_query(); 
 					}
 				}
 				else{
 					$this->db->insert('example_question_data', $ins_item);
 				}
-			}
+			} 
 
 			// For Answer
 			for( $a=0; $a < count($total_ans_item[$i]); $a++){

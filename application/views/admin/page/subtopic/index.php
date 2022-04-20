@@ -100,3 +100,80 @@
 		</div>
 	</div>
 </section>
+<!-- The Modal -->
+<div class="modal" id="selectpop">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+			<form action="<?php echo base_url('backend/subtopic/duplicate'); ?>">
+			<div class="form-row sticky-top bg-white" >
+			<div class="form-group col-12 col-sm-3">
+				<label>Language <span class="text-danger">*</span></label>
+				<select class="form-control select2" name="language" id="language_id" onchange="getBoard(this.value)">
+					<?php foreach($this->crud_model->get_table_data('languages') as $lang) : ?>
+						<option value="<?= $lang['symbol']; ?>" <?php if($lang['symbol'] == $this->crud_model->get_type_name_by_id('languages','symbol',$this->crud_model->getLanguage())) { echo "selected";}?>><?= $lang['name'] ;?></option>
+					<?php endforeach;?>
+				</select>
+			</div>
+
+			<div class="form-group col-12 col-sm-3">
+				<label>Board</label>
+				<select class="form-control select2" name="board" id="board_list" onchange="getStandard(this.value)"></select>
+			</div>
+
+			<div class="form-group col-4">
+				<label>Standard</label>
+				<select class="form-control select2" required name="std_id" id="std_list2" onchange="getSubject(this.value)"></select>
+				<input type="hidden" id="estd_id" value="<?= (!empty($example) ? $example->std_id : '') ?>">
+			</div>
+
+			<div class="form-group col-4">
+				<label>Subject</label>
+				<select class="form-control select2" required name="sub_id" id="sub_list2" onchange="changeSubject(this.value)"></select>
+				<input type="hidden" id="esub_id" value="<?= (!empty($example) ? $example->sub_id : '') ?>">
+			</div>
+
+			<div class="form-group col-4">
+				<label for="chapter_list">Chapter</label>
+				<select class="form-control select2" required name="chapter" id="chapter_list2" onchange="getTopics(this.value)"></select>
+				<input type="hidden" id="edChid" value="<?= (!empty($example) ? $example->ch_id : '') ?>">
+			</div>
+
+			<div class="form-group col-4">
+				<label for="topic_list">Topic</label>
+				<select class="form-control select2" required name="topics" id="topic_list2" onchange="getSubTopics(this.value)"></select>
+				<input type="hidden" id="edTpid" value="<?= (!empty($example) ? $example->tp_id : '') ?>">
+			</div>
+
+			<div class="form-group col-4">
+				<label for="topic_list">Sub Topic</label>
+				<select class="form-control select2 select2-tags" required name="sub_topic" id="subtopic_list2"></select>
+				<input type="hidden" id="edStpid" value="<?= (!empty($example) ? $example->stp_id : '') ?>">
+
+			</div>
+							</div>
+			<input type="submit" value="Save" class="btn btn-success">
+			</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div> -->
+        
+      </div>
+    </div>
+  </div>
+  <style>
+	  .floatingNav{
+		box-shadow:none;
+	  }
+  </style>

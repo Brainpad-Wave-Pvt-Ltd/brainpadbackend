@@ -520,6 +520,7 @@ function getChapter(board_id,std_id,sub_id,echid = 0)
 		data:{board_id:board_id,std_id:std_id,sub_id:sub_id,echid:echid},
 		success:function(msg){
 			$("#chapter_list").html(msg);
+			$("#chapter_list2").html(msg);
 		},
 	});
 }
@@ -677,7 +678,7 @@ function getTopics(chid)
 		method: 'POST',
 		data:{chid:chid},
 		success:function(msg){
-			$("#topic_list").html(msg);
+			$("#topic_list").html(msg);$("#topic_list2").html(msg);
 		},
 	});
 }
@@ -701,7 +702,7 @@ function getSubTopics(topicid,stpid = 0)
 		method: 'POST',
 		data:{topic_id:topicid,sub_topic_id:stpid},
 		success:function(msg){
-			$("#subtopic_list").html(msg);
+			$("#subtopic_list").html(msg);$("#subtopic_list2").html(msg);
 		},
 	});
 }
@@ -715,7 +716,7 @@ function getStandard(board_id,std_id = 0)
 			data: {board_id: board_id, std_id: std_id},
 			success: function (msg) {
 				$("#std_list").html(msg);
-				$("#std_list1").html(msg);
+				$("#std_list1").html(msg);$("#std_list2").html(msg);
 			},
 		});
 	}
@@ -730,7 +731,7 @@ function getSubject(std_id,sub_id = 0)
 			data: {std_id: std_id, sub_id: sub_id},
 			success: function (msg) {
 				$("#sub_list").html(msg);
-				$("#sub_list1").html(msg);
+				$("#sub_list1").html(msg);$("#sub_list2").html(msg);
 			},
 		});
 	}
@@ -811,6 +812,33 @@ $(document).on('click', '[data--toggle="edit"]', function (e) {
 		}).then((result) => {
 			if (result) {
 				window.location.replace(url);
+			}
+		})
+	}
+});
+
+
+
+$(document).on('click', '[data--toggle="languagechange"]', function (e) {
+	e.preventDefault();
+	let url = $(this).attr('data--url');
+
+	if (url !== undefined) {
+		swal({
+			title: 'Do you want to change language?',
+			icon: 'warning',
+			buttons: true,
+		}).then((result) => {
+			if (result) {
+				$('#selectpop').modal('show');
+			} else {
+				$.ajax({
+					url : url,
+					method: 'GET',
+					success:function(msg){
+						// location.reload()
+					},
+				});
 			}
 		})
 	}

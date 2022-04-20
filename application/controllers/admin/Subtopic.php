@@ -90,7 +90,7 @@ class Subtopic extends CI_Controller
 
 		$data['tp_id']          = $this->input->post('topics');
 		$data['subtopic_text']  = $this->input->post('stp_text');
-		$data['lang']           = $this->language;
+		$data['lang']           = $this->input->post('language');
 //		$data['board_id'] 	    = $this->input->post('board_id');
 //		$data['std_id'] 	    = $this->input->post('std_id');
 //		$data['subject_id'] 	= $this->input->post('sub_id');
@@ -100,6 +100,23 @@ class Subtopic extends CI_Controller
 		}
 
 		$this->db->where('stp_id', $id)->update('subtopics',$data);
+
+		$getExample = $this->db->where('stp_id',$id)->get('example')->result();
+		if(!empty($getExample)){
+			$getlanguage = $this->db->where('symbol',$this->input->post('lang'))->get('languages')->result();
+			foreach($getExample as $example){
+				$exdata = array(
+					'board_id'=>$this->input->post('board_id'),
+					'std_id'=>$this->input->post('std_id'),
+					'subject_id'=>$this->input->post('sub_id'),
+					'ch_id'=>$this->input->post('chapter'),
+					'tp_id'=>$this->input->post('topics'),
+					'stp_id'=>$id,
+					'lang'=>$getlanguage->name
+				);
+				$this->db->where('ex_id', $example->ex_id)->update('example',$exdata);
+			}
+		}
 
 		$this->session->set_flashdata('success','Sub Topic updated successfully');
 		redirect(base_url('backend/subtopic'),'refresh');

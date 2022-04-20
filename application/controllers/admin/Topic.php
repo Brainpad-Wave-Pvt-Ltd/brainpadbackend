@@ -91,7 +91,7 @@ class Topic extends CI_Controller
 
 		$data['ch_id']       =  $this->input->post('chapter');
 		$data['topic_text']  =  $this->input->post('tp_text');
-		$data['lang']        = $this->language;
+		$data['lang']        =  $this->input->post('lang');
 //		$data['board_id'] 	     = $this->input->post('board_id');
 //		$data['std_id'] 	     = $this->input->post('std_id');
 //		$data['subject_id'] 	 = $this->input->post('sub_id');
@@ -101,6 +101,35 @@ class Topic extends CI_Controller
 			}
 
 		$this->db->where('tp_id', $id)->update('topics',$data);
+
+		$getsubtopics = $this->db->where('tp_id',$id)->get('subtopics')->result();
+		if(!empty($getsubtopics)){
+			$getlanguage = $this->db->where('symbol',$this->input->post('lang'))->get('languages')->result();
+			foreach($getsubtopics as $topics){
+				if($topics->lang != $this->input->post('lang')){
+					$subdata = array(
+						'lang'=>$this->input->post('lang')
+					);
+					$this->db->where('stp_id', $topics->stp_id)->update('subtopics',$subdata);
+
+					$getExample = $this->db->where('stp_id',$topics->stp_id)->get('example')->result();
+					if(!empty($getExample)){
+						foreach($getExample as $example){
+							$exdata = array(
+								'board_id'=>$this->input->post('board_id'),
+								'std_id'=>$this->input->post('std_id'),
+								'subject_id'=>$this->input->post('sub_id'),
+								'ch_id'=>$this->input->post('chapter'),
+								'tp_id'=>$id,
+								'stp_id'=>$topics->stp_id,
+								'lang'=>$getlanguage->name
+							);
+							$this->db->where('ex_id', $example->ex_id)->update('example',$exdata);
+						}
+					}
+				}
+			}
+		}
 
 		$this->session->set_flashdata('success','Topics updated successfully');
 		redirect(base_url('backend/topic'),'refresh');
