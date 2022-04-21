@@ -103,16 +103,17 @@ class Subtopic extends CI_Controller
 
 		$getExample = $this->db->where('stp_id',$id)->get('example')->result();
 		if(!empty($getExample)){
-			$getlanguage = $this->db->where('symbol',$this->input->post('lang'))->get('languages')->result();
+			$getlanguage = $this->db->where('symbol',$this->input->post('language'))->get('languages')->result();
+			
 			foreach($getExample as $example){
 				$exdata = array(
-					'board_id'=>$this->input->post('board_id'),
+					'board_id'=>$this->input->post('board'),
 					'std_id'=>$this->input->post('std_id'),
 					'subject_id'=>$this->input->post('sub_id'),
 					'ch_id'=>$this->input->post('chapter'),
 					'tp_id'=>$this->input->post('topics'),
 					'stp_id'=>$id,
-					'lang'=>$getlanguage->name
+					'lang'=>$getlanguage[0]->name
 				);
 				$this->db->where('ex_id', $example->ex_id)->update('example',$exdata);
 			}

@@ -122,7 +122,7 @@ class Topic extends CI_Controller
 								'ch_id'=>$this->input->post('chapter'),
 								'tp_id'=>$id,
 								'stp_id'=>$topics->stp_id,
-								'lang'=>$getlanguage->name
+								'lang'=>$getlanguage[0]->name
 							);
 							$this->db->where('ex_id', $example->ex_id)->update('example',$exdata);
 						}

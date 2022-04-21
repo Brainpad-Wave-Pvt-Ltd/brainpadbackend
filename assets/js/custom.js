@@ -859,7 +859,7 @@ $(document).on('click', '[data--toggle="copy"]', function (e) {
 					url : url,
 					method: 'GET',
 					success:function(msg){
-						// location.reload()
+						location.reload()
 					},
 				});
 			}
