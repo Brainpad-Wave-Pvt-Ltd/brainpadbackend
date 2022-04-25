@@ -83,9 +83,48 @@
                             </div>
 
                             <div class="col-12 col-sm-4">
-                                <label>School Payment Link<span class="text-danger">*</span></label>
+                                <label>No of free students<span class="text-danger">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="school_paymentlink" id="school_paymentlink" placeholder="Enter School Payment Link">
+                                    <input type="text" class="form-control" name="free_students" id="free_students" placeholder="Enter Free Students Number">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>No of Licence<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="no_licence" id="no_licence" placeholder="Enter No Of Licence">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>Expiry Date<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="date" class="form-control" name="expiry_date" id="expiry_date" placeholder="Enter Expiry Date">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>Language<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <select class="form-control select2" name="language" id="language_id" onchange="getBoard(this.value)" required>
+                                        <?php foreach($this->crud_model->get_table_data('languages') as $lang) : ?>
+                                            <option value="<?= $lang['symbol']; ?>"><?= $lang['name'] ;?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>Board<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <select class="form-control select2" name="board" id="board_list" onchange="getStandard(this.value)" required></select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>Standard<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <select class="form-control select2" required name="std_id" id="std_list"></select>
                                 </div>
                             </div>
                         </div>

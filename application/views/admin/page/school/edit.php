@@ -16,6 +16,7 @@
                             <label>School Logo<span class="text-danger">*</span></label>
                             <div class="form-group">
                                 <input type="file" class="form-control" name="file" id="file"  accept="'image/*">
+                                <input type="hidden" name="oldlogo" value="<?= $editData->school_logo ?>">
                             </div>
                         </div>
 
@@ -89,7 +90,54 @@
                             </div>
                         </div>
 
-					</div>
+                        <div class="col-12 col-sm-4">
+                            <label>No of free students<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="free_students" id="free_students" placeholder="Enter Free Students Number" value="<?php echo $editData->free_students;?>">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>No of Licence<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="no_licence" id="no_licence" placeholder="Enter No Of Licence" value="<?php echo $editData->no_licence;?>">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>Expiry Date<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <input type="date" class="form-control" name="expiry_date" id="expiry_date" placeholder="Enter Expiry Date" value="<?php echo $editData->expiry_date;?>">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>Language<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <select class="form-control select2" name="language" id="language_id" onchange="getBoard(this.value)" required>
+                                    <?php foreach($this->crud_model->get_table_data('languages') as $lang) : ?>
+                                        <option value="<?= $lang['symbol']; ?>" <?php if($lang['symbol'] == $editData->language) { echo "selected";}?>><?= $lang['name'] ;?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>Board<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <select class="form-control select2" name="board" id="board_list" onchange="getStandard(this.value)" required></select>
+                                <input type="hidden" name="board_id" value="<?= $editData->board ?>" id="board_id">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>Standard<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <select class="form-control select2" required name="std_id" id="std_list"></select>
+                                <input type="hidden" id="estd_id" value="<?=(!empty($editData) ? $editData->std_id :'' )?>">
+                            </div>
+                        </div>
+                    </div>
 
 					<div class="subtopic_field col-12 col-sm-12"></div>
 					<div class="col-12 col-sm-6">

@@ -53,7 +53,13 @@ class School extends CI_Controller
             'school_zipcode' => $this->input->post('school_zipcode'),
 			'applink' => $this->input->post('school_applink'),
 			'paymentlink' => $this->input->post('school_paymentlink'),
-            'created_at' => date('Y-m-d H:i:s'),
+			'free_students' => $this->input->post('free_students'),
+			'no_licence' => $this->input->post('no_licence'),
+			'expiry_date' => $this->input->post('expiry_date'),
+			'language' => $this->input->post('language'),
+			'board' => $this->input->post('board'),
+			'std_id' => $this->input->post('std_id'),
+			'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
 		]);
 
@@ -84,13 +90,21 @@ class School extends CI_Controller
             'school_zipcode' => $this->input->post('school_zipcode'),
 			'applink' => $this->input->post('school_applink'),
 			'paymentlink' => $this->input->post('school_paymentlink'),
+			'free_students' => $this->input->post('free_students'),
+			'no_licence' => $this->input->post('no_licence'),
+			'expiry_date' => $this->input->post('expiry_date'),
+			'language' => $this->input->post('language'),
+			'board' => $this->input->post('board'),
+			'std_id' => $this->input->post('std_id'),
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
         if(!empty($_FILES['file'])){
             $logo = $this->crud_model->file_up($_FILES['file'],'school');
             $data['school_logo'] = $logo; 
-        }
+        } else {
+			$data['school_logo'] = $this->input->post('oldlogo');
+		}
 		
 		$this->db->where('school_id', $id)->update('school',$data);
 
