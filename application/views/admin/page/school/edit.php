@@ -137,6 +137,31 @@
                                 <input type="hidden" id="estd_id" value="<?=(!empty($editData) ? $editData->std_id :'' )?>">
                             </div>
                         </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>Branch Code<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="branch_code" id="branch_code" placeholder="Enter Branch Code" value="<?=(!empty($editData) ? $editData->branch_code :'' )?>">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-4">
+                            <label>Subscription Plan<span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <select class="form-control select2" required name="plan_id" id="plan_id" required>
+                                    <option>Select Plan</option>
+                                    <?php 
+                                    if(!empty($plan)){
+                                        foreach($plan as $p){
+                                        ?>
+                                        <option value="<?php echo $p->plan_id;?>" <?php if($editData->plan_id == $p->plan_id){ echo "selected"; }?>><?php echo $p->plan_name;?></option>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
 					<div class="subtopic_field col-12 col-sm-12"></div>

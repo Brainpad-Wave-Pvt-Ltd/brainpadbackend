@@ -31,6 +31,7 @@ class School extends CI_Controller
 		$data['title']      = 'Create School :: BrainPad Wave';
 		$data['action']     = base_url('backend/school/store');
 		$data['page']       = 'admin/page/school/create';
+		$data['plan']       = $this->db->where('user_category', 'Student')->get('subscription_plans')->result();
         
         $this->load->view('admin/partials/layout', $data);
 	}
@@ -59,6 +60,8 @@ class School extends CI_Controller
 			'language' => $this->input->post('language'),
 			'board' => $this->input->post('board'),
 			'std_id' => $this->input->post('std_id'),
+			'branch_code' => $this->input->post('branch_code'),
+			'plan_id' => $this->input->post('plan_id'),
 			'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
 		]);
@@ -73,6 +76,7 @@ class School extends CI_Controller
 		$data['action']    =  base_url('backend/school/update/'.$id);
 		$data['page']      = 'admin/page/school/edit';
 		$data['editData'] = $this->db->where('school_id',$id)->get('school')->row();
+		$data['plan']       = $this->db->where('user_category', 'Student')->get('subscription_plans')->result();
         $this->load->view('admin/partials/layout',$data);
 	}
 
@@ -96,6 +100,8 @@ class School extends CI_Controller
 			'language' => $this->input->post('language'),
 			'board' => $this->input->post('board'),
 			'std_id' => $this->input->post('std_id'),
+			'branch_code' => $this->input->post('branch_code'),
+			'plan_id' => $this->input->post('plan_id'),
             'updated_at' => date('Y-m-d H:i:s'),
         );
 

@@ -127,6 +127,32 @@
                                     <select class="form-control select2" required name="std_id" id="std_list"></select>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>Branch Code<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="branch_code" id="branch_code" placeholder="Enter Branch Code">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <label>Subscription Plan<span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <select class="form-control select2" required name="plan_id" id="plan_id" required>
+                                        <option>Select Plan</option>
+                                        <?php 
+                                        if(!empty($plan)){
+                                            foreach($plan as $p){
+                                            ?>
+                                            <option value="<?php echo $p->plan_id;?>"><?php echo $p->plan_name;?></option>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
 						<div class="subtopic_field"></div>
 						<div class="col-12 col-sm-6">
