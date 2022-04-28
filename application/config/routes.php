@@ -199,4 +199,4 @@ $route['api_user_total_star']                          = 'api/user/get_total_sta
 $route['api_school_total_star']                        = 'api/user/get_school_total_star';
 $route['api_lock_unlock_example']                      = 'api/user/lock_unlock_example';
 $route['api_lock_flag']                                = 'api/user/get_lock_unlock_flag';
-$route['api_verify_user']                              = 'api/user/verify_user';
+$route['api_verify_user']                              = 'api/auth/verify_user';
