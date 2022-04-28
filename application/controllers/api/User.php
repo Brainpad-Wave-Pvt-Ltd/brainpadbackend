@@ -505,7 +505,7 @@ class User extends BD_Controller
 		$this->set_response($data, REST_Controller::HTTP_OK);
 	}
 
-	public function get_lock_unlock_flag_post(){
+	public function  get_lock_unlock_flag_post(){
 		$this->form_validation->set_rules('user_id','User ID','required|trim',['required'=>'Please select User']);
 		$this->form_validation->set_rules('subtopic_id','Subtopic Id','required|trim',['required'=>'Please select Subtopic']);
 		if($this->form_validation->run()==false)
@@ -523,5 +523,42 @@ class User extends BD_Controller
 			}
 		}
 		$this->set_response($data, REST_Controller::HTTP_OK);
+	}
+
+	public function verify_user_post(){
+		if(!empty($this->input->post('usercode'))){
+			$user_data = $this->db->where('usercode',$this->input->post('usercode'))->get('users')->result();
+			if(!empty($user_data)){
+				$token['id'] = $user_data[0]->user_id;
+				$new_token = $this->generate_token($token);
+				$profile = $this->profile_data($token['id'], $new_token);
+
+				$school_id = $profile['school_id'];
+				$get_school_name = $this->db->where('school_id',$school_id)->get('school')->result();
+									
+				if(!empty($get_school_name)){
+					$school_code = $get_school_name[0]->school_code;
+					$school_name = $get_school_name[0]->school_name;
+				}
+
+				$profile['school_code'] = $school_code;
+				$profile['school_name'] = $school_name;
+
+				$response['data'] = $profile;
+				$response['data']['user_verified'] = 1;
+				$get_active = $this->db->where('user_id',$user_data[0]->user_id)->where('is_active_plan',1)->get('subscription')->result();
+				if(!empty($get_active)){
+					$plan_details = $this->db->where('plan_id',$get_active[0]->plan_id)->get('subscription_plans')->result();
+					if(!empty($plan_details)){
+						$response['data']['subscription_plan'] = $plan_details;
+					}
+				}
+			} else {
+				$response['data']['user_verified'] = 0;
+			}
+			$this->set_response($response, REST_Controller::HTTP_OK);
+		} else {
+			$this->set_response(['msg'=>'Usercode Required'],422);	
+		}
 	}
 }

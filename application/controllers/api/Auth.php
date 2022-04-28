@@ -72,7 +72,7 @@ class Auth extends BD_Controller
 				if(!empty($this->input->post('board_id'))){
 					if(!empty($this->input->post('user_type'))){
 						if(!empty($this->input->post('standard'))){
-							if(!empty($this->input->post('name'))){
+							  if(!empty($this->input->post('name'))){
 								$lang = $this->db->where('id',$this->input->post('lang'))->get('languages')->result();
 								
 								if(!empty($lang[0]->symbol)){
@@ -88,8 +88,10 @@ class Auth extends BD_Controller
 									if(!empty($get_school_name)){
 										$school_code = $get_school_name[0]->school_code;
 										$school_name = $get_school_name[0]->school_name;
+										$plan_id = $get_school_name[0]->plan_id;
+										$licence = $get_school_name[0]->no_licence;
+										$free_student = $get_school_name[0]->free_students;
 									}
-
 
 									$data = array(
 										'username'=>$this->input->post('name'),
@@ -119,9 +121,10 @@ class Auth extends BD_Controller
 										} else {
 											$type = 'Student';
 										}
-										$get_subscription_plan = $this->db->where('school_id',$school_id)->where('user_category',$type)->where('is_default_free_plan',1)->get('subscription_plans')->result();
-										if(!empty($get_subscription_plan)){
-											$plan_id = $get_subscription_plan[0]->plan_id;
+										
+										if(!empty($plan_id)){
+											$get_subscription_plan = $this->db->where('plan_id',$plan_id)->where('is_default_free_plan',1)->get('subscription_plans')->result();
+											// $plan_id = $get_subscription_plan[0]->plan_id;
 											$subscription_data = array(
 												'user_id'=>$token['id'],
 												'plan_id'=>$plan_id,
@@ -144,7 +147,7 @@ class Auth extends BD_Controller
 								} else {
 									$this->set_response(['msg'=>'Language not found'],422);	
 								}
-							}else {
+							} else {
 								$this->set_response(['msg'=>'User Name is empty'],422);	
 							}
 						} else {
