@@ -31,7 +31,7 @@
 						</div>
 						<div class="form-group col-12 col-sm-2">
 							<label for="sub_list">Subject</label>
-							<select class="form-control select2" required name="sub_id" id="sub_list"  onchange="changeSubject(this.value)"></select>
+							<select class="form-control select2" required name="sub_id" id="sub_list"  onchange="getChapter(this.value)"></select>
 						</div>
 						<div class="form-group col-12 col-sm-2">
 							<label for="chapter_list">Chapter</label>

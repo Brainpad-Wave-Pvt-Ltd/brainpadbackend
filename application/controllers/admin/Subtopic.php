@@ -15,6 +15,7 @@ class Subtopic extends CI_Controller
 
 	public function index()
 	{
+		$this->session->unset_userdata('syllabus');
 		$data['title']     = 'Sub Topics :: BrainPad Wave';
 		$data['action']    = base_url('backend/subtopic/store');
 		$data['page']      = 'admin/page/subtopic/index';
@@ -213,7 +214,7 @@ class Subtopic extends CI_Controller
 		$chapter_id   = $this->input->post('chapter_id');
 		$topic_id 	  = $this->input->post('topic_id');
 
-		$this->session->unset_userdata('subtopics');
+		// $this->session->unset_userdata('subtopics');
 
 		if(!empty($topic_id)){
 			$query = $this->db->where('subtopics.tp_id',$topic_id)
@@ -268,15 +269,15 @@ class Subtopic extends CI_Controller
 
 		echo $data;
 
-		$subtopics = array( 
-			'board_id'=>$board_id, 	  
-			'std_id'=>$std_id, 	  
-			'subject_id'=>$subject_id,   
-			'chapter_id'=>$chapter_id,   
-			'topic_id'=>$topic_id 	  
-		 );  
+		// $subtopics = array( 
+		// 	'board_id'=>$board_id, 	  
+		// 	'std_id'=>$std_id, 	  
+		// 	'subject_id'=>$subject_id,   
+		// 	'chapter_id'=>$chapter_id,   
+		// 	'topic_id'=>$topic_id 	  
+		//  );  
 		 
-		 $this->session->set_userdata('subtopics', $subtopics);
+		//  $this->session->set_userdata('subtopics', $subtopics);
 	}
 
 	public function copy($id){

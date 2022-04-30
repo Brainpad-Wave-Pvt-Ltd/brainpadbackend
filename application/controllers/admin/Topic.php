@@ -17,6 +17,7 @@ class Topic extends CI_Controller
 
 	public function index()
 	{
+		$this->session->unset_userdata('syllabus');
 		$data['title'] = 'Topic :: BrainPad Wave';
 		$data['page'] = 'admin/page/topic/index';
 		$data['rec'] = $this->db->join('chapter','chapter.ch_id=topics.ch_id','left')->join('subject', 'subject.sub_id=chapter.subject_id', 'left')

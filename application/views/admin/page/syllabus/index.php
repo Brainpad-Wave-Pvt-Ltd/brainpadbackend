@@ -20,6 +20,10 @@
 							
 						</div>
 						<input type="hidden" name="board_id" value="<?= $this->session->userdata('board'); ?>" id="board_id">
+						<input type="hidden" value="<?php if(!empty($this->session->userdata('syllabus'))){ echo $this->session->userdata('syllabus')['std_id']; } ?>" id="estd_id">
+						<input type="hidden" id="esub_id" value="<?php if(!empty($this->session->userdata('syllabus'))){ echo $this->session->userdata('syllabus')['subject_id']; } ?>">
+						<input type="hidden" id="ch_id" value="<?php if(!empty($this->session->userdata('syllabus'))){ echo $this->session->userdata('syllabus')['chapter_id']; } ?>">
+						<input type="hidden" id="edTpid" value="<?php if(!empty($this->session->userdata('syllabus'))){ echo $this->session->userdata('syllabus')['topic_id']; } ?>">
 						<div class="form-group col-12 col-sm-3">
 							<label for="std_list">Standard</label>
 							<select class="form-control select2" required name="std_id" id="std_list" onchange="getSubject(this.value)"></select>

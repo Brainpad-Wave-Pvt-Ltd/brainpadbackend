@@ -456,7 +456,8 @@ class Example extends CI_Controller
 		$this->db->trans_complete();
 		$this->session->set_flashdata('success', 'Data Added successfully');
 		$id = 'board_id='. $updatedData['board_id']. '&std_id='. $updatedData['std_id']. '&subject_id='. $updatedData['subject_id']. '&ch_id='. $updatedData['ch_id']. '&tp_id='. $updatedData['tp_id']. '&stp_id='. $updatedData['stp_id'];
-		redirect(base_url('backend/example/view?'.$id));
+		// redirect(base_url('backend/example/view?'.$id));
+		redirect(base_url('backend/syllabus'));
 	}
 
 	public function show($id)

@@ -514,6 +514,13 @@ function getTopics(chapter_id){
 
 function getChapter(board_id,std_id,sub_id,echid = 0)
 {
+	if(std_id == undefined){
+		std_id = $("#std_list").val();
+	}
+	if(sub_id == undefined){
+		sub_id = $("#sub_list").val();
+	}
+	
 	$.ajax({
 		url : base_url+'admin/extra/getChapter',
 		method: 'POST',
@@ -858,8 +865,13 @@ $(document).on('click', '[data--toggle="copy"]', function (e) {
 				$.ajax({
 					url : url,
 					method: 'GET',
-					success:function(msg){
-						location.reload()
+					success:function(msg){ 
+						if($("#subtopics_filter").length > 0){ 
+							$("#subtopics_filter").click();
+						}
+						if($("#topic_filter").length > 0){ 
+							$("#topic_filter").click();
+						}
 					},
 				});
 			}
@@ -1006,6 +1018,16 @@ $('.sortable-collapse').sortable({
 });
 
 $(function() {
+
+	var pageURL = $(location).attr("href");
+	var last_part = pageURL.substr(pageURL.lastIndexOf('/') + 1); 
+
+	if(last_part == 'syllabus'){ 
+		setTimeout(function(){
+			$("#syllabus_filter").click(); 
+		},3000);
+	}
+
 	$("#exampleForm").on('submit', function(e) {
 		e.preventDefault();
 		$("#save-btn").attr("disabled", true);
@@ -1204,7 +1226,6 @@ $("#example_filter").click(function(){
 });
 
 $("#subtopics_filter").click(function(){
-
 	let board_id = $('#board_id').val();
 	let std_id = $('#std_list').val();
 	let sub_id = $('#sub_list').val();
@@ -1221,11 +1242,9 @@ $("#subtopics_filter").click(function(){
 	if ( $.fn.DataTable.isDataTable( '#item-list' ) ) {
 		$('#item-list').DataTable().destroy();
 	}
-
 });
 
 $("#syllabus_filter").click(function(){
-
 	let board_id = $('#board_id').val();
 	let std_id = $('#std_list').val();
 	let sub_id = $('#sub_list').val();

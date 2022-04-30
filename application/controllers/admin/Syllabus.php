@@ -44,6 +44,16 @@ class Syllabus extends CI_Controller
 		$topic_id 	  = $this->input->post('topic_id');
 		$subtopic_id  = $this->input->post('subtopic_id');
 
+		$syllabus = array( 
+			'board_id'=>$board_id, 	  
+			'std_id'=>$std_id, 	  
+			'subject_id'=>$subject_id,   
+			'chapter_id'=>$chapter_id,   
+			'topic_id'=>$topic_id,
+		    'subtopic_id'=>$subtopic_id,
+		 );
+		 $this->session->set_userdata('syllabus', $syllabus);
+
 		$query =	 $this->db
 				->distinct('example.ex_id')
 				->join('standard','standard.board_id=board.bd_id','left')
@@ -88,7 +98,6 @@ class Syllabus extends CI_Controller
 			
 			$all_data[] = $data;
 		} 
-		
 
 		$result = array(
 			"data" => $all_data

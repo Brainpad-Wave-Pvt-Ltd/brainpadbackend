@@ -84,10 +84,10 @@ class Extra extends CI_Controller
 			foreach($std_list as $std)
 			{
 				$select = ($stdID==$std->std_id) ? "selected" : "";
-				// $st = $this->session->userdata('subtopics');
-				// if(!empty($st)){
-				// 	$select = ($st['std_id'] == $std->std_id) ? "selected" : "";
-				// }
+				$st = $this->session->userdata('syllabus');
+				if(!empty($st)){
+					$select = ($st['std_id'] == $std->std_id) ? "selected" : "";
+				}
 				$standard.='<option value="'.$std->std_id.'"  '.$select.'>'.$std->std_name.'</option>';
 			}
 		}
@@ -112,10 +112,10 @@ class Extra extends CI_Controller
 			foreach($sub_list as $std)
 			{
 				$select = ($subID==$std->sub_id) ? "selected" : "";
-				// $st = $this->session->userdata('subtopics');
-				// if(!empty($st)){
-				// 	$select = ($st['subject_id'] == $std->sub_id) ? "selected" : "";
-				// }
+				$st = $this->session->userdata('syllabus');
+				if(!empty($st)){
+					$select = ($st['subject_id'] == $std->sub_id) ? "selected" : "";
+				}
 				$subject.='<option value="'.$std->sub_id.'"  '.$select.'>'.$std->sub_name.'</option>';
 			}
 		}
@@ -137,10 +137,10 @@ class Extra extends CI_Controller
 			foreach($tp_list as $tp)
 			{
 				$select = '';
-				// $st = $this->session->userdata('subtopics');
-				// if(!empty($st)){
-				// 	$select = ($st['topic_id'] == $tp->tp_id) ? "selected" : "";
-				// }
+				$st = $this->session->userdata('syllabus');
+				if(!empty($st)){
+					$select = ($st['topic_id'] == $tp->tp_id) ? "selected" : "";
+				}
 				$topic.='<option value="'.$tp->tp_id.'" '.$select.'>'.$tp->topic_text.'</option>';
 			}
 		} else {
@@ -214,7 +214,15 @@ class Extra extends CI_Controller
 			$subtopic.='<option value="">Choose SubTopic or Add new</option>';
 			foreach($stp_list as $stp)
 			{
-				$select = ($subtopicID==$stp->stp_id) ? "selected" : "";
+				$select = '';
+
+				$st = $this->session->userdata('syllabus');
+				if(!empty($st)){
+					$select = ($st['subtopic_id'] == $stp->stp_id) ? "selected" : "";
+				} else {
+					$select = ($subtopicID==$stp->stp_id) ? "selected" : "";
+				}
+
 				$subtopic.='<option value="'.$stp->stp_id.'"  '.$select.'>'.$stp->subtopic_text.'</option>';
 			}
 		}
@@ -245,10 +253,10 @@ class Extra extends CI_Controller
 			foreach($ch_list as $ch)
 			{
 				$select = ($chid==$ch->ch_id) ? "selected" : "";
-				// $st = $this->session->userdata('subtopics');
-				// if(!empty($st)){
-				// 	$select = ($st['chapter_id'] == $ch->ch_id) ? "selected" : "";
-				// }
+				$st = $this->session->userdata('syllabus');
+				if(!empty($st)){
+					$select = ($st['chapter_id'] == $ch->ch_id) ? "selected" : "";
+				}
 				$chapter.='<option value="'.$ch->ch_id.'" '.$select.'>'.$ch->chapter_text.'</option>';
 			}
 		}
