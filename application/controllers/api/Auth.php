@@ -10,7 +10,8 @@ class Auth extends BD_Controller
 		parent::__construct();
 	}
 
-	public function social_login_post(){
+	public function social_login_post(){ 
+		$count = count($_POST); 
 		if(!empty($this->input->post('usercode'))){
 			$user_data = $this->db->where('usercode',$this->input->post('usercode'))->get('users')->result();
 			if(!empty($user_data)){
@@ -39,7 +40,7 @@ class Auth extends BD_Controller
 				}
 				$this->set_response($response, REST_Controller::HTTP_OK);
 			}
-		} else if(!empty($this->input->post('social_id'))){
+		} else if(!empty($this->input->post('social_id')) && ($count == 1)){
 			$user_data = $this->db->where('social_id',$this->input->post('social_id'))->get('users')->result();
 			if(!empty($user_data)){
 				$token['id'] = $user_data[0]->user_id;
@@ -52,10 +53,12 @@ class Auth extends BD_Controller
 				if(!empty($get_school_name)){
 					$school_code = $get_school_name[0]->school_code;
 					$school_name = $get_school_name[0]->school_name;
+
+					$profile['school_code'] = $school_code;
+					$profile['school_name'] = $school_name;
 				}
 
-				$profile['school_code'] = $school_code;
-				$profile['school_name'] = $school_name;
+				
 
 				$response['data'] = $profile;
 				$get_active = $this->db->where('user_id',$user_data[0]->user_id)->where('is_active_plan',1)->get('subscription')->result();
@@ -66,6 +69,8 @@ class Auth extends BD_Controller
 					}
 				}
 				$this->set_response($response, REST_Controller::HTTP_OK);
+			} else {
+				$this->set_response(['msg'=>'User Not Found'],422);
 			}
 		} else {
 			if(!empty($this->input->post('lang'))){
@@ -88,9 +93,9 @@ class Auth extends BD_Controller
 									if(!empty($get_school_name)){
 										$school_code = $get_school_name[0]->school_code;
 										$school_name = $get_school_name[0]->school_name;
-										$plan_id = $get_school_name[0]->plan_id;
-										$licence = $get_school_name[0]->no_licence;
-										$free_student = $get_school_name[0]->free_students;
+										// $plan_id = $get_school_name[0]->plan_id;
+										// $licence = $get_school_name[0]->no_licence;
+										// $free_student = $get_school_name[0]->free_students;
 									}
 
 									$data = array(
@@ -104,6 +109,8 @@ class Auth extends BD_Controller
 										'is_profile_complete'=>1,
 										'social_id'=>$this->input->post('social_id') ? $this->input->post('social_id') : '',
 										'social_type'=>$this->input->post('social_type') ? $this->input->post('social_type') : '',
+										'email_id'=>$this->input->post('email_id') ? $this->input->post('email_id') : '',
+										'phone_no'=>$this->input->post('phone_no') ? $this->input->post('phone_no') : '',
 									);
 									$this->db->insert('users', $data);
 									$token['id'] = $this->db->insert_id();
@@ -121,10 +128,10 @@ class Auth extends BD_Controller
 										} else {
 											$type = 'Student';
 										}
-										
-										if(!empty($plan_id)){
-											$get_subscription_plan = $this->db->where('plan_id',$plan_id)->where('is_default_free_plan',1)->get('subscription_plans')->result();
-											// $plan_id = $get_subscription_plan[0]->plan_id;
+										$get_subscription_plan = $this->db->where('school_id',$school_id)->where('is_default_free_plan',1)->get('subscription_plans')->result();
+										if(!empty($get_subscription_plan)){
+											
+											$plan_id = $get_subscription_plan[0]->plan_id;
 											$subscription_data = array(
 												'user_id'=>$token['id'],
 												'plan_id'=>$plan_id,
